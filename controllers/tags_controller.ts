@@ -1,13 +1,13 @@
 import { AppDataSource } from "../data_source";
-import { Tags } from "../models/tags";
+import { Tag } from "../models/Tag";
 
-async function addTag(t: Tags) {
-    const tagRepo = AppDataSource.getRepository(Tags);
+async function addTag(t: Tag) {
+    const tagRepo = AppDataSource.getRepository(Tag);
     return await tagRepo.save(t);
 }
 
 async function getAllTags() {
-    const tagRepo = AppDataSource.getRepository(Tags);
+    const tagRepo = AppDataSource.getRepository(Tag);
     const tagsList = await tagRepo.find();
     console.log(tagsList);
     return tagsList;
