@@ -1,8 +1,8 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Article } from './Article';
 
-@Entity()
-export class ViewsLog {
+@Entity("views_log")
+export class ViewLog {
     @PrimaryGeneratedColumn()
     id: number;
 

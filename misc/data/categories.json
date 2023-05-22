@@ -1,14 +1,14 @@
 {
-  "Categories": [
+  "categories": [
     {
       "id": 1,
-      "parent_id": "Kinh doanh",
+      "parent_id": "Kinh Doanh",
       "name": "Tai Chinh",
       "description": "Danh mục về tài chính."
     },
     {
       "id": 2,
-      "parent_id": "Cong nghe",
+      "parent_id": "Cong Nghe",
       "name": "Cau Noi",
       "description": "Danh mục về câu nói."
     },
@@ -20,7 +20,7 @@
     },
     {
       "id": 4,
-      "parent_id": "Kinh doanh",
+      "parent_id": "Kinh Doanh",
       "name": "Dau Tu",
       "description": "Danh mục về đầu tư."
     },
@@ -44,7 +44,7 @@
     },
     {
       "id": 8,
-      "parent_id": "Cong nghe",
+      "parent_id": "Cong Nghe",
       "name": "Chuyen Doi So",
       "description": "Danh mục về chuyển đổi số."
     },
@@ -52,7 +52,7 @@
       "id": 9,
       "parent_id": null,
       "name": "Kinh Doanh",
-      "description": "Danh mục về kinh doanh."
+      "description": "Danh mục về Kinh Doanh."
     },
     {
       "id": 10,

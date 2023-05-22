@@ -1,20 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, Tree, TreeParent, TreeChildren } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Article } from './Article';
 
-@Entity()
-@Tree("closure-table")
+@Entity("categories")
 export class Category {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @TreeParent()
-    parent: Category
-
-    @TreeChildren()
-    children: Category[]
-
-    @Column({ unique: true })
+    @Column({ unique: true, length: 25 })
     name: string;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, length: 256 })
     description: string;
+
+    @ManyToOne(() => Category, (category) => category.children)
+    parent: Category
+
+    @OneToMany(() => Category, (category) => category.parent, { cascade: true})
+    children: Category[]
+
+    @OneToMany(() => Article, (article) => article.category, { cascade: true})
+    articles: Article[]
 }

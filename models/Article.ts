@@ -1,19 +1,19 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './User';
 import { Category } from './Category';
 
-@Entity()
+@Entity("articles")
 export class Article {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, { nullable: false })
-    author: User;
+    // @ManyToOne(() => User, { nullable: false })
+    // author: User;
 
-    @ManyToOne(() => Category, { nullable: false })
+    @ManyToOne(() => Category, (category) => category.articles)
     category: Category;
 
-    @Column({ nullable: false })
+    @Column({ nullable: false, length: 256 })
     title: string;
 
     @Column({ nullable: false, length: 256 })
@@ -25,11 +25,8 @@ export class Article {
     @Column({ nullable: false, length: 256 })
     thumbnail_url: string;
 
-    @Column({ default: () => 'now()' })
+    @Column({ default: () => "CURRENT_TIMESTAMP"})
     date_created: Date;
-
-    @Column({ default: 0 })
-    status: number;
 
     @Column({ default: false })
     is_premium: boolean;

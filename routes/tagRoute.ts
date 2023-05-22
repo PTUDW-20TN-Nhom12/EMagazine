@@ -1,7 +1,7 @@
 // Dummy route for testing purpose
 import express, { Router, Request, Response } from "express";
 
-import {addTag, getAllTags} from "../controllers/tags_controller"
+import {addTag, getAllTags} from "../controllers/tag_controller"
 
 const router: Router = Router();
 

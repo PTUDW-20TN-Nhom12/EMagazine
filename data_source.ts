@@ -7,14 +7,14 @@ import { Comment } from './models/Comment';
 import { Tag } from './models/Tag';
 import { User } from './models/User';
 import { Role } from './models/Role';
-import { ViewsLog } from './models/ViewsLog';
+import { ViewLog } from './models/ViewLog';
 
 // Connect to sqlite, for testing
 const AppDataSource = new DataSource({
     type: "sqlite",
     database: __dirname + "/test.sqlite",
     // entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
-    entities: [Tag, Category],
+    entities: [Tag, Category, Article],
     synchronize: true,
     logging: false,
 });
