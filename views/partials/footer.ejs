@@ -1,0 +1,26 @@
+<footer>
+    <div id="Container_footer">
+        <div id="CategoryList">
+            <% for( let i = 1; i < data.length - 1; i++ ) { %>
+                <ul id="Category">
+                    <li><a href="<%= data[i][0][1] %>"><%= data[i][0][0] %></a></li>
+
+                    <% if (data[i][1] !== undefined) { %>
+                        <% for( let j = 0; j < data[i][1].length; j++ ) { %>
+                            <li><a href="<%= data[i][1][j][1] %>"><%=data[i][1][j][0]%></a></li>
+                        <% } %>
+                    <% } %>
+                </ul>
+            <% } %>
+        </div>
+        <hr>
+        <div id="LogoTrademark">
+            <p style="font-size: 24px;">
+                Lacainews&trade;
+            </p>
+            <p style="font-size: 14px;">
+                &copy; 2023 Lacainews Corporation Inc. All rights reserved.
+            </p>
+        </div>
+    </div>
+</footer>

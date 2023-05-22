@@ -1,0 +1,12 @@
+.comment-container { 
+  padding: 30px 20px; 
+  background-color: #F4F4F4;
+}
+
+.dot { 
+  height: 8px;
+  width: 8px;
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
+}

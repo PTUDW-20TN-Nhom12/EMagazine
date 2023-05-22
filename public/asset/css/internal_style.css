@@ -1,0 +1,111 @@
+body {
+    background-color: #f0f2f5;
+}
+
+@media (min-width: 991.98px) {
+    main {
+        padding-left: 240px;
+    }
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: calc(0.5625rem + 67.6px) 0 0;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 220px;
+    z-index: 600;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.sidebar .active {
+    color: #1890ff;
+}
+
+.active {
+    color: #1890ff;
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.btn-edit {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    border-radius: 20px;
+}
+
+.editor {
+    margin: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 200px;
+}
+
+.editor-container { 
+    padding: 100px 200px; 
+}
+
+.edit-post-tag { 
+    padding: 5px; 
+    background-color: #FF8A00;
+    color: white;
+    margin-right: 5px;
+    border-radius: 10px;
+}
+
+.circle-reject {
+    font-size: 8px;
+    color: #ff4d4f;
+}
+
+.circle-approved {
+    font-size: 8px;
+    color: #52c41a;
+}
+
+.circle-pending {
+    font-size: 8px;
+    color: #d9d9d9;
+}
+
+.circle-published {
+    font-size: 8px;
+    color: #1890ff;
+}
+
+.profile-title { 
+    font-weight: bold !important; 
+    margin-top: 15px !important; 
+    padding-left: 20px !important;
+}
+
+.attribute-form { 
+    min-width: 200px !important; 
+    text-align: right !important;
+    margin-right: 10px !important; 
+}
+
+.form-control:disabled {
+    background-color: #ffffff !important;
+}

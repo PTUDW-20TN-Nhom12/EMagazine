@@ -5,6 +5,7 @@ import "reflect-metadata"; // Required for typeORM, import globally
 import { indexRouter } from './routes/indexRoute'
 import { AppDataSource } from './data_source';
 import { TagRouter } from './routes/tagRoute';
+import { testRouter } from './routes/testRoute';
 
 const PORT: number = 8080;
 const app: Express = express();
@@ -25,6 +26,8 @@ app.use("/", indexRouter);
 app.use("/tag", TagRouter);
 
 
+app.use("/test", testRouter);
+app.use(express.static("public"));
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
 })

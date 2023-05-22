@@ -1,0 +1,21 @@
+.img-category { 
+  width: 100%;
+  height: fit-content;
+}
+
+.post-container { 
+  padding: 0 calc(15%);
+  margin-top: calc(2%);
+}
+
+.post-tag { 
+  background-color: #F65050;
+  padding: 3px; 
+  border-radius: 5px;
+  color: #fff;
+  margin-right: 5px; 
+}
+
+.related-post { 
+  background-color: #E6E6E6;
+}

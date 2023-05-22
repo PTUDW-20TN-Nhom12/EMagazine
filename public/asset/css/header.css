@@ -1,0 +1,242 @@
+#Container_header {
+    display: flex;
+    /* width: 1171px; */
+    /* height: 175px; */
+
+    /* left: 54px; */
+    /* top: 30px; */
+    /* width: 100%; */
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+#LogoAds {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#Logo {
+    /* position: absolute; */
+    width: 292px;
+    height: 74px;
+    /* left: -14px;
+    top: 16px; */
+}
+#Ads{
+    /* position: absolute; */
+    width: 771px;
+    height: 90px;
+    /* left: 400px; */
+    /* top: 0px; */
+}
+
+#NavSearch {
+    /* width: 100%; */
+    background-color: #393939;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+li {
+    list-style-type: none;
+}
+
+#Nav {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding: 0px;
+    margin: 0;
+
+    /* position: absolute; */
+    /* width: 1171px; */
+    /* height: 60px; */
+    /* left: 0px; */
+    /* top: 115px; */
+
+    /* background: #393939; */
+    
+    /* box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1); */
+}
+.NavItem {
+
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+
+    height:100%;
+
+    /* identical to box height */
+    /* height: 60px; */
+
+    color: #FFFFFF;
+}
+
+.submenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
+    background: #f65050;
+    z-index: 10;
+}
+
+li .submenu {
+    padding-left: 20px;
+    padding-right: 20px;
+    opacity: 80%;
+}
+
+#Nav>li>a {
+    padding: 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+}
+
+.submenu > .subitem {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.has-submenu i {
+    font-size: 12px;
+}
+.has-submenu > a::after {
+  font-family: "Font Awesome 5 Free";
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 900;
+  content: "\f078";
+  color: white;
+  padding-left: 5px;
+}
+
+#Nav > li.NavItem > ul.submenu {
+    display: none;
+}
+#Nav > li.NavItem:hover >ul.submenu {
+    display: block;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+#Nav li a:link,#Nav li a:visited,#Nav li a:hover,#Nav li a:active{
+    color: white;
+}
+
+.NavSelected {
+    background: #F65050;
+}
+#SearchBar {
+    /* position: absolute; */
+    width: 175px;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* left: 986px; */
+    /* top: 115px; */
+    align-items: center;
+}
+
+#LineSearch {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 5px;
+}
+
+#SearchText {
+    /* position: absolute; */
+    width: 123.19px;
+    height: 14px;
+    /* left: 1004.42px; */
+    /* top: 23px; */
+
+    /* background: #393939; */
+    background: transparent;
+    border: none;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    color: rgba(255, 255, 255, 0.3);
+}
+#SearchText::placeholder {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+
+    /* identical to box height */
+
+    color: rgba(255, 255, 255, 0.3);
+}
+
+
+#SearchIcon {
+    /* position: absolute; */
+    width: 13.82px;
+    height: 12px;
+    /* left: 163px; */
+    /* top: 25px; */
+}
+#VerticalLine {
+    /* position: absolute; */
+    /* padding-right: 5px; */
+    /* width: 60px; */
+    /* height: 0px; */
+    /* left: -45px; */
+    /* top: 32px; */
+
+    /* border: 0.5px solid rgba(255, 255, 255, 0.3); */
+    /* transform: rotate(90deg); */
+}
+#premiumIcon {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 10px;
+    align-items: center;
+    
+    
+}
+
+#premiumIcon > span {
+    font-family: 'Open Sans';
+    font-weight: 700;
+    color:#f65050;
+    background-color: #F6EF50;
+    padding: 12px;
+}

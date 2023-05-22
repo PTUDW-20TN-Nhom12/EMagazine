@@ -1,0 +1,97 @@
+#ContentCategory {
+    font-family: 'Open Sans';
+    font-size: 35px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#ContentHeader {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#ContentTitle {
+    font-family: 'Open Sans';
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+#BigImage {
+    width: 100%;
+    height: 400px;
+    padding-bottom: 20px;
+}
+
+#ContentHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+}
+
+#OtherInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 50%;
+}
+
+#DateTag {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#pad {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#Content {
+    font-size: 14px;
+    font-family: 'Arial';
+    text-justify: distribute;
+}
+
+img.center {
+    display: block;
+    margin: 0 auto;
+}
+
+p.chuthich {
+    font-size: 10;
+    color: #1a1a1ac0;
+    text-align: center;
+}
+
+#TuongTu>div:nth-child(1) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+
+    font-family: 'Open Sans';
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+#TuongTu {
+    background-color: #E6E6E6;
+}
+
+#divider {
+    height: 2px;
+    background-color: black;
+    flex-grow: 0.95;
+}
+
+#GridType1 {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
