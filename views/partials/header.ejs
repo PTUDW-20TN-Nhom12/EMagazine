@@ -1,33 +1,31 @@
 <header class="mb-4">
     <div id="Container_header">
         <div id="LogoAds">
-            <img src="/asset/Logo.png" id="Logo" alt="LOGO" onclick="window.location.href='index.html'"/>
-            <img src="/asset/Advertisement.png" id="Ads" alt="Advertisement" onclick="window.location.href='https://google.com'"/>
+            <img src="/asset/image/Logo.png" id="Logo" alt="LOGO" onclick="window.location.href='index.html'"/>
+            <img src="/asset/image/Advertisement.png" id="Ads" alt="Advertisement" onclick="window.location.href='/'"/>
         </div>
         <div id="NavSearch">
             <ul id="Nav">
-                <% /* %>
-                <% for( let i = 0; i < data.length; i++ ) { %>
-                    <a href="#" class="NavItem <%= (selected ===i?"NavSelected":"") %>">
-                        <%= data[i][0] %> <% if (data[i][1] === true) { %>
-                        <img src="/asset/Expand.png"/>
-                    <% } %></a>
-                <% } %>
-                <% */ %>
+                <li class="NavItem 
+                    <%= (header["selectedCat"] === -1 ? "NavSelected" : "") %>">
+                    <a href="/">
+                        Trang chủ
+                    </a>
+                </li>
 
-                <% for( let i = 0; i < data.length; i++ ) { %>
+                <% for( let i = 0; i < header["catList"]; i++ ) { %>
                     <li class="NavItem 
-                        <%= (selected === i?"NavSelected":"") %>
-                        <%= (data[i][1] !== undefined ? "has-submenu": "") %>">
-                        <a href="<%= data[i][0][1] %>">
-                            <%= data[i][0][0] %>  
+                        <%= (header["selectedCat"] === i?"NavSelected":"") %>
+                        <%= (header["catList"][i]["subCategory"].length > 0 ? "has-submenu": "") %>">
+                        <a href="/test/category/<%= header["catlist"][i]["categoryid"] %>/0">
+                            <%= header["catList"][i]["categoryName"] %>  
                         </a>
-                        <% if (data[i][1] !== undefined) { %>
+                        <% if (header["catList"][i]["subCategory"].length > 0) { %>
                             <ul class="submenu">
-                                <% for( let j = (i == data.length - 1 && loggedIn ? 1: 0); j < data[i][1].length; j++ ) { %>
+                                <% for( let j = 0; j < header["catList"][i]["subCategory"].length ; j++ ) { %>
                                     <li class="subitem">
-                                        <a href="<%= data[i][1][j][1] %>">
-                                            <%= data[i][1][j][0] %>
+                                        <a href="/test/category/<%= header["catList"][i]["subCategory"][j]["categoryId"] %>/0">
+                                            <%= header["catList"][i]["subCategory"][j]["categoryName"] %>
                                         </a>
                                     </li>
                                 <% } %>
@@ -35,20 +33,23 @@
                                     <li class="subitem">
                                         <a href="profile.html">Thong tin tai khoan</a>
                                     </li>
-                                    <li class="subitem">
-                                        <a href="update_profile.html">Cap nhat tai khoan</a>
-                                    </li>
-                                    <li class="subitem">
-                                        <a href="change_password_profile.html">Thay doi mat khau</a>
-                                    </li>
-                                    <li class="subitem">
-                                        <a href="pricing.html">Gia hạn premium</a>
-                                    </li>
                                 <% } %>
                             </ul>
                         <% } %>
                     </li>
                 <% } %>
+                <li class="NavItem">
+                    <a href="#">Khac</a>
+                    <ul class="submenu">
+                        <% for( let i = 0; i < header["optionalList"].length; i++ ) { %>
+                            <li class="subitem">
+                                <a href="/test/<%= header["optionalList"][i]["url"] %>">
+                                    <%= header["optionalList"][i]["name"] %>
+                                </a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </li>
             </ul>
             <% if(locals.premium){ %>
                 <div id="premiumIcon">
