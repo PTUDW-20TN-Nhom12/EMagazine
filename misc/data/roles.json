@@ -1,0 +1,32 @@
+{
+  "Roles": [
+    {
+      "id": 1,
+      "name": "subscriber",
+      "description": "Role for subscribers.",
+      "category_id": null,
+      "is_enabled": true
+    },
+    {
+      "id": 2,
+      "name": "writer",
+      "description": "Role for writers.",
+      "category_id": null,
+      "is_enabled": true
+    },
+    {
+      "id": 3,
+      "name": "editor",
+      "description": "Role for editors.",
+      "category_id": null,
+      "is_enabled": true
+    },
+    {
+      "id": 4,
+      "name": "administrator",
+      "description": "Role for administrators.",
+      "category_id": null,
+      "is_enabled": false
+    }
+  ]
+}
