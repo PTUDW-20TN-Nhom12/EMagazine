@@ -1,0 +1,54 @@
+{
+  "tags": [
+    {
+      "id": "1",
+      "name": "tinmoinongnghiep",
+      "description": "Thông tin mới nhất về nông nghiệp."
+    },
+    {
+      "id": "2",
+      "name": "chinhtri",
+      "description": "Các tin tức liên quan đến chính trị."
+    },
+    {
+      "id": "3",
+      "name": "kinhte",
+      "description": "Tin tức về kinh tế và thị trường."
+    },
+    {
+      "id": "4",
+      "name": "congnghe",
+      "description": "Các thông tin về công nghệ mới."
+    },
+    {
+      "id": "5",
+      "name": "khoahoc",
+      "description": "Các tin tức và phát hiện trong lĩnh vực khoa học."
+    },
+    {
+      "id": "6",
+      "name": "suckhoe",
+      "description": "Các thông tin và bài viết về sức khỏe và y tế."
+    },
+    {
+      "id": "7",
+      "name": "thethao",
+      "description": "Tin tức và sự kiện thể thao mới nhất."
+    },
+    {
+      "id": "8",
+      "name": "giadinh",
+      "description": "Các chủ đề về gia đình và cuộc sống gia đình."
+    },
+    {
+      "id": "9",
+      "name": "vanhoa",
+      "description": "Tin tức và sự kiện văn hóa, nghệ thuật."
+    },
+    {
+      "id": "10",
+      "name": "moitruong",
+      "description": "Các thông tin về môi trường và bảo vệ môi trường."
+    }
+  ]
+}
