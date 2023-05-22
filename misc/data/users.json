@@ -1,0 +1,124 @@
+{
+  "Users": [
+    {
+      "id": 1,
+      "role_id": 2,
+      "email": "john@example.com",
+      "password": "4f25a5f84e6da48e3c60f89b02dcf38a586153d8d0a458162e23e8fb313bf7a7",
+      "full_name": "John Smith",
+      "birthday": "1970-01-01",
+      "pseudonym": null,
+      "premium_expired": null,
+      "date_created": "2023-05-22T10:00:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 2,
+      "role_id": 1,
+      "email": "jane@example.com",
+      "password": "9f91aeeef9ce8a5a61f2a6aeb20e437a2c2b176f6e5ff183f2d5884e4dc47e35",
+      "full_name": "Jane Doe",
+      "birthday": "1985-07-12",
+      "pseudonym": "Writer123",
+      "premium_expired": "2023-12-31T23:59:59Z",
+      "date_created": "2023-05-21T15:30:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 3,
+      "role_id": 3,
+      "email": "admin@example.com",
+      "password": "7d5d633a7af8689b6f6869be16dfb45f10f22e7fc3195a45c9384b0e7c0c6600",
+      "full_name": "Admin User",
+      "birthday": "1990-03-05",
+      "pseudonym": null,
+      "premium_expired": null,
+      "date_created": "2023-05-20T09:45:00Z",
+      "is_deleted": true
+    },
+    {
+      "id": 4,
+      "role_id": 2,
+      "email": "mary@example.com",
+      "password": "c079f0a0e5c0e3af2dd9e87315d86ce1464f66151d46c4ddce7af37a19d33c11",
+      "full_name": "Mary Johnson",
+      "birthday": "1992-09-18",
+      "pseudonym": null,
+      "premium_expired": "2024-06-30T23:59:59Z",
+      "date_created": "2023-05-19T14:20:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 5,
+      "role_id": 1,
+      "email": "alex@example.com",
+      "password": "623f6d7ae01f0b2da3548b8ccdbaad8efebf9743de5ebd4eeb411f8003ed9a3b",
+      "full_name": "Alex Wilson",
+      "birthday": "1988-12-03",
+      "pseudonym": "CreativeWriter",
+      "premium_expired": null,
+      "date_created": "2023-05-18T09:10:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 6,
+      "role_id": 3,
+      "email": "superadmin@example.com",
+      "password": "f29e96f7417c45fbb4890124e70f40c8f9a20911801c35e0f383ca3e694a2e2b",
+      "full_name": "Super Admin",
+      "birthday": "1980-05-30",
+      "pseudonym": null,
+      "premium_expired": null,
+      "date_created": "2023-05-17T16:45:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 7,
+      "role_id": 3,
+      "email": "manager@example.com",
+      "password": "bde5379e3c898b8971e60a65c4be3f746787b7f70fb03eddb24827e9ce4f665f",
+      "full_name": "Manager User",
+      "birthday": "1983-07-26",
+      "pseudonym": null,
+      "premium_expired": null,
+      "date_created": "2023-05-16T11:30:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 8,
+      "role_id": 2,
+      "email": "sam@example.com",
+      "password": "c63d85d67c6d1e0652a4c60f7e6038c7cfa29cc94e12f3c4e8938f78326c91b3",
+      "full_name": "Samuel Davis",
+      "birthday": "1995-02-12",
+      "pseudonym": null,
+      "premium_expired": null,
+      "date_created": "2023-05-15T08:15:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 9,
+      "role_id": 1,
+      "email": "lisa@example.com",
+      "password": "1f8fbc1b7cb2d3b9f77460f968b98f7166a6d2592b01515f5a619155dcf9d36b",
+      "full_name": "Lisa Taylor",
+      "birthday": "1998-11-28",
+      "pseudonym": "BookLover",
+      "premium_expired": "2024-02-29T23:59:59Z",
+      "date_created": "2023-05-14T13:40:00Z",
+      "is_deleted": false
+    },
+    {
+      "id": 10,
+      "role_id": 3,
+      "email": "support@example.com",
+      "password": "a456ab4bc4b52a5890c6826c3d8d3ef6d743d3c49934c7d197d29e6c2f7a2b1a",
+      "full_name": "Support User",
+      "birthday": "1991-04-10",
+      "pseudonym": null,
+      "premium_expired": null,
+      "date_created": "2023-05-13T17:50:00Z",
+      "is_deleted": false
+    }
+  ]
+}

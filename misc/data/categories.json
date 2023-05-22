@@ -1,0 +1,70 @@
+{
+  "Categories": [
+    {
+      "id": 1,
+      "parent_id": null,
+      "name": "Tai Chinh",
+      "description": "Danh mục về tài chính."
+    },
+    {
+      "id": 2,
+      "parent_id": null,
+      "name": "Cau Noi",
+      "description": "Danh mục về câu nói."
+    },
+    {
+      "id": 3,
+      "parent_id": null,
+      "name": "The Thao",
+      "description": "Danh mục về thể thao."
+    },
+    {
+      "id": 4,
+      "parent_id": null,
+      "name": "Dau Tu",
+      "description": "Danh mục về đầu tư."
+    },
+    {
+      "id": 5,
+      "parent_id": null,
+      "name": "Du Hoc",
+      "description": "Danh mục về du học."
+    },
+    {
+      "id": 6,
+      "parent_id": null,
+      "name": "Cong Nghe",
+      "description": "Danh mục về công nghệ."
+    },
+    {
+      "id": 7,
+      "parent_id": null,
+      "name": "Giao Duc",
+      "description": "Danh mục về giáo dục."
+    },
+    {
+      "id": 8,
+      "parent_id": null,
+      "name": "Chuyen Doi So",
+      "description": "Danh mục về chuyển đổi số."
+    },
+    {
+      "id": 9,
+      "parent_id": null,
+      "name": "Kinh Doanh",
+      "description": "Danh mục về kinh doanh."
+    },
+    {
+      "id": 10,
+      "parent_id": null,
+      "name": "Tuyen Sinh",
+      "description": "Danh mục về tuyển sinh."
+    },
+    {
+      "id": 11,
+      "parent_id": null,
+      "name": "Van Hoa",
+      "description": "Danh mục về văn hóa."
+    }
+  ]
+}
