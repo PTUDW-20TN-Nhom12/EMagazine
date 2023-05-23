@@ -8,7 +8,7 @@
             <ul id="Nav">
                 <li class="NavItem 
                     <%= (header["selectedCat"] === -1 ? "NavSelected" : "") %>">
-                    <a href="/">
+                    <a href="/test">
                         Trang chủ
                     </a>
                 </li>
@@ -56,8 +56,13 @@
                     <img src="/asset/image/VerticalLine.png" id="VerticalLine"/>
                     <input id="SearchText" placeholder="Nhap tu khoa tim kiem"/>
                 </div>
-                <img src="/asset/image/SearchIcon.png" id="SearchIcon" onclick="window.location.href='search.html'"/>
+                <img src="/asset/image/SearchIcon.png" id="SearchIcon"/>
             </div>
         </div>
     </div>
 </header>
+<script>
+    document.querySelector("#SearchIcon").addEventListener('click', (e) => {
+        window.location.href = '/test/search/' + document.querySelector("#SearchText").value + "/0";
+    })
+</script>
