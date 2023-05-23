@@ -1,15 +1,15 @@
 <footer>
     <div id="Container_footer">
         <div id="CategoryList">
-            <% for( let i = 1; i < data.length - 1; i++ ) { %>
+            <% for( let i = 0; i < footer["catList"].length; i++ ) { %>
                 <ul id="Category">
-                    <li><a href="<%= data[i][0][1] %>"><%= data[i][0][0] %></a></li>
+                    <li><a href="/test/category/<%= footer["catList"][i]["categoryId"] %>/0">
+                        <%= footer["catList"][i]["categoryName"] %></a></li>
 
-                    <% if (data[i][1] !== undefined) { %>
-                        <% for( let j = 0; j < data[i][1].length; j++ ) { %>
-                            <li><a href="<%= data[i][1][j][1] %>"><%=data[i][1][j][0]%></a></li>
+                        <% for( let j = 0; j < footer["catList"][i]["subCategory"].length; j++ ) { %>
+                            <li><a href="/test/category/<%= footer["catList"][i]["subCategory"][j]["categoryId"] %>/0">
+                                <%= footer["catList"][i]["subCategory"][j]["categoryName"]%></a></li>
                         <% } %>
-                    <% } %>
                 </ul>
             <% } %>
         </div>

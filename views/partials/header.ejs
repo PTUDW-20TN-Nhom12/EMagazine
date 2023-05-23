@@ -13,11 +13,11 @@
                     </a>
                 </li>
 
-                <% for( let i = 0; i < header["catList"]; i++ ) { %>
+                <% for( let i = 0; i < header["catList"].length; i++ ) { %>
                     <li class="NavItem 
                         <%= (header["selectedCat"] === i?"NavSelected":"") %>
                         <%= (header["catList"][i]["subCategory"].length > 0 ? "has-submenu": "") %>">
-                        <a href="/test/category/<%= header["catlist"][i]["categoryid"] %>/0">
+                        <a href="/test/category/<%= header["catList"][i]["categoryId"] %>/0">
                             <%= header["catList"][i]["categoryName"] %>  
                         </a>
                         <% if (header["catList"][i]["subCategory"].length > 0) { %>
@@ -29,16 +29,11 @@
                                         </a>
                                     </li>
                                 <% } %>
-                                <% if (i == data.length - 1 && loggedIn) { %>
-                                    <li class="subitem">
-                                        <a href="profile.html">Thong tin tai khoan</a>
-                                    </li>
-                                <% } %>
                             </ul>
                         <% } %>
                     </li>
                 <% } %>
-                <li class="NavItem">
+                <li class="NavItem has-submenu">
                     <a href="#">Khac</a>
                     <ul class="submenu">
                         <% for( let i = 0; i < header["optionalList"].length; i++ ) { %>
@@ -51,17 +46,17 @@
                     </ul>
                 </li>
             </ul>
-            <% if(locals.premium){ %>
+            <% if(header["isPremium"]){ %>
                 <div id="premiumIcon">
                     <span>PREMIUM</span>
                 </div>
             <% } %>
             <div id="SearchBar">
                 <div id="LineSearch">
-                    <img src="/asset/VerticalLine.png" id="VerticalLine"/>
+                    <img src="/asset/image/VerticalLine.png" id="VerticalLine"/>
                     <input id="SearchText" placeholder="Nhap tu khoa tim kiem"/>
                 </div>
-                <img src="/asset/SearchIcon.png" id="SearchIcon" onclick="window.location.href='search.html'"/>
+                <img src="/asset/image/SearchIcon.png" id="SearchIcon" onclick="window.location.href='search.html'"/>
             </div>
         </div>
     </div>

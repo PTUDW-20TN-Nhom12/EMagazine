@@ -16,13 +16,17 @@
   <link href="/asset/css/index.css" rel="stylesheet">
 </head>
 <body>
-  <%- include('partials/header.ejs', {header: header}) %>
+  <%- include('partials/header.ejs', {header}) %>
   <main>
-    <%- include('./top10_noibat.ejs', {top_10: top_10, noi_bat: noi_bat}) %>
-    <%- include('./moinhat_nhieunhat.ejs', {moi_nhat: moi_nhat, nhieu_nhat: nhieu_nhat}) %>
+    <%- include('index_resource/top10_noibat.ejs', {top_10, noi_bat}) %>
+    <%- include('index_resource/moinhat_nhieunhat.ejs', {moi_nhat, nhieu_nhat}) %>
   </main>
-  <%- include('partials/footer.ejs', {footer: footer}) %>
+  <%- include('partials/footer.ejs', {footer}) %>
 </body>
+<script>
+  const noi_bat_id = [<%= noi_bat.map(e => e["article_id"]) %>];
+  const top_10_id = [<%= top_10.map(e => e["article_id"]) %>];
+</script>
 <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js "></script>
 <script src="/asset/js/index.js"></script>
 </html>

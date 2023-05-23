@@ -71,6 +71,7 @@
 #MoiNhatNhieuNhat {
     display: flex;
     flex-direction: row;
+    padding-bottom: 50px;
 }
 
 #MoiNhat {
@@ -111,7 +112,7 @@
 
 #MoiNhat img,
 #MoiNhat #Container_article {
-    width: 300px;
+    width: 450px;
     height: 300px;
 }
 
