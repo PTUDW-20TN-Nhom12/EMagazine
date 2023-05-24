@@ -13,7 +13,7 @@ const AppDataSource = new DataSource({
     type: "sqlite",
     database: __dirname + "/test.sqlite",
     // entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
-    entities: [Tag, Category, Article],
+    entities: [Tag, Category, Article, ViewLog],
     synchronize: true,
     logging: false,
 });
@@ -27,7 +27,7 @@ const SupabaseDataSource = new DataSource({
     password: "Nhom1221Nhom",
     database: "postgres",
     // entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
-    entities: [Tag, Category, Article],
+    entities: [Tag, Category, Article, ViewLog],
     synchronize: true,
     logging: false,
 })

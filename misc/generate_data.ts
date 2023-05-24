@@ -2,11 +2,14 @@ import tags from './data/tags.json';
 import categories from './data/categories.json';
 import articles from './data/articles.json';
 import articlestags from './data/articlestags.json';
+import viewslog from './data/viewslog.json';
+
 import "reflect-metadata";
 import { AppDataSource, SupabaseDataSource } from "../data_source";
 import { TagController } from '../controllers/tag_controller';
 import { CategoryController } from '../controllers/category_controller';
 import { ArticleController } from '../controllers/article_controller';
+import { ViewLogController } from '../controllers/viewslog_controller';
 
 async function reset() {
     const articleController = new ArticleController();
@@ -50,7 +53,14 @@ async function initArticles() {
         await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], false);
     }
     for (let articletag of articlestags['ArticlesTags']) {
-        articleController.addTag(parseInt(articletag['articles_id']), parseInt(articletag['tag_id']));
+        articleController.addTag(articletag['articles_id'], articletag['tag_id']);
+    }
+}
+
+async function initViewLog() {
+    const viewLogController = new ViewLogController();
+    for (let log of viewslog['ViewsLog']) {
+        viewLogController.addViewLog(log['articles_id'], log['time']);
     }
 }
 
@@ -58,10 +68,11 @@ async function init() {
     await SupabaseDataSource.initialize()
     .then(async () => {
         console.log('Init connection completed');
-        await reset();
-        await initTags();
-        await initCategories();
-        await initArticles();
+        // await reset();
+        // await initTags();
+        // await initCategories();
+        // await initArticles();
+        await initViewLog();
     }) 
     .catch((err) => {
         console.error("Error during Data Source initialization", err)

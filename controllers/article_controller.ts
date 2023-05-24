@@ -36,12 +36,18 @@ export class ArticleController {
 
     async getHotArticles(number = 4): Promise<Article[]> {
         try {
-            return await this.articleRepository.find({
-                relations: {
-                    category: true,
-                },
-                take: number,
-            });
+            let results = await this.articleRepository.query(`SELECT "articleId", COUNT(*) AS view_count
+            FROM views_log
+            WHERE time >= CURRENT_DATE - INTERVAL '30 days'
+            GROUP BY "articleId"
+            ORDER BY view_count DESC
+            LIMIT ${number};`); 
+            let ret = [];
+            for (let result of results) {
+                let article = await this.getArticleById(result.articleId);
+                ret.push(article);
+            }
+            return ret;
         } catch (error) {
             throw new Error(`Failed to retrieve articles: ${error.message}`);
         }
@@ -53,6 +59,9 @@ export class ArticleController {
                 relations: {
                     category: true,
                 },
+                order: {
+                    date_created: 'DESC',
+                },
                 take: number,
             });
         } catch (error) {
@@ -62,12 +71,17 @@ export class ArticleController {
 
     async getMostViewsArticles(number = 10): Promise<Article[]> {
         try {
-            return await this.articleRepository.find({
-                relations: {
-                    category: true,
-                },
-                take: number,
-            });
+            let results = await this.articleRepository.query(`SELECT "articleId", COUNT(*) AS view_count
+            FROM views_log
+            GROUP BY "articleId"
+            ORDER BY view_count DESC
+            LIMIT ${number};`);
+            let ret = [];
+            for (let result of results) {
+                let article = await this.getArticleById(result.articleId);
+                ret.push(article);
+            }
+            return ret;
         } catch (error) {
             throw new Error(`Failed to retrieve articles: ${error.message}`);
         }
@@ -75,12 +89,27 @@ export class ArticleController {
 
     async getMostViewByCategoryArticles(number = 10): Promise<Article[]> {
         try {
-            return await this.articleRepository.find({
-                relations: {
-                    category: true,
-                },
-                take: number,
-            });
+            let results = await this.articleRepository.query(`SELECT a."categoryId", a.id, COUNT(v."articleId") AS views
+            FROM articles a
+            JOIN views_log v ON a.id = v."articleId"
+            GROUP BY a."categoryId", a.id
+            HAVING COUNT(v."articleId") = (
+              SELECT MAX(views)
+              FROM (
+                SELECT b."categoryId", b.id, COUNT(vv."articleId") AS views
+                FROM articles b
+                JOIN views_log vv ON b.id = vv."articleId" AND b."categoryId" = a."categoryId"
+                GROUP BY b."categoryId", b.id
+              ) subquery
+            )
+            ORDER BY views DESC
+            LIMIT ${number};`);  
+            let ret = [];
+            for (let result of results) {
+                let article = await this.getArticleById(result.id);
+                ret.push(article);
+            }
+            return ret;
         } catch (error) {
             throw new Error(`Failed to retrieve articles: ${error.message}`);
         }
