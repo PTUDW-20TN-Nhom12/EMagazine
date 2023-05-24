@@ -1,8 +1,12 @@
 <header class="mb-4">
     <div id="Container_header">
         <div id="TopHeader">
-            <img src="/asset/image/Logo.png" id="Logo" alt="LOGO" onclick="window.location.href='/'"/>
-            <% if(header['isPremium']){ %>
+            <img src="/asset/image/Logo.png" id="Logo" alt="LOGO" onclick="window.location.href='/test'"/>
+            <div id="bootstrap-isolate" style="flex-grow: 1;">
+                <div class="d-flex justify-content-around">
+
+                
+            <% if(header["isPremium"]){ %>
                 <div class="d-flex ml-5 align-items-center">
                     <i class="bi bi-award mr-2" style="font-size: 24px; color: #B8B23C;"></i>
                     <h4 class="mb-0" style="color: #E64B4B; font-weight: bold;">PREMIUM</h4>
@@ -10,16 +14,18 @@
             <% } %>
             <div class="d-flex align-items-center ml-auto mr-5">
                 <div class="form-outline">
-                    <input id="SearchText" type="search" id="form1" class="form-control" placeholder="Nhập từ khoá tìm kiếm" />
+                    <input type="search" id="SearchText" class="form-control" placeholder="Tìm kiếm" />
                 </div>
-                <button type="button" class="btn btn-dark" id="SearchIcon">
+                <button id="SearchButton" type="button" class="btn btn-dark">
                   <i class="fas fa-search"></i>
                 </button>
             </div>
-            <a class="d-flex align-items-center mr-5" href="/" style="color: grey;">
+            <a class="d-flex align-items-center mr-5" href="/test" style="color: grey;">
                 <p class="mb-0 mr-2">Đăng nhập</p>
                 <i class="bi bi-person ms-3" style="font-size: 24px;"></i>
             </a>
+        </div>
+            </div>
         </div>
         <div id="NavSearch">
             <ul id="Nav">
@@ -67,8 +73,7 @@
     </div>
 </header>
 <script>
-    console.log(document.querySelector("#SearchIcon"));
-    document.querySelector("#SearchIcon").addEventListener('click', (e) => {
-        window.location.href = '/search/' + document.querySelector("#SearchText").value.trim() + "/0";
+    document.querySelector("#SearchButton").addEventListener('click', (e) => {
+        window.location.href = '/test/search/' + document.querySelector("#SearchText").value.trim() + "/0";
     })
 </script> 
