@@ -1,0 +1,66 @@
+#Container_footer {
+    display: flex;
+    /* width: 1171px; */
+    /* height: 175px; */
+
+    /* left: 54px; */
+    /* top: 30px; */
+    /* width: 100%; */
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: flex-start;
+    background-color: #f1f1f1;
+
+    font-family: 'Inter', sans-serif;
+}
+
+#CategoryList {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* column-gap: 110px; */
+    font-size: 16;
+    font-weight: 400 ;
+}
+
+#CategoryList > ul > li:nth-child(1) > a {
+    font-weight: 600;
+    font-size: 18;
+}
+
+#CategoryList > ul > li:nth-child(1) {
+    padding-bottom: 15px;
+}
+
+#Category {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 10px;
+    color: black;
+    padding-left: 0px;
+}
+
+#CategoryList #Category a:link,
+#CategoryList #Category a:visited,
+#CategoryList #Category a:hover,
+#CategoryList #Category a:active{
+    color: black;
+}
+
+#Container_footer > hr {
+    color: black;
+    width: 100%;
+}
+
+#LogoTrademark  p:nth-child(1) {
+    font-weight: 600;
+}
+
+#LogoTrademark  p:nth-child(2) {
+    font-weight: 400;
+    color: #505050;
+}

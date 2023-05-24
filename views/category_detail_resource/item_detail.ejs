@@ -1,0 +1,24 @@
+<div class="d-flex flex-row justify-content-center">
+  <img src="<%=imgLink%>" class="item-thumbnail align-self-center" onclick="window.location.href='/test/content/<%=article_id%>'"/>
+  
+  <div class="d-flex flex-column item-content-container justify-content-between align-items-start">
+    <div class="item-wrapper" onclick="window.location.href='/test/content/<%=article_id%>'">
+      <h5 class="item-title"><%= title %></h5>
+      <p class="item-subtitle"><%= short_desc %></p>
+    </div>
+    <div class="item-wrapper">
+      <h5 class="mb-3 item-category" onclick="window.location.href='/test/category/<%= category_id %>/0'"><%= category_name %></h5>
+      <div>
+        <% if (isPremium) { %>
+          <span class="item-tag" style="background-color: #F6EF50;">PREMIUM</span>
+        <% } %>
+
+        <% for (let i = 0; i < tags.length; ++i) { %>
+          <span class="item-tag" onclick="window.location.href='/test/tag/<%= tags[i].tag_id %>/0'">#<%= tags[i].tag_name %></span>
+        <% } %>
+        <span class="item-datetime align-self-end"><%= date %></span>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>

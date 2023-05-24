@@ -1,0 +1,15 @@
+.profile-title { 
+    font-weight: bold; 
+    margin-top: 15px; 
+    padding-left: 20px;
+}
+
+.attribute-form { 
+    min-width: 200px; 
+    text-align: right;
+    margin-right: 10px; 
+}
+
+.form-control:disabled {
+    background-color: #ffffff;
+}

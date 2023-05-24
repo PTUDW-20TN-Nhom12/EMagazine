@@ -1,0 +1,43 @@
+.item-detail-container { 
+    padding: 20px;
+}
+
+.item-tag { 
+    background-color: #F65050;
+    padding: 8px; 
+    color: #fff;
+}
+
+.item-thumbnail { 
+    width: 150px;
+    height: 150px;
+    margin-right: 25px;
+}
+
+.item-datetime {
+    float: right; 
+    color: #676767;
+}
+
+.item-content-container { 
+    margin-bottom: 10px;
+    width: calc(100% - 190px);
+}
+
+.item-wrapper { 
+    width: calc(100%);
+}
+
+.item-title { 
+    font-weight: normal;
+}
+
+.item-category { 
+    font-weight: normal;
+    font-size: medium;
+    color: #676767;
+}
+
+.item-subtitle { 
+    color: #04594D;
+}

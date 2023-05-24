@@ -1,0 +1,57 @@
+<div id="PageNum">
+    <% if (max_page < 5) { %>
+        <% for( let i = 0; i < max_page; i++ ) { %>
+            <div class="<%= (i == current_page ? 'SelectedNum' : '') %>"
+                onclick="window.location.href='<%= i %>'">
+                <div>
+                    <%= i + 1 %>
+                </div>
+            </div>
+        <% } %>
+    <% } else { %>
+<!-- First half  -->
+    <% if (current_page > max_page - 2) { %>
+        <% for( let i = 0; i < 3; i++ ) { %>
+            <div class="<%= (i == current_page ? 'SelectedNum' : '') %>"
+                onclick="window.location.href='<%= i %>'">
+                <div>
+                    <%= i + 1 %>
+                </div>
+            </div>
+        <% } %>
+    <% } else { %>
+        <% for( let i = Math.min(Math.max(0, current_page - 1), max_page - 5); i < Math.min(Math.max(0, current_page - 1), max_page - 5) + 3; i++ ) { %>
+            <div class="<%= (i == current_page ? 'SelectedNum' : '') %>"
+                onclick="window.location.href='<%= i %>'">
+                <div>
+                    <%= i + 1 %>
+                </div>
+            </div>
+        <% } %>
+    <% } %>
+
+    <div id="More">
+        <div>
+            ...
+        </div>
+        <div>
+            <div>
+                Go to:
+            </div>
+            <input type="text" id="PageInput" placeholder="Page">
+            <input type="button" id="PageButton" value="Go"/>
+        </div>
+    </div>
+
+    <!-- Second half -->
+    <% for( let i = max_page - 2; i < max_page; i++ ) { %>
+        <div class="<%= (i == current_page ? 'SelectedNum' : '') %>"
+            onclick="window.location.href='<%= i %>'">
+            <div>
+                <%= i + 1 %>
+            </div>
+        </div>
+    <% } %>
+
+    <% } %>
+</div>

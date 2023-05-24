@@ -1,0 +1,57 @@
+<div id="MoiNhatNhieuNhat">
+    <div id="MoiNhat">
+        <div>
+            <div>
+                Tin Moi Nhat
+            </div>
+            <div id="divider"></div>
+        </div>
+        <div id="GridType0">
+            <% for( let i = 0; i < moi_nhat.length; i++ ) { // Dummy, 1 item * 10%>
+                <div id="Container_article" onclick="window.location.href='/test/content/<%= moi_nhat[i].article_id %>'">
+                    <img src="<%= moi_nhat[i].imgLink %>" alt="">
+                    <div id="Category_box">
+                        <p><%= moi_nhat[i].category %></p>
+                    </div>
+                    <div id="TitleDate">
+                        <p style="font-size:26px;">
+                            <%= moi_nhat[i].title %>
+                        </p>
+                        <p style="font-size: 13px;">
+                            <%= moi_nhat[i].date %>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+    <div id="NhieuNhat">
+        <div>
+            <div>
+                Xem nhieu nhat
+            </div>
+            <div id="divider">
+            </div>
+        </div>
+        <div id="GridType1">
+            <% for( let i = 0; i < nhieu_nhat.length; i++ ) { // Dummy, 1 item * 10%>
+                <div id="Article" onclick="window.location.href='/test/content/<%= nhieu_nhat[i].article_id %>'">
+                    <img src="<%= nhieu_nhat[i].imgLink %>" alt="ArticleImage">
+                    <div id="Info">
+                        <div>
+                            <%= nhieu_nhat[i].title %>
+                        </div>
+                        <div>
+                            <div>
+                                <%= nhieu_nhat[i].category %>
+                            </div>
+                            <div>
+                                <%= nhieu_nhat[i].date %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+        </div>
+    </div>
+</div>

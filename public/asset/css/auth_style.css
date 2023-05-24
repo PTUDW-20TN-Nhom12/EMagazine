@@ -1,0 +1,79 @@
+.btn, .btn:focus {
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+    box-shadow: none;
+    text-transform: none;
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #0879bf;
+    border: 2px solid #0879bf;
+}
+
+.btn-main, .btn-main:focus {
+    color: #fff;
+    background-color: black;
+    border: 2px solid black;
+    box-shadow: none;
+}
+
+h2 {
+    color: black;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+h3 {
+    color: black;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+p {
+    color: black;
+}
+
+a {
+    color: #3b71ca;
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+#Logo {
+    width: 292px;
+    height: 74px;
+}
+
+.task_type_left, .task_type_left:hover {
+    color: #4f4f4f;
+    text-align: right;
+    border: 1px solid #bdbdbd;
+    background-color: transparent !important;
+    border-left-style: none;
+}
+
+.task_type_right, .task_type_right:hover {
+    color: #4f4f4f;
+    text-align: left;
+    padding-left: 12px;
+    border: 1px solid #bdbdbd;
+    background-color: transparent !important;
+    border-right-style: none;
+}
+
+.btn-group {
+    box-shadow: none !important;
+}
+
+#user_type, #type_1, #type_2 {
+    font-size: 16px !important;
+    font-weight: normal !important;
+}

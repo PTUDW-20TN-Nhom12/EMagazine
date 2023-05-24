@@ -1,0 +1,60 @@
+<div id="NoiBatTop10">
+    <div id="SliderTitle">
+        <section class="splide type01">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <% for( let i = 0; i < noi_bat.length; i++ ) { %>
+                        <li class="splide__slide">
+                            <div id="Container_article">
+                                <img src="<%= noi_bat[i].imgLink %>" alt="">
+                                <div id="Category_box">
+                                    <p><%= noi_bat[i].category %></p>
+                                </div>
+                                <div id="TitleDate">
+                                    <p style="font-size:26px;">
+                                        <%= noi_bat[i].title %>
+                                    </p>
+                                    <p style="font-size: 13px;">
+                                        <%= noi_bat[i].date %>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </section>
+        <div>
+            <p>Tin tuc noi bat</p>
+        </div>
+    </div>
+    <div id="SliderTitle">
+        <section class="splide type01">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <% for( let i = 0; i < top_10.length; i++ ) { %>
+                        <li class="splide__slide">
+                            <div id="Container_article">
+                                <img src="<%= top_10[i].imgLink %>" alt="">
+                                <div id="Category_box">
+                                    <p><%= top_10[i].category %></p>
+                                </div>
+                                <div id="TitleDate">
+                                    <p style="font-size:26px;">
+                                        <%= top_10[i].title %>
+                                    </p>
+                                    <p style="font-size: 13px;">
+                                        <%= top_10[i].date %>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </section>
+        <div>
+            <p>Top 10 chuyen muc</p>
+        </div>
+    </div>
+</div>
