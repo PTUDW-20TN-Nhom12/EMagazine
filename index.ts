@@ -24,7 +24,7 @@ AppDataSource.initialize().catch(console.error);
 // Handle (GET, ...) request from router in controller
 app.use("/", express.static("public"));
 app.use("/", indexRouter);
-app.use("/tag", TagRouter);
+// app.use("/tag", TagRouter);
 
 
 app.use("/test", testRouter);
