@@ -1,17 +1,17 @@
 <footer>
     <div id="Container_footer">
         <div id="CategoryList">
-            <% for( let i = 0; i < footer["catList"].length; i++ ) { %>
+            <% for( let category of footer["catList"] ) { %>
                 <ul id="Category">
-                    <li><a href="/test/category/<%= footer["catList"][i]["categoryId"] %>/0">
-                        <%= footer["catList"][i]["categoryName"] %></a></li>
-
-                        <% for( let j = 0; j < footer["catList"][i]["subCategory"].length; j++ ) { %>
-                            <li><a href="/test/category/<%= footer["catList"][i]["subCategory"][j]["categoryId"] %>/0">
-                                <%= footer["catList"][i]["subCategory"][j]["categoryName"]%></a></li>
-                        <% } %>
+                    <li><a href="/category/<%= category.id %>/0">
+                            <%= category.name %>
+                        </a></li>
+                    <% for( let sub_category of category.children ) { %>
+                        <li><a href="/category/<%= sub_category.id %>/0">
+                            <%= sub_category.name %></a></li>
+                    <% } %>
                 </ul>
-            <% } %>
+                <% } %>
         </div>
         <hr>
         <div id="LogoTrademark">

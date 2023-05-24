@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { User } from './User';
 import { Category } from './Category';
+import { Tag } from './Tag';
 
 @Entity("articles")
 export class Article {
@@ -30,4 +31,8 @@ export class Article {
 
     @Column({ default: false })
     is_premium: boolean;
+
+    @ManyToMany(() => Tag)
+    @JoinTable()
+    tags: Tag[]
 }

@@ -1,8 +1,9 @@
-import { AppDataSource } from "../data_source";
+import { SupabaseDataSource } from "../data_source";
 import { Category } from "../models/Category";
+import { IsNull } from "typeorm";
 
 export class CategoryController {
-    private categoryRepository = AppDataSource.getRepository(Category);
+    private categoryRepository = SupabaseDataSource.getRepository(Category);
 
     async createCategory(name: string, description: string, parentId: number | null): Promise<Category> {
         const category = new Category();
@@ -26,6 +27,26 @@ export class CategoryController {
     async getAllCategories(): Promise<Category[]> {
         try {
             return await this.categoryRepository.find();
+        } catch (error) {
+            throw new Error(`Failed to retrieve categories: ${error.message}`);
+        }
+    }
+
+    async getAllMainCategories(): Promise<Category[]> {
+        try {
+            return await this.categoryRepository.find({
+                relations: {
+                    children: true,
+                    parent: true,
+                },
+                where: {
+                    parent: IsNull(),
+                },
+                order: {
+                    name: "ASC",
+                },
+            }
+            );
         } catch (error) {
             throw new Error(`Failed to retrieve categories: ${error.message}`);
         }
@@ -81,10 +102,10 @@ export class CategoryController {
             throw new Error(`Failed to delete category: ${error.message}`);
         }
     }
-    
+
     async clearCategories(): Promise<void> {
         try {
-            await this.categoryRepository.clear();
+            await this.categoryRepository.delete({});
         } catch (error) {
             throw new Error(`Failed to clear categories: ${error.message}`);
         }

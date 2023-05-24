@@ -1,11 +1,12 @@
-import { AppDataSource } from "../data_source";
+import { SupabaseDataSource } from "../data_source";
 import { Article } from "../models/Article";
 import { User } from "../models/User";
+import { Tag } from "../models/Tag";
 import { Category } from "../models/Category";
 import { Like } from "typeorm";
 
 export class ArticleController {
-    private articleRepository = AppDataSource.getRepository(Article);
+    private articleRepository = SupabaseDataSource.getRepository(Article);
 
     async createArticle(
         // author: User,
@@ -24,6 +25,7 @@ export class ArticleController {
         article.content = content;
         article.thumbnail_url = thumbnail_url;
         article.is_premium = is_premium;
+        article.tags = [];
 
         try {
             return await this.articleRepository.save(article);
@@ -32,19 +34,149 @@ export class ArticleController {
         }
     }
 
-    async getArticles(query?): Promise<[Article[], number]> {
-        const PAGESIZE = 6;
-        const page = query.page || 0;
-        const keyword = query.keyword || '';
-
+    async getHotArticles(number = 4): Promise<Article[]> {
         try {
-            return await this.articleRepository.findAndCount(
-                {
-                    where: { title: Like('%' + keyword + '%') }, order: { title: "ASC" },
-                    take: PAGESIZE,
-                    skip: (page - 1) * PAGESIZE
-                }
-            );
+            return await this.articleRepository.find({
+                relations: {
+                    category: true,
+                },
+                take: number,
+            });
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async getLatestArticles(number = 10): Promise<Article[]> {
+        try {
+            return await this.articleRepository.find({
+                relations: {
+                    category: true,
+                },
+                take: number,
+            });
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async getMostViewsArticles(number = 10): Promise<Article[]> {
+        try {
+            return await this.articleRepository.find({
+                relations: {
+                    category: true,
+                },
+                take: number,
+            });
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async getMostViewByCategoryArticles(number = 10): Promise<Article[]> {
+        try {
+            return await this.articleRepository.find({
+                relations: {
+                    category: true,
+                },
+                take: number,
+            });
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async addTag(article_id: number, tag_id:number) {
+        try {
+            let article = await this.getArticleById(article_id);
+            let tag = await SupabaseDataSource.getRepository(Tag).findOneBy({id: tag_id});
+            article.tags.push(tag);
+            await this.articleRepository.save(article);
+        } catch (error) {
+            throw new Error(`Failed to add tag: ${error.message}`);
+        }
+    }
+
+    async getArticlesByCategoryID(category_id: number, page: number, page_size: number = 6): Promise<Article[]> {
+        try {
+            return await this.articleRepository
+                        .createQueryBuilder("articles")
+                        .leftJoinAndSelect("articles.category", "category")
+                        .leftJoinAndSelect("articles.tags", "tag")
+                        .where("category.id = :category_id", { category_id: category_id })
+                        .orderBy('articles.id', 'ASC')
+                        .skip(page * page_size)
+                        .take(page_size)
+                        .getMany();
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async countArticlesByCategoryID(category_id: number): Promise<number> {
+        try {
+            return await this.articleRepository
+                        .createQueryBuilder("articles")
+                        .leftJoinAndSelect("articles.category", "category")
+                        .leftJoinAndSelect("articles.tags", "tag")
+                        .where("category.id = :category_id", { category_id: category_id })
+                        .getCount();
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async getArticlesByTagID(tag_id: number, page: number, page_size: number = 6): Promise<Article[]> {
+        try {
+            return await this.articleRepository
+                        .createQueryBuilder("articles")
+                        .leftJoinAndSelect("articles.category", "category")
+                        .leftJoinAndSelect("articles.tags", "tag")
+                        .where("tag.id = :tag_id", { tag_id: tag_id })
+                        .orderBy('articles.id', 'ASC')
+                        .skip(page * page_size)
+                        .take(page_size)
+                        .getMany();  
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async countArticlesByTagID(tag_id: number): Promise<number> {
+        try {
+            return await this.articleRepository
+                        .createQueryBuilder("articles")
+                        .leftJoinAndSelect("articles.category", "category")
+                        .leftJoinAndSelect("articles.tags", "tag")
+                        .where("tag.id = :tag_id", { tag_id: tag_id })
+                        .getCount();
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async getSearchResults(search_query: string, page: number, page_size: number = 6) {
+        try {
+            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', title || ' ' || short_description || ' ' || content), to_tsquery('english', '${search_query}')) AS rank
+            FROM articles
+            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', '${search_query}')) LIMIT 20`);
+            let ret = [];
+            results = results.slice(page * page_size, (page + 1) * page_size);
+            for (let result of results) {
+                let article = await this.getArticleById(result.id);
+                ret.push(article);
+            }
+            return ret;
+        } catch (error) {
+            throw new Error(`Failed to retrieve articles: ${error.message}`);
+        }
+    }
+
+    async countSearchResults(search_query: string) {
+        try {
+            return await this.articleRepository.query(`SELECT COUNT(*)
+            FROM articles 
+            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', '${search_query}'))`)
         } catch (error) {
             throw new Error(`Failed to retrieve articles: ${error.message}`);
         }
@@ -52,7 +184,15 @@ export class ArticleController {
 
     async getArticleById(id: number): Promise<Article> {
         try {
-            return await this.articleRepository.findOneBy({ id: id });
+            return await this.articleRepository.findOne({
+                relations: {
+                    category: true,
+                    tags: true,
+                },
+                where: {
+                    id: id,
+                },
+            });
         } catch (error) {
             throw new Error(`Failed to retrieve article: ${error.message}`);
         }
@@ -100,7 +240,7 @@ export class ArticleController {
 
     async clearArticles(): Promise<void> {
         try {
-            await this.articleRepository.clear();
+            await this.articleRepository.delete({});
         } catch (error) {
             throw new Error(`Failed to clear articles: ${error.message}`);
         }

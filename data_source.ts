@@ -1,7 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Article } from './models/Article';
 import { ArticleStatus } from './models/ArticleStatus';
-import { ArticleTag } from './models/ArticleTag';
 import { Category } from './models/Category';
 import { Comment } from './models/Comment';
 import { Tag } from './models/Tag';
@@ -20,18 +19,19 @@ const AppDataSource = new DataSource({
 });
 
 // Connect to supabase
-// const SupabaseDataSource = new DataSource({
-//     type: "postgres",
-//     host: "db.iuprtgkypnvwgkhrpbcz.supabase.co",
-//     port: 5432,
-//     username: "postgres",
-//     password: "Nhom1221Nhom",
-//     database: "postgres",
-//     entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
-//     synchronize: true,
-//     logging: false,
-// })
+const SupabaseDataSource = new DataSource({
+    type: "postgres",
+    host: "db.iuprtgkypnvwgkhrpbcz.supabase.co",
+    port: 5432,
+    username: "postgres",
+    password: "Nhom1221Nhom",
+    database: "postgres",
+    // entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
+    entities: [Tag, Category, Article],
+    synchronize: true,
+    logging: false,
+})
 
 export {
-    AppDataSource
+    AppDataSource, SupabaseDataSource
 }

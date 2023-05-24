@@ -35,8 +35,8 @@
         <h1 class="text-center mb-3">
           <%= page_name %>
         </h1>
-        <% for (let i=0; i < items.length; ++i) { %>
-          <%- include('category_detail_resource/item_detail.ejs', items[i]) %>
+        <% for (let article of items) { %>
+          <%- include('category_detail_resource/item_detail.ejs', {article}) %>
         <% } %>
       </div>
       <%- include('category_detail_resource/numpage.ejs', {current_page, max_page}) %>
