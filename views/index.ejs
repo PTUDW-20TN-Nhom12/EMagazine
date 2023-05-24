@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title><%= title %></title>
@@ -17,18 +18,20 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+
 <body>
-  <%- include('partials/header.ejs', {header}) %>
-  <main>
-    <%- include('index_resource/top10_noibat.ejs', {top_10, noi_bat}) %>
-    <%- include('index_resource/moinhat_nhieunhat.ejs', {moi_nhat, nhieu_nhat}) %>
-  </main>
-  <%- include('partials/footer.ejs', {footer}) %>
+    <%- include('partials/header.ejs', {header}) %>
+        <main>
+            <%- include('index_resource/top10_noibat.ejs', {top_10, noi_bat}) %>
+                <%- include('index_resource/moinhat_nhieunhat.ejs', {moi_nhat, nhieu_nhat}) %>
+        </main>
+        <%- include('partials/footer.ejs', {footer}) %>
 </body>
 <script>
-  const noi_bat_id = [<%= noi_bat.map(e => e["article_id"]) %>];
-  const top_10_id = [<%= top_10.map(e => e["article_id"]) %>];
+    const noi_bat_id = [<%= noi_bat.map(e => e.id) %>];
+    const top_10_id = [<%= top_10.map(e => e.id) %>];
 </script>
 <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js "></script>
 <script src="/asset/js/index.js"></script>
+
 </html>

@@ -3,49 +3,49 @@
     {
       "id": 1,
       "parent_id": "Kinh Doanh",
-      "name": "Tai Chinh",
+      "name": "Tài Chính",
       "description": "Danh mục về tài chính."
     },
     {
       "id": 2,
-      "parent_id": "Cong Nghe",
-      "name": "Cau Noi",
-      "description": "Danh mục về câu nói."
+      "parent_id": "Công Nghệ",
+      "name": "Cầu Nối",
+      "description": "Danh mục về cầu nối."
     },
     {
       "id": 3,
       "parent_id": null,
-      "name": "The Thao",
+      "name": "Thể Thao",
       "description": "Danh mục về thể thao."
     },
     {
       "id": 4,
       "parent_id": "Kinh Doanh",
-      "name": "Dau Tu",
-      "description": "Danh mục về đầu tư."
+      "name": "Đầu Tư",
+      "description": "Danh mục về Đầu Tư."
     },
     {
       "id": 5,
-      "parent_id": "Giao Duc",
-      "name": "Du Hoc",
+      "parent_id": "Giáo Dục",
+      "name": "Du Học",
       "description": "Danh mục về du học."
     },
     {
       "id": 6,
       "parent_id": null,
-      "name": "Cong Nghe",
+      "name": "Công Nghệ",
       "description": "Danh mục về công nghệ."
     },
     {
       "id": 7,
       "parent_id": null,
-      "name": "Giao Duc",
+      "name": "Giáo Dục",
       "description": "Danh mục về giáo dục."
     },
     {
       "id": 8,
-      "parent_id": "Cong Nghe",
-      "name": "Chuyen Doi So",
+      "parent_id": "Công Nghệ",
+      "name": "Chuyển Đổi Số",
       "description": "Danh mục về chuyển đổi số."
     },
     {
@@ -56,14 +56,14 @@
     },
     {
       "id": 10,
-      "parent_id": "Giao Duc",
-      "name": "Tuyen Sinh",
+      "parent_id": "Giáo Dục",
+      "name": "Tuyển Sinh",
       "description": "Danh mục về tuyển sinh."
     },
     {
       "id": 11,
       "parent_id": null,
-      "name": "Van Hoa",
+      "name": "Văn Hoá",
       "description": "Danh mục về văn hóa."
     }
   ]

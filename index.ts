@@ -1,9 +1,9 @@
-import express, { Express, Request, Response } from 'express';
-
+import express, { Express } from 'express';
+import moment from 'moment';
 import "reflect-metadata"; // Required for typeORM, import globally
 
 import { indexRouter } from './routes/indexRoute'
-import { AppDataSource } from './data_source';
+import { AppDataSource, SupabaseDataSource } from './data_source';
 import { TagRouter } from './routes/tagRoute';
 import { testRouter } from './routes/testRoute';
 
@@ -12,14 +12,10 @@ const app: Express = express();
 
 // Set view engine to ejs
 app.set('view engine', 'ejs');
-
+app.locals.moment = moment; 
 // Start db connection
 AppDataSource.initialize().catch(console.error);
-
-// Handle GET request directly
-// app.get("/", (req: Request, res: Response) => {
-//     res.send("Hello world <(\") hehehe");
-// })
+SupabaseDataSource.initialize().catch(console.error); 
 
 // Handle (GET, ...) request from router in controller
 app.use("/", express.static("public"));

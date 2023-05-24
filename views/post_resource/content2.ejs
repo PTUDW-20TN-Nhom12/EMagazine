@@ -1,11 +1,11 @@
 <h3 class="font-weight-normal"><%= post_data.post_title %></h3>
 <div class="d-flex mt-3">
-  <span><%= post_data.date %></span>
+  <span><%= moment(post_data.date).format('DD/MM/YYYY') %></span>
   <i class="ms-auto bi bi-chat-left-dots"></i>
 </div>
 <div class="d-flex mt-3 mb-3">
-  <% for (let i = 0; i < post_data.tags.length; ++i) { %>
-    <span class="post-tag" onclick="window.location.href='/test/tag/<%= post_data.tags[i].tag_id %>/0'">#<%= post_data.tags[i].tag_name %></span>
+  <% for (let tag of post_data.tags) { %>
+    <span class="post-tag" onclick="window.location.href='/tag/<%= tag.id %>/0'">#<%= tag.name %></span>
   <% } %>
 </div>
 <hr>
@@ -20,7 +20,7 @@
     <h3 class="mb-3">Cùng chuyên mục</h3>
     <hr class="ms-3" style="flex-grow: 1; border-top: 3px solid black;">
   </div>
-  <% for (let i = 0; i < items.length; ++i) { %>
-    <%- include('../category_detail_resource/item_detail.ejs', items[i]) %>
+  <% for (let article of items) { %>
+    <%- include('../category_detail_resource/item_detail.ejs', {article}) %>
   <% } %>
 </div>

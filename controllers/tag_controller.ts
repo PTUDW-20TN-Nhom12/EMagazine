@@ -1,8 +1,8 @@
-import { AppDataSource } from "../data_source";
+import { SupabaseDataSource } from "../data_source";
 import { Tag } from "../models/Tag";
 
 export class TagController {
-    private tagRepository = AppDataSource.getRepository(Tag);
+    private tagRepository = SupabaseDataSource.getRepository(Tag);
 
     async createTag(name: string, description: string): Promise<Tag> {
         const tag = new Tag();
@@ -60,7 +60,7 @@ export class TagController {
 
     async clearTags(): Promise<void> {
         try {
-            await this.tagRepository.clear();
+            await this.tagRepository.delete({});
         } catch (error) {
             throw new Error(`Failed to clear categories: ${error.message}`);
         }

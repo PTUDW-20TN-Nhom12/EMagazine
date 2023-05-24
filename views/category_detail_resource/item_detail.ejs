@@ -1,24 +1,33 @@
 <div class="d-flex flex-row justify-content-center">
-  <img src="<%=imgLink%>" class="item-thumbnail align-self-center" onclick="window.location.href='/test/content/<%=article_id%>'"/>
-  
-  <div class="d-flex flex-column item-content-container justify-content-between align-items-start">
-    <div class="item-wrapper" onclick="window.location.href='/test/content/<%=article_id%>'">
-      <h5 class="item-title"><%= title %></h5>
-      <p class="item-subtitle"><%= short_desc %></p>
-    </div>
-    <div class="item-wrapper">
-      <h5 class="mb-3 item-category" onclick="window.location.href='/test/category/<%= category_id %>/0'"><%= category_name %></h5>
-      <div>
-        <% if (isPremium) { %>
-          <span class="item-tag" style="background-color: #F6EF50;">PREMIUM</span>
-        <% } %>
+    <img src="<%=article.thumbnail_url%>" class="item-thumbnail align-self-center"
+        onclick="window.location.href='/content/<%=article.id%>'" />
 
-        <% for (let i = 0; i < tags.length; ++i) { %>
-          <span class="item-tag" onclick="window.location.href='/test/tag/<%= tags[i].tag_id %>/0'">#<%= tags[i].tag_name %></span>
-        <% } %>
-        <span class="item-datetime align-self-end"><%= date %></span>
-      </div>
+    <div class="d-flex flex-column item-content-container justify-content-between align-items-start">
+        <div class="item-wrapper" onclick="window.location.href='/content/<%=article.id%>'">
+            <h5 class="item-title">
+                <%= article.title %>
+            </h5>
+            <p class="item-subtitle">
+                <%= article.short_description %>
+            </p>
+        </div>
+        <div class="item-wrapper">
+            <h5 class="mb-3 item-category" onclick="window.location.href='/category/<%= article.category.id %>/0'">
+                <%= article.category.name %>
+            </h5>
+            <div>
+                <% if (article.is_premium) { %>
+                    <span class="item-tag" style="background-color: #F6EF50;">PREMIUM</span>
+                    <% } %>
+                        <% for (let tag of article.tags) { %>
+                            <span class="item-tag" onclick="window.location.href='/tag/<%= tag.id %>/0'">#<%= tag.name
+                                    %></span>
+                            <% } %>
+                                <span class="item-datetime align-self-end">
+                                    <%= moment(article.date_created).format('DD/MM/YYYY') %>
+                                </span>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <hr>

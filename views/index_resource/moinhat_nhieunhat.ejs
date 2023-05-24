@@ -2,23 +2,23 @@
     <div id="MoiNhat">
         <div>
             <div>
-                Tin Moi Nhat
+                Tin Mới Nhất
             </div>
             <div id="divider"></div>
         </div>
         <div id="GridType0">
-            <% for( let i = 0; i < moi_nhat.length; i++ ) { // Dummy, 1 item * 10%>
-                <div id="Container_article" onclick="window.location.href='/test/content/<%= moi_nhat[i].article_id %>'">
-                    <img src="<%= moi_nhat[i].imgLink %>" alt="">
+            <% for( let article of moi_nhat ) { // Dummy, 1 item * 10%>
+                <div id="Container_article" onclick="window.location.href='/content/<%= article.id %>'">
+                    <img src="<%= article.thumbnail_url %>" alt="">
                     <div id="Category_box">
-                        <p><%= moi_nhat[i].category %></p>
+                        <p><%= article.category.name %></p>
                     </div>
                     <div id="TitleDate">
                         <p style="font-size:26px;">
-                            <%= moi_nhat[i].title %>
+                            <%= article.title %>
                         </p>
                         <p style="font-size: 13px;">
-                            <%= moi_nhat[i].date %>
+                            <%= moment(article.date_created).format('DD/MM/YYYY') %>
                         </p>
                     </div>
                 </div>
@@ -28,25 +28,25 @@
     <div id="NhieuNhat">
         <div>
             <div>
-                Xem nhieu nhat
+                Xem Nhiều Nhất
             </div>
             <div id="divider">
             </div>
         </div>
         <div id="GridType1">
-            <% for( let i = 0; i < nhieu_nhat.length; i++ ) { // Dummy, 1 item * 10%>
-                <div id="Article" onclick="window.location.href='/test/content/<%= nhieu_nhat[i].article_id %>'">
-                    <img src="<%= nhieu_nhat[i].imgLink %>" alt="ArticleImage">
+            <% for( let article of nhieu_nhat ) { // Dummy, 1 item * 10%>
+                <div id="Article" onclick="window.location.href='/content/<%= article.id %>'">
+                    <img src="<%= article.thumbnail_url %>" alt="ArticleImage">
                     <div id="Info">
                         <div>
-                            <%= nhieu_nhat[i].title %>
+                            <%= article.title %>
                         </div>
                         <div>
                             <div>
-                                <%= nhieu_nhat[i].category %>
+                                <%= article.category.name %>
                             </div>
                             <div>
-                                <%= nhieu_nhat[i].date %>
+                                <%= moment(article.date_created).format('DD/MM/YYYY') %>
                             </div>
                         </div>
                     </div>
