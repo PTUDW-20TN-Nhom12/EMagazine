@@ -32,7 +32,7 @@ router.get("/content/:id", async (req: Request, res: Response) => {
         title: "Nội dung | Lacainews",
 
         category_name: article.category.name,
-        imgLink: article.thumbnail_url,
+        imgLink: article.thumbnail_url.replace(/zoom\/260_163\//, ""),
         post_data: {
             post_title: article.title,
             date: article.date_created,
