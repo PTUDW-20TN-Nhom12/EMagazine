@@ -21,16 +21,16 @@ interface Footer {
 }
 
 function findPositionFromId(catList: Category[], category_id: number): number {
-    // for (let i = 0; i < catList.length; i++) {
-    //     if (catList[i].categoryId == category_id) {
-    //         return i;
-    //     }
-    //     for (let j = 0; j < catList[i].subCategory.length; j++) {
-    //         if (catList[i].subCategory[j].categoryId == category_id) {
-    //             return i;
-    //         }
-    //     }
-    // }
+    for (let i = 0; i < catList.length; i++) {
+        if (catList[i].id == category_id) {
+            return category_id;
+        }
+        for (let j = 0; j < catList[i].children.length; j++) {
+            if (catList[i].children[j].id == category_id) {
+                return catList[i].id;
+            }
+        }
+    }
     return -1; // Default to homepage highlight
 }
 

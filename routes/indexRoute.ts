@@ -56,7 +56,7 @@ router.get("/category/:id/:page", async (req: Request, res: Response) => {
         items: articles,
         current_page: page,
         max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
-        header: await headerGenerator(true, false, false, -1),
+        header: await headerGenerator(false, false, false, category_id),
         footer: await footerGenerator(),
     })
 })

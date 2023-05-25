@@ -38,7 +38,7 @@
 
                 <% for( let category of footer["catList"] ) { %>
                     <li class="NavItem 
-                        <%# (header["selectedCat"] === i?"NavSelected":"") %>
+                        <%= (header["selectedCat"] === category.id ?"NavSelected":"") %>
                         <%= (category.children.length > 0 ? "has-submenu": "") %>">
                         <a href="/category/<%= category.id %>/0">
                             <%= category.name %>  
