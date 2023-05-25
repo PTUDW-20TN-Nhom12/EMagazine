@@ -7,7 +7,7 @@ import { AppDataSource, SupabaseDataSource } from './data_source';
 import { TagRouter } from './routes/tagRoute';
 import { testRouter } from './routes/testRoute';
 
-const PORT: number = 8080;
+const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
 
 // Set view engine to ejs
