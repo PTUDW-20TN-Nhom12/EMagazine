@@ -7,6 +7,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  jwt-simple:
+    specifier: ^0.5.6
+    version: 0.5.6
   moment:
     specifier: ^2.29.4
     version: 2.29.4
@@ -27,6 +30,9 @@ devDependencies:
   '@types/express':
     specifier: ^4.17.17
     version: 4.17.17
+  '@types/jwt-simple':
+    specifier: ^0.5.33
+    version: 0.5.33
   '@types/node':
     specifier: ^18.15.3
     version: 18.15.3
@@ -128,6 +134,10 @@ packages:
       '@types/express-serve-static-core': 4.17.35
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.1
+    dev: true
+
+  /@types/jwt-simple@0.5.33:
+    resolution: {integrity: sha512-RcVbKkbUP6u5yFd9HuLhCkAYlT1FQVZylNsxxgaVMZxMajwrVTmQei7C6yMXSoAkXJXpGOUtbsY6Q9kq3+p93g==}
     dev: true
 
   /@types/mime@1.3.2:
@@ -964,6 +974,11 @@ packages:
       chalk: 4.1.2
       filelist: 1.0.4
       minimatch: 3.1.2
+    dev: false
+
+  /jwt-simple@0.5.6:
+    resolution: {integrity: sha512-40aUybvhH9t2h71ncA1/1SbtTNCVZHgsTsTgqPUxGWDmUDrXyDf2wMNQKEbdBjbf4AI+fQhbECNTV6lWxQKUzg==}
+    engines: {node: '>= 0.4.0'}
     dev: false
 
   /lodash@4.17.21:
