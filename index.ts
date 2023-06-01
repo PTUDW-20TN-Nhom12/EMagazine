@@ -6,6 +6,7 @@ import { indexRouter } from './routes/indexRoute'
 import { AppDataSource, SupabaseDataSource } from './data_source';
 import { TagRouter } from './routes/tagRoute';
 import { testRouter } from './routes/testRoute';
+import { setupOauth } from './misc/oauthHelper';
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -26,4 +27,10 @@ app.use("/", indexRouter);
 app.use("/test", testRouter);
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
+})
+
+setupOauth(app, (name, email) => {
+    console.log({name, email})
+    // Handle database here!
+    return true;
 })
