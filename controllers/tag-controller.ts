@@ -1,5 +1,5 @@
-import { SupabaseDataSource } from "../data_source";
-import { Tag } from "../models/Tag";
+import { SupabaseDataSource } from "../models/data_source";
+import { Tag } from "../models/tag";
 
 export class TagController {
     private tagRepository = SupabaseDataSource.getRepository(Tag);

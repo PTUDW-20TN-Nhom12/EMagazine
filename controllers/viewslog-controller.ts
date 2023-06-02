@@ -1,6 +1,6 @@
-import { SupabaseDataSource } from "../data_source";
-import { ViewLog } from "../models/ViewLog";
-import { Article } from "../models/Article";
+import { SupabaseDataSource } from "../models/data_source";
+import { ViewLog } from "../models/view-log";
+import { Article } from "../models/article";
 import moment from "moment";
 
 export class ViewLogController {

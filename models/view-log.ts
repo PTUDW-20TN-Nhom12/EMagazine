@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Article } from './Article';
+import { Article } from './article';
 
 @Entity("views_log")
 export class ViewLog {

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
-import { footerGenerator, headerGenerator } from "../misc/header-footerGenerator";
-import { ArticleController } from "../controllers/article_controller";
-import { TagController } from "../controllers/tag_controller";
+import { footerGenerator, headerGenerator } from "../utils/header-footer-generator";
+import { ArticleController } from "../controllers/article-controller";
+import { TagController } from "../controllers/tag-controller";
 
 const router: Router = Router();
 const ART_PER_PAGE = 6;

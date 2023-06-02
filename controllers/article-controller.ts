@@ -1,9 +1,9 @@
-import { SupabaseDataSource } from "../data_source";
-import { Article } from "../models/Article";
-import { User } from "../models/User";
-import { Tag } from "../models/Tag";
-import { Category } from "../models/Category";
-import { Like } from "typeorm";
+import {SupabaseDataSource} from "../models/data_source";
+import {Article} from "../models/article";
+import {User} from "../models/user";
+import {Tag} from "../models/tag";
+import {Category} from "../models/category";
+import {Like} from "typeorm";
 
 export class ArticleController {
     private articleRepository = SupabaseDataSource.getRepository(Article);

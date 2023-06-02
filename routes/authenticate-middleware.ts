@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { JWT } from "../misc/jwtHelper";
+import { JWT } from "../utils/jwt-helper";
 
-export function auth(req: Request, res: Response, next: NextFunction) {
+export function authenticate(req: Request, res: Response, next: NextFunction) {
     const token = req.cookies.access_token;
     if (!token) {
         // @ts-ignore

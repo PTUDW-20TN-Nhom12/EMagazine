@@ -2,10 +2,10 @@ import tags from './data/tags.json';
 import categories from './data/categories.json';
 import articles from './data/articles.json';
 import "reflect-metadata";
-import { AppDataSource, SupabaseDataSource } from "../data_source";
-import { CategoryController } from '../controllers/category_controller';
-import { ArticleController } from '../controllers/article_controller';
-import { footerGenerator, headerGenerator } from "../misc/header-footerGenerator";
+import { AppDataSource, SupabaseDataSource } from "../models/data_source";
+import { CategoryController } from '../controllers/category-controller';
+import { ArticleController } from '../controllers/article-controller';
+import { footerGenerator, headerGenerator } from "./header-footer-generator";
 
 async function query() {
     const articleController = new ArticleController();

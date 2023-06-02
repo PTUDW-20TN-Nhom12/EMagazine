@@ -1,5 +1,5 @@
-import { SupabaseDataSource } from "../data_source";
-import { Category } from "../models/Category";
+import { SupabaseDataSource } from "../models/data_source";
+import { Category } from "../models/category";
 import { IsNull } from "typeorm";
 
 export class CategoryController {

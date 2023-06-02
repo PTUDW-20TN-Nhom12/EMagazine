@@ -5,11 +5,11 @@ import articlestags from './data/articlestags.json';
 import viewslog from './data/viewslog.json';
 
 import "reflect-metadata";
-import { AppDataSource, SupabaseDataSource } from "../data_source";
-import { TagController } from '../controllers/tag_controller';
-import { CategoryController } from '../controllers/category_controller';
-import { ArticleController } from '../controllers/article_controller';
-import { ViewLogController } from '../controllers/viewslog_controller';
+import { AppDataSource, SupabaseDataSource } from "../models/data_source";
+import { TagController } from '../controllers/tag-controller';
+import { CategoryController } from '../controllers/category-controller';
+import { ArticleController } from '../controllers/article-controller';
+import { ViewLogController } from '../controllers/viewslog-controller';
 
 async function reset() {
     const articleController = new ArticleController();

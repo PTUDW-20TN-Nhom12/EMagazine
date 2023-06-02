@@ -1,5 +1,5 @@
-import { CategoryController } from '../controllers/category_controller';
-import { Category } from '../models/Category';
+import { CategoryController } from '../controllers/category-controller';
+import { Category } from '../models/category';
 
 // Just interface for type hinting, not to be confused with model's!
 // just import Category and ts will use that

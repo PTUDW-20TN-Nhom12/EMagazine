@@ -1,7 +1,7 @@
 // Dummy route for testing purpose
-import express, { Router, Request, Response } from "express";
-import { auth } from "./authMiddleware";
-import { JWT } from "../misc/jwtHelper";
+import express, {Router, Request, Response} from "express";
+import {authenticate} from "./authenticate-middleware";
+import {JWT} from "../utils/jwt-helper";
 const router: Router = Router();
 
 router.use(express.json());
@@ -14,7 +14,7 @@ const REDIRECT_MAPPING = {
 }
 
 
-router.get("/", auth, async (req: Request, res: Response) => {
+router.get("/", authenticate, async (req: Request, res: Response) => {
     // @ts-ignore
     if (req.isAuth) {
         // @ts-ignore

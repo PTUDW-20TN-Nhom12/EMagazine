@@ -2,11 +2,9 @@ import express, { Express } from 'express';
 import moment from 'moment';
 import "reflect-metadata"; // Required for typeORM, import globally
 
-import { indexRouter } from './routes/indexRoute'
-import { AppDataSource, SupabaseDataSource } from './data_source';
-import { TagRouter } from './routes/tagRoute';
-import { testRouter } from './routes/testRoute';
-import { setupOauth } from './misc/oauthHelper';
+import { indexRouter } from './routes/index-route'
+import { AppDataSource, SupabaseDataSource } from './models/data_source';
+import { setupOauth } from './utils/oauth-helper';
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -24,7 +22,6 @@ app.use("/", indexRouter);
 // app.use("/tag", TagRouter);
 
 
-app.use("/test", testRouter);
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
 })

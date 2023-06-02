@@ -1,12 +1,12 @@
 import { DataSource } from 'typeorm';
-import { Article } from './models/Article';
-import { ArticleStatus } from './models/ArticleStatus';
-import { Category } from './models/Category';
-import { Comment } from './models/Comment';
-import { Tag } from './models/Tag';
-import { User } from './models/User';
-import { Role } from './models/Role';
-import { ViewLog } from './models/ViewLog';
+import { Article } from './article';
+import { ArticleStatus } from './article-status';
+import { Category } from './category';
+import { Comment } from './comment';
+import { Tag } from './tag';
+import { User } from './user';
+import { Role } from './role';
+import { ViewLog } from './view-log';
 
 // Connect to sqlite, for testing
 const AppDataSource = new DataSource({

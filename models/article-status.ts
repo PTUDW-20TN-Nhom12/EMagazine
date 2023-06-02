@@ -1,6 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Article } from './Article';
-import { User } from './User';
+import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne} from 'typeorm';
+import {Article} from './article';
+import {User} from './user';
 
 @Entity("articles_status")
 export class ArticleStatus {
