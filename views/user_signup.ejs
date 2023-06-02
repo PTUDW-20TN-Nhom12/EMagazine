@@ -1,0 +1,95 @@
+<%- include('signin_signup_resource/user/header.ejs', {title}) %>
+    <section class="vh-100">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center mt-2">
+                <img src="/asset/image/Logo.png" id="Logo" alt="LOGO" />
+            </div>
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card-body p-5 text-center" style="padding-top: 0rem !important;">
+                        <h2 class="mb-3">Sign Up</h2>
+
+                        <div class="form-outline mb-3">
+                            <input type="text" id="name" class="form-control form-control-lg" />
+                            <label class="form-label" for="name">Your Name</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="email" id="email" class="form-control form-control-lg" />
+                            <label class="form-label" for="email">Your Email</label>
+                        </div>
+
+                        <div class="form-outline datepicker w-100 mb-3">
+                            <input type="date" class="form-control form-control-lg" id="birthday" />
+                            <label for="birthday" class="form-label">Your Birthday</label>
+                        </div>
+                        <div class="btn-group mb-3 w-100">
+                            <button type="button" class="btn btn-light task_type_right"><text
+                                    id="user_type">Role</text></button>
+                            <button type="button"
+                                class="btn btn-light dropdown-toggle dropdown-toggle-split task_type_left"
+                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end task_type_dropdown">
+                                <li><a id="type_1" class="dropdown-item"
+                                        onclick="$('#user_type').text($('#type_1').text());">
+                                        Reader</a></li>
+                                <li><a id="type_2" class="dropdown-item"
+                                        onclick="$('#user_type').text($('#type_2').text());">
+                                        Writer</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="password" id="password" class="form-control form-control-lg" />
+                            <label class="form-label" for="password">Password</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="password" id="repassword" class="form-control form-control-lg" />
+                            <label class="form-label" for="repassword">Repeat your password</label>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg btn-block rounded-0 btn-main mb-3" type="submit"
+                            onclick="submitSignUpForm()">Sign up</button>
+                        <div class="d-flex justify-content-around align-items-center mb-2">
+                            <p class="mb-0">Have already an account? <a href="/signin">Sign in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function submitSignUpForm() {
+            const name = $('#name').val().trim(); 
+            const email = $('#email').val().trim();
+            const password = $('#password').val().trim();
+            const birthday = $('#birthday').val().trim();
+            const repassword = $('#repassword').val().trim();
+            const role = $('#user_type').text().trim(); 
+
+            const data = {
+                name: name,
+                email: email,
+                birthday: birthday,
+                role: role,
+                password: password,
+                repassword: repassword,
+            };
+
+            $.ajax({
+                url: '/signup',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    // window.location.href = response.redirect;
+                },
+                error: function(error) {
+                }
+            });
+        }
+    </script>
+<%- include('signin_signup_resource/user/footer.ejs') %>

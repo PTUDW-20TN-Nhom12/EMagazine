@@ -3,8 +3,12 @@ import moment from 'moment';
 import "reflect-metadata"; // Required for typeORM, import globally
 
 import { indexRouter } from './routes/index-route'
+import {signinRouter} from './routes/signin-route'
+import {signupRouter} from './routes/signup-route'
+
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
 import { setupOauth } from './utils/oauth-helper';
+
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -13,13 +17,15 @@ const app: Express = express();
 app.set('view engine', 'ejs');
 app.locals.moment = moment; 
 // Start db connection
-AppDataSource.initialize().catch(console.error);
+// AppDataSource.initialize().catch(console.error);
 SupabaseDataSource.initialize().catch(console.error); 
 
 // Handle (GET, ...) request from router in controller
 app.use("/", express.static("public"));
+
 app.use("/", indexRouter);
-// app.use("/tag", TagRouter);
+app.use("/signin", signinRouter);
+app.use("/signup", signupRouter);
 
 
 app.listen(PORT, () => {
