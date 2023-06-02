@@ -1,0 +1,20 @@
+<div class="comment-container mb-5 mt-5">
+  <div class="form-group text-center comment-form mb-3">
+    <textarea class="form-control mb-4" id="comment-username" rows="1" placeholder="Nhập tên của bạn"></textarea>
+    <textarea class="form-control mb-4" id="comment-content" rows="4" placeholder="Viết bình luận của bạn"></textarea>
+    <button type="button" class="btn btn-danger" onclick="addComment()">Gửi bình luận</button>
+  </div>
+  <h2>Bình luận (<%=comments.length%>)</h2>
+  <% for (let i = 0; i < comments.length; ++i) { %> 
+    <div class="mt-3">
+      <div class="ms-4 d-flex flex-row align-items-center">
+        <span class="dot"></span>
+        <div class="ms-3">
+          <p class="text-danger m-0"><%=comments[i].username%></p>
+          <p class="m-0"><%=comments[i].content%></p>
+        </div>
+        <span class="ms-auto me-3"><%= moment(comments[i].date).format('MMMM Do YYYY, h:mm:ss a')%></span>
+      </div>
+    </div>
+  <% } %>
+</div>

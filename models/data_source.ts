@@ -7,6 +7,7 @@ import { Tag } from './tag';
 import { User } from './user';
 import { Role } from './role';
 import { ViewLog } from './view-log';
+import { CommentAsGuest } from './comment_as_guest';
 
 // Connect to sqlite, for testing
 const AppDataSource = new DataSource({
@@ -27,7 +28,7 @@ const SupabaseDataSource = new DataSource({
     password: "Nhom1221Nhom",
     database: "postgres",
     // entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
-    entities: [Tag, Category, Article, ViewLog],
+    entities: [Role, Tag, User, Category, Article, ViewLog, Comment, CommentAsGuest],
     synchronize: true,
     logging: false,
 })

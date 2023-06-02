@@ -28,8 +28,34 @@
     <img src="<%= imgLink %>" class="img-category"/>
     <div class="post-container">  
       <%- include('post_resource/content2.ejs', {post_data, items}) %>
+      <%- include('post_resource/comment.ejs', {comments}) %>
     </div>
   </main>
   <%- include('partials/footer.ejs', {footer}) %>
 </body>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+  function addComment() {
+    const name = $("#comment-username").val();
+    const content = $("#comment-content").val();
+
+    const article_id = <%= id %>;
+
+    // TODO: for logged in user
+    $.ajax({
+      type: 'post',
+      url: '/comment',
+      data: JSON.stringify({
+        name,
+        content,
+        article_id
+      }),
+      contentType: "application/json; charset=utf-8",
+      traditional: true,
+      success: function (data) {
+        location.reload();
+      }
+    });
+  }
+</script>
 </html>
