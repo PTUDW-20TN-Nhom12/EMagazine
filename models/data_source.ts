@@ -27,7 +27,7 @@ const SupabaseDataSource = new DataSource({
     password: "Nhom1221Nhom",
     database: "postgres",
     // entities: [Article, ArticleStatus, ArticleTag, Category, Comment, Tag, User, Role, ViewsLog],
-    entities: [Tag, Category, Article, ViewLog],
+    entities: [Tag, Category, Article, ViewLog, User],
     synchronize: true,
     logging: false,
 })

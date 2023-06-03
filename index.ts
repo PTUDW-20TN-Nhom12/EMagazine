@@ -7,7 +7,7 @@ import {signinRouter} from './routes/signin-route'
 import {signupRouter} from './routes/signup-route'
 
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
-import { setupOauth } from './utils/oauth-helper';
+import { setupOauth } from './utils/user_controller/oauth-helper';
 
 
 const PORT: number = parseInt(process.env.PORT) || 8080;

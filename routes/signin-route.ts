@@ -1,5 +1,5 @@
 import express, {Router, Request, Response} from "express";
-import {JWT} from "../utils/jwt-helper";
+import {JWT} from "../utils/user_controller/jwt-helper";
 import { UserController } from "../controllers/user-controller";
 
 const router: Router = Router();
