@@ -18,7 +18,8 @@ router.get("/:id/:type", async (req: Request, res: Response) => {
     }
 
     const price = [10000, 49000, 99000];
-    let url: string = await getMoMo(user_id, price[type]);
+    const day = [1, 7, 30];
+    let url: string = await getMoMo(user_id, price[type], day[type]);
     res.redirect(url);
 })
 
@@ -39,10 +40,14 @@ router.post("/ipn/:id", async (req: Request, res: Response) => {
         extraData 	(empty)
         signature 	b1bde85919cdd9a18a43c86c9a8acea26fbb90d85b91a8781d01983f8f654150
     */
-    const {amount, resultCode} = req.body;
+    const {amount, resultCode, extraData} = req.body;
+    const day = extraData.day;
     if (resultCode == 0) {
-        console.log(`Payment successful for ${user_id}, ${amount}VND`);
+        console.log(`Payment successful for ${user_id}, ${amount}VND, +${day} day(s)`);
+        return res.status(204);
     }
+    console.log("Unsuccess");
+    res.status(400);
 })
 
 export {router as PaymentRouter};
