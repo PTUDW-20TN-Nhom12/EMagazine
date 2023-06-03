@@ -82,22 +82,26 @@ router.get("/tag/:id/:page", async (req: Request, res: Response) => {
 })
 
 router.get("/search/:query/:page", async (req: Request, res: Response) => {
-    const query = req.params.query;
-    const page = parseInt(req.params.page);
-    const articleControler = new ArticleController(); 
-    const searchQuery = query.replace(/ /g,"&");
-    let totalArticles = await articleControler.countSearchResults(searchQuery);
-    const articles = await articleControler.getSearchResults(searchQuery, page);
-    totalArticles = Math.min(20,totalArticles[0]['count']);
-    res.render("category_detail", {  
-        title: 'Search: '+ query,
-        page_name: 'Search: ' + query,
-        items: articles,
-        current_page: page,
-        max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
-        header: await headerGenerator(true, false, false, -1), 
-        footer: await footerGenerator(),
-    })
+    try {
+        const query = atob(req.params.query);
+        const page = parseInt(req.params.page);
+        const articleControler = new ArticleController(); 
+        const searchQuery = query.replace(/ /g,"&");
+        let totalArticles = await articleControler.countSearchResults(searchQuery);
+        const articles = await articleControler.getSearchResults(searchQuery, page);
+        totalArticles = Math.min(20,totalArticles[0]['count']);
+        res.render("category_detail", {  
+            title: 'Search: '+ query,
+            page_name: 'Search: ' + query,
+            items: articles,
+            current_page: page,
+            max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
+            header: await headerGenerator(true, false, false, -1), 
+            footer: await footerGenerator(),
+        })
+    } catch {
+        res.status(500);
+    }
 })
 
 export {
