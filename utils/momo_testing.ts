@@ -5,8 +5,8 @@ export function getMoMo(user_id: number, price: number, day: number) {
     var requestId = partnerCode + new Date().getTime();
     var orderId = requestId;
     var orderInfo = "Thanh toán premium EMagazine";
-    var redirectUrl = "emagazine-ptudw-20tn-nhom12.onrender.com";
-    var ipnUrl = "emagazine-ptudw-20tn-nhom12.onrender.com/payment/ipn";
+    var redirectUrl = "https://emagazine-ptudw-20tn-nhom12.onrender.com";
+    var ipnUrl = "https://emagazine-ptudw-20tn-nhom12.onrender.com/payment/ipn";
     var amount = price.toString();
     var requestType = "captureWallet"
     console.log(day);
