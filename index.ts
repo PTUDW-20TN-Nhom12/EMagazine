@@ -5,6 +5,7 @@ import "reflect-metadata"; // Required for typeORM, import globally
 import { indexRouter } from './routes/index-route'
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
 import { setupOauth } from './utils/oauth-helper';
+import { PaymentRouter as paymentRouter } from './routes/payment-route';
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -21,6 +22,8 @@ app.use("/", express.static("public"));
 app.use("/", indexRouter);
 // app.use("/tag", TagRouter);
 
+
+app.use("/payment", paymentRouter)
 
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
