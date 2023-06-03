@@ -9,9 +9,9 @@ export function getMoMo(user_id: number, price: number, day: number) {
     var ipnUrl = "emagazine-ptudw-20tn-nhom12.onrender.com/payment/ipn/" + user_id;
     var amount = price.toString();
     var requestType = "captureWallet"
-    var extraData = btoa(JSON.stringify({
+    var extraData = Buffer.from(JSON.stringify({
         day
-    })); //pass empty value if your merchant does not have stores
+    })).toString(); //pass empty value if your merchant does not have stores
     
     //before sign HMAC SHA256 with format
     //accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
