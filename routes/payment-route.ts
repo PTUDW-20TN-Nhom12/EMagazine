@@ -40,8 +40,10 @@ router.post("/ipn", async (req: Request, res: Response) => {
         signature 	b1bde85919cdd9a18a43c86c9a8acea26fbb90d85b91a8781d01983f8f654150
     */
     const {amount, resultCode, extraData} = req.body;
-    const day = extraData.day;
-    const user_id = extraData.user_id;
+    console.log(extraData);
+    const data = JSON.parse(Buffer.from(extraData, 'base64').toString());
+    const day = data.day;
+    const user_id = data.user_id;
     console.log(resultCode);
     if (resultCode == 0) {
         console.log(`Payment successful for ${user_id}, ${amount}VND, +${day} day(s)`);
