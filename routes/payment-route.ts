@@ -4,13 +4,13 @@ const router: Router = Router();
 
 router.use(express.json());
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/client", async (req: Request, res: Response) => {
     // TODO: render payment page
     res.status(200).json();
 })
 
-// TODO: change to jwt to get user id!
-router.get("/:id/:type", async (req: Request, res: Response) => {
+// TODO: change to jwt's authentication to get user id!
+router.get("/client/:id/:type", async (req: Request, res: Response) => {
     const user_id = parseInt(req.params.id);
     const type = parseInt(req.params.type); // 0, 1, 2
     if (type < 0 || type > 2) {
@@ -44,6 +44,7 @@ router.post("/ipn/:id", async (req: Request, res: Response) => {
     const day = extraData.day;
     if (resultCode == 0) {
         console.log(`Payment successful for ${user_id}, ${amount}VND, +${day} day(s)`);
+        // TODO: Handle here
         return res.status(204);
     }
     console.log("Unsuccess");
