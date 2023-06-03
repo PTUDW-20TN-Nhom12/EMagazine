@@ -11,6 +11,7 @@ import { CommentRouter as commentRouter } from './routes/comment-route';
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
 // @ts-ignore
 import cookieParser from "cookie-parser";
+import { PaymentRouter as paymentRouter } from './routes/payment-route';
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -31,6 +32,8 @@ app.use("/signin", signinRouter);
 app.use("/signup", signupRouter);
 app.use("/comment", commentRouter);
 app.use("/oauth", oauthRouter);
+
+app.use("/payment", paymentRouter)
 
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
