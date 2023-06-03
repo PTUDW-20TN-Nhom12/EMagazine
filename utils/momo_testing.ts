@@ -6,11 +6,11 @@ export function getMoMo(user_id: number, price: number, day: number) {
     var orderId = requestId;
     var orderInfo = "Thanh toán premium EMagazine";
     var redirectUrl = "emagazine-ptudw-20tn-nhom12.onrender.com";
-    var ipnUrl = "emagazine-ptudw-20tn-nhom12.onrender.com/payment/ipn/" + user_id;
+    var ipnUrl = "emagazine-ptudw-20tn-nhom12.onrender.com/payment/ipn";
     var amount = price.toString();
     var requestType = "captureWallet"
     console.log(day);
-    var extraData = Buffer.from(JSON.stringify({"day": day})).toString("base64"); //pass empty value if your merchant does not have stores
+    var extraData = Buffer.from(JSON.stringify({"day": day, "user_id": user_id})).toString("base64"); //pass empty value if your merchant does not have stores
     
     //before sign HMAC SHA256 with format
     //accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
