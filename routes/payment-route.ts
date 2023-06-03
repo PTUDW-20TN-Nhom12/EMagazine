@@ -23,8 +23,7 @@ router.get("/client/:id/:type", async (req: Request, res: Response) => {
     res.redirect(url);
 })
 
-router.post("/ipn/:id", async (req: Request, res: Response) => {
-    const user_id = parseInt(req.params.id);
+router.post("/ipn", async (req: Request, res: Response) => {
     /*
         partnerCode 	MOMOIQA420180417
         orderId 	MOMOIQA4201804171685772944876
@@ -42,6 +41,8 @@ router.post("/ipn/:id", async (req: Request, res: Response) => {
     */
     const {amount, resultCode, extraData} = req.body;
     const day = extraData.day;
+    const user_id = extraData.user_id;
+    console.log(resultCode);
     if (resultCode == 0) {
         console.log(`Payment successful for ${user_id}, ${amount}VND, +${day} day(s)`);
         // TODO: Handle here
