@@ -13,7 +13,8 @@ interface Header {
     catList: Category[],
     selectedCat: number,
     isPremium: boolean,
-    optionalList: Optional[]
+    optionalList: Optional[],
+    userName: string
 }
 
 interface Footer {
@@ -35,7 +36,7 @@ function findPositionFromId(catList: Category[], category_id: number): number {
 }
 
 async function headerGenerator(isHomePage: boolean = true,isLoggedin: boolean = false,
-    isPremium: boolean = false, category_id: number): Promise<Header> {
+    isPremium: boolean = false, category_id: number, userName: string = ""): Promise<Header> {
 
     let selectedCat = -1;
     let optionalList: Optional[] = [];
@@ -59,7 +60,8 @@ async function headerGenerator(isHomePage: boolean = true,isLoggedin: boolean = 
             isPremium,
             catList,
             optionalList,
-            selectedCat // cat start at 0
+            selectedCat, // cat start at 0
+            userName
         };
     }
 
@@ -70,7 +72,8 @@ async function headerGenerator(isHomePage: boolean = true,isLoggedin: boolean = 
         isPremium,
         catList: catList,
         optionalList,
-        selectedCat
+        selectedCat,
+        userName
     }
 }
 

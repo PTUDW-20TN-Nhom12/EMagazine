@@ -16,6 +16,7 @@ router.get("/", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
     const {name, email, birthday, password, repassword, role} = req.body; 
 
+    // create user from request 
     let user = new User(); 
     user.full_name = name; 
     user.role = role; 
@@ -23,13 +24,11 @@ router.post("/", async (req: Request, res: Response) => {
     user.password = password; 
     user.birthday = birthday; 
 
-    console.log(user); 
-
+    // call controller to sign up 
     const userController = new UserController(); 
-
     const result = await userController.signUp(user, repassword); 
     
-    res.status(result.status).json(result.message);
+    res.cookie("access_token", result.access_token, {"maxAge": 360000}).status(result.status).json(result.message);
 })
 
 export {router as signupRouter};

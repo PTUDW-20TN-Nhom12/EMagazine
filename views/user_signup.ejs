@@ -50,7 +50,8 @@
                             <input type="password" id="repassword" class="form-control form-control-lg" />
                             <label class="form-label" for="repassword">Repeat your password</label>
                         </div>
-
+                        <div id="error-text" class="d-flex mb-2 flex-row text-danger">
+                        </div>
                         <button class="btn btn-primary btn-lg btn-block rounded-0 btn-main mb-3" type="submit"
                             onclick="submitSignUpForm()">Sign up</button>
                         <div class="d-flex justify-content-around align-items-center mb-2">
@@ -85,9 +86,12 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    // window.location.href = response.redirect;
+                    window.location.href = '/';
                 },
                 error: function(error) {
+                    console.log(response); 
+                    const errorTextDiv = document.querySelector("#error-text");
+                    errorTextDiv.textContent = response.responseJSON.error;
                 }
             });
         }

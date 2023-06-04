@@ -1,19 +1,31 @@
 import express, {Router, Request, Response} from "express";
-import {JWT} from "../utils/user_controller/jwt-helper";
+import {JWTHelper} from "../utils/user_controller/jwt-helper";
 import { UserController } from "../controllers/user-controller";
+import { UserMiddleware } from "../controllers/middleware/user-middleware";
 
 const router: Router = Router();
 
 router.use(express.json());
 
 const REDIRECT_MAPPING = {
-    "subscriber": "/",
-    "writer": "/writer",
-    "editor": "/editor",
-    "admin": "/admin"
+    "Reader": "/",
+    "Subcriber": "/",
+    "Writer": "/writer",
+    "Editor": "/editor",
+    "Admin": "/admin",
 }
 
-router.get("/", async (req: Request, res: Response) => {
+const userMiddleware = new UserMiddleware(); 
+
+router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    
+    // @ts-ignore
+    if (req.isAuth) { 
+        // @ts-ignore
+        const role = req.jwtObj.role; 
+        res.redirect(REDIRECT_MAPPING[role])
+    }
+    
     res.render("user_signin", {
         title: "Đăng nhập | Lacainews",
     })
@@ -23,8 +35,12 @@ router.get("/", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
     const {email, password} = req.body; 
 
-    res.status(200).json({ redirect: '/' });
+    const userController = new UserController(); 
+    const result = await userController.signIn(email, password); 
 
+    console.log(result); 
+
+    res.cookie("access_token", result.access_token, {"maxAge": 360000}).status(result.status).json(result.message);
 })
 
 export {router as signinRouter};

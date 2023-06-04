@@ -20,6 +20,8 @@
                             <input type="password" id="password" class="form-control form-control-lg" />
                             <label class="form-label" for="password">Password</label>
                         </div>
+                        <div id="error-text" class="d-flex mb-2 flex-row text-danger">
+                        </div>
                         <div class="d-flex mb-2 flex-row-reverse">
                             <a href="/forgot-password">Forgot password?</a>
                         </div>
@@ -60,9 +62,12 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    window.location.href = response.redirect;
+                    window.location.href = '/';
                 },
-                error: function(error) {
+                error: function(response) {
+                    console.log(response); 
+                    const errorTextDiv = document.querySelector("#error-text");
+                    errorTextDiv.textContent = response.responseJSON.error;
                 }
             });
         }

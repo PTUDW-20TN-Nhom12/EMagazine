@@ -9,6 +9,8 @@ import {signupRouter} from './routes/signup-route'
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
 import { setupOauth } from './utils/user_controller/oauth-helper';
 
+// @ts-ignore
+import cookieParser from "cookie-parser";
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -22,6 +24,7 @@ SupabaseDataSource.initialize().catch(console.error);
 
 // Handle (GET, ...) request from router in controller
 app.use("/", express.static("public"));
+app.use(cookieParser());
 
 app.use("/", indexRouter);
 app.use("/signin", signinRouter);
