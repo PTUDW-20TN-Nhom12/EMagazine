@@ -11,16 +11,3 @@ export class PasswordHelper {
     return await bcrypt.compare(password, hashedPassword);
   }
 }
-
-async function run() {
-  let passwordHelper = new PasswordHelper(); 
-
-  const password = '123123';
-  const password2 = '1231231';
-  const hashedPassword = await passwordHelper.encryptPassword(password);
-
-  const isMatch = await passwordHelper.comparePasswords('123123', hashedPassword);
-  console.log('Passwords Match:', isMatch);
-}
-
-run();

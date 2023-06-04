@@ -26,8 +26,6 @@ export class UserMiddleware {
             const targetTimestamp = new Date(req.jwtObj.premium_expired).getTime();
             // @ts-ignore
             req.jwtObj.isPremium = targetTimestamp >= currentTimestamp;
-            // @ts-ignore
-            console.log(req.jwtObj); 
             return next();
         } catch {
             // @ts-ignore

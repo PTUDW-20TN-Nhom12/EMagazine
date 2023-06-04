@@ -21,7 +21,6 @@ export class UserController {
 
         // check password match
         const passwordHelper = new PasswordHelper(); 
-        console.log(password, user.password); 
         const passwordMatch = await passwordHelper.comparePasswords(password, user.password);
         if (!passwordMatch) { 
             result.message = {"error": "Password not match"}; 
