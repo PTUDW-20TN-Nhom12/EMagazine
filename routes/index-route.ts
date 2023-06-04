@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { footerGenerator, headerGenerator } from "../utils/header-footer-generator";
 import { ArticleController } from "../controllers/article-controller";
 import { TagController } from "../controllers/tag-controller";
+import { CommentController } from "../controllers/comment-controller";
 
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
 
@@ -30,12 +31,16 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
     const articleControler = new ArticleController();
     const article = await articleControler.getArticleById(article_id);
     const relatedArticles = await articleControler.getArticlesByCategoryID(article.category.id, 0, 4);
+    const commentController = new CommentController();
 
     res.render("post", {
         // @ts-ignore
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.name),
         footer: await footerGenerator(),
         title: "Nội dung | Lacainews",
+
+        id: article_id,
+        comments: await commentController.getComment(article_id),
 
         category_name: article.category.name,
         imgLink: article.thumbnail_url.replace(/zoom\/260_163\//, ""),

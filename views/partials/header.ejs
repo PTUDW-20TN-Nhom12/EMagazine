@@ -74,6 +74,6 @@
 </header>
 <script>
     document.querySelector("#SearchButton").addEventListener('click', (e) => {
-        window.location.href = '/search/' + document.querySelector("#SearchText").value.trim() + "/0";
+        window.location.href = '/search/' + btoa(document.querySelector("#SearchText").value.trim()) + "/0";
     })
 </script> 
