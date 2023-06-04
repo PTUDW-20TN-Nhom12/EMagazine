@@ -1,20 +1,22 @@
 import {encode, decode} from "jwt-simple";
+import { User } from "../../models/user";
 
 // Singleton
-export class JWT {
+export class JWTHelper {
     public KEY_LENGTH: number = 32;
     private SECRET_KEY: string;
-    private static instance: JWT;
+    private static instance: JWTHelper;
 
     private constructor() {
         this.SECRET_KEY = "";
         this.generateSecretKey();
     }
-    public static getInstance(): JWT {
-        if (!JWT.instance) {
-            JWT.instance = new JWT();
+
+    public static getInstance(): JWTHelper {
+        if (!JWTHelper.instance) {
+            JWTHelper.instance = new JWTHelper();
         }
-        return JWT.instance;
+        return JWTHelper.instance;
     }
 
     // Vulnerable to Race Condition! -> Call first
@@ -37,4 +39,14 @@ export class JWT {
         return decode(jwt, this.SECRET_KEY, false, "HS512");
     }
 
+    public generateAccessTokenByUser(user: User) {
+        const userInfo = {
+            "email": user.email, 
+            "role": user.role, 
+            "name": user.full_name, 
+            "premium_expired": user.premium_expired
+        }
+
+        return this.signJWT(userInfo); 
+    }
 }
