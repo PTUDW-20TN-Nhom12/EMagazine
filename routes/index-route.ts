@@ -95,7 +95,7 @@ router.get("/tag/:id/:page", userMiddleware.authenticate, async (req: Request, r
 })
 
 router.get("/search/:query/:page", userMiddleware.authenticate, async (req: Request, res: Response) => {
-    const query = req.params.query;
+    const query = atob(req.params.query);
     const page = parseInt(req.params.page);
     const articleControler = new ArticleController(); 
     const searchQuery = query.replace(/ /g,"&");
