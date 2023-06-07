@@ -68,6 +68,7 @@ export class ArticleController {
                     date_created: 'DESC',
                 },
                 take: number,
+                cache: true,
             });
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
@@ -145,6 +146,7 @@ export class ArticleController {
                         .orderBy('articles.id', 'ASC')
                         .skip(page * page_size)
                         .take(page_size)
+                        .cache(true)
                         .getMany();
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
@@ -159,6 +161,7 @@ export class ArticleController {
                         .leftJoinAndSelect("articles.category", "category")
                         .leftJoinAndSelect("articles.tags", "tag")
                         .where("category.id = :category_id", { category_id: category_id })
+                        .cache(true)
                         .getCount();
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
@@ -176,6 +179,7 @@ export class ArticleController {
                         .orderBy('articles.id', 'ASC')
                         .skip(page * page_size)
                         .take(page_size)
+                        .cache(true)
                         .getMany();  
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
@@ -190,6 +194,7 @@ export class ArticleController {
                         .leftJoinAndSelect("articles.category", "category")
                         .leftJoinAndSelect("articles.tags", "tag")
                         .where("tag.id = :tag_id", { tag_id: tag_id })
+                        .cache(true)
                         .getCount();
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
@@ -236,6 +241,7 @@ export class ArticleController {
                 where: {
                     id: id,
                 },
+                cache: true,
             });
         } catch (error) {
             console.error(`Failed to retrieve article: ${error.message}`);

@@ -30,6 +30,9 @@ const SupabaseDataSource = new DataSource({
     entities: [Role, Tag, User, Category, Article, ViewLog, Comment, CommentAsGuest],
     synchronize: true,
     logging: false,
+    cache: {
+        duration: 60000
+    }
 })
 
 export {
