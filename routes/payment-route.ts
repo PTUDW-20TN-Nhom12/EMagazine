@@ -1,6 +1,7 @@
 import express, {Router, Request, Response} from "express";
 import { getMoMo } from "../utils/momo_testing";
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
+import { PaymentController } from "../controllers/payment-controller";
 const router: Router = Router();
 
 const userMiddleware = new UserMiddleware();
@@ -58,7 +59,8 @@ router.post("/ipn", async (req: Request, res: Response) => {
     console.log(resultCode);
     if (resultCode == 0) {
         console.log(`Payment successful for ${user_id}, ${amount}VND, +${day} day(s)`);
-        // TODO: Handle here
+        const paymentController = new PaymentController();
+        paymentController.addPremium(user_id, day);
         return res.status(204);
     }
     console.log("Unsuccess");
