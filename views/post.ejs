@@ -27,14 +27,31 @@
     <h2 class="font-weight-normal text-center mb-4 mt-4"><%= category_name %></h3>
     <img src="<%= imgLink %>" class="img-category"/>
     <div class="post-container">  
-      <%- include('post_resource/content2.ejs', {post_data, items}) %>
+      <div id="content-container-all">
+        <%- include('post_resource/content2.ejs', {post_data, items}) %>
+      </div>
       <%- include('post_resource/comment.ejs', {comments}) %>
     </div>
   </main>
   <%- include('partials/footer.ejs', {footer}) %>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+  function exportPdfFromHtml() {
+    const element = $('#content-container-all')[0];
+    const opt = {
+      margin:       1,
+      filename:     'myfile.pdf',
+      image:        { type: 'png', quality: 1 },
+      html2canvas:  { scale: 1 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+  }
+
+
   function addComment() {
     const name = $("#comment-username").val();
     const content = $("#comment-content").val();

@@ -1,7 +1,14 @@
 <h3 class="font-weight-normal"><%= post_data.post_title %></h3>
 <div class="d-flex mt-3">
-  <span><%= moment(post_data.date).format('DD/MM/YYYY') %></span>
-  <i class="ms-auto bi bi-chat-left-dots"></i>
+  <span class="mr-auto"><%= moment(post_data.date).format('DD/MM/YYYY') %></span>
+  <div class="d-flex flex-column">
+    <button id="go-to-cmt-btn" type="button" class="btn btn-dark mt-2">
+      Go to comments <i class="ml-2 bi bi-chat-left-dots"></i>
+    </button>
+    <button id="export-btn" type="button" class="btn btn-dark mt-2" onclick="exportPdfFromHtml()">
+      Export as PDF<i class="ml-2 bi bi-file-earmark-pdf-fill"></i>
+    </button>
+  </div>
 </div>
 <div class="d-flex mt-3 mb-3">
   <% for (let tag of post_data.tags) { %>
