@@ -33,9 +33,9 @@
                         <i class="bi bi-person ms-3" style="font-size: 24px;"></i>
                     </a>
                     <div class="dropdown-content">
-                        <a href="/payment/client">Đăng ký / Gia hạn Premium</a>
-                        <a href="/">Cập nhật thông tin</a>
-                        <a href="/">Đăng xuất</a>
+                        <a href="/payment/client" class="dropdown-item">Đăng ký / Gia hạn Premium</a>
+                        <a href="/" class="dropdown-item">Cập nhật thông tin</a>
+                        <a onclick="signOut()" class="dropdown-item">Đăng xuất</a>
                     </div>
                 </div>
             <% } %>
@@ -88,6 +88,11 @@
     </div>
 </header>
 <script>
+    function signOut() { 
+        document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/';
+    }
+
     document.querySelector("#SearchButton").addEventListener('click', (e) => {
         window.location.href = '/search/' + btoa(document.querySelector("#SearchText").value.trim()) + "/0";
     })
