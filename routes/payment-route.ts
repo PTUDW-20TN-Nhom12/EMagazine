@@ -32,6 +32,8 @@ router.get("/client/:type", userMiddleware.authenticate, async (req: Request, re
     const price = [10000, 49000, 99000];
     const day = [1, 7, 30];
     let url: string = await getMoMo(user_id, price[type], day[type]);
+    // clear current cookies
+    res.clearCookie("access_token");
     res.redirect(url);
 })
 
