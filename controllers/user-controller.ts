@@ -66,7 +66,7 @@ export class UserController {
         }
     }
 
-    private async checkExistEmail(email: string) : Promise<boolean> { 
+    public async checkExistEmail(email: string) : Promise<boolean> { 
         try { 
             return await this.userRepository.createQueryBuilder().where("email = :email", {email: email}).getCount() > 0; 
         } catch (error) {

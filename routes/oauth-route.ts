@@ -15,6 +15,14 @@ router.get("/signup",  async (req: Request, res: Response) => {
   try { 
     const user = JSON.parse(req.cookies.user); 
     const roleController = new RoleController(); 
+    const userController = new UserController();
+
+    if (userController.checkExistEmail(user.email)) { 
+      const result = await userController.signIn(user.email); 
+      res.cookie("access_token", result.access_token, {"maxAge": 360000}).redirect('/');
+      return;
+    }
+
     const roles = await roleController.getRoleEnableToSignup(); 
 
     res.render("user_signup", {
