@@ -7,38 +7,20 @@ import { PasswordHelper } from "../utils/user_controller/password-helper";
 export class UserController {
     private userRepository = SupabaseDataSource.getRepository(User);
     
-    async signIn(email: any, password: any) {
-        // let result = {"status": 200, "message": {}, "access_token": ""}; 
+    async signIn(userEmail: string) {
+        let result = {"status": 200, "message": {}, "access_token": ""}; 
         
-        // const user = await this.getUserByEmail(email); 
+        const user = await this.getUserByEmail(userEmail); 
         
-        // // check email
-        // if (!user) { 
-        //     result.message = {"error": "Email not exist"}; 
-        //     result.status = 400; 
-        //     return result; 
-        // }
+        // generate access token 
+        const jwtHelper = JWTHelper.getInstance(); 
+        const accessTokenUser = jwtHelper.generateAccessTokenByUser(user); 
+        result.access_token = accessTokenUser; 
 
-        // // check password match
-        // const passwordHelper = new PasswordHelper(); 
-        // const passwordMatch = await passwordHelper.comparePasswords(password, user.password);
-        // if (!passwordMatch) { 
-        //     result.message = {"error": "Password not match"}; 
-        //     result.status = 400; 
-        //     return result; 
-        // }
-
-        // // generate access token 
-        // const jwtHelper = JWTHelper.getInstance();  
-        // const accessToken = jwtHelper.generateAccessTokenByUser(user); 
-        // result.access_token = accessToken; 
-
-        // return result; 
+        return result; 
     }
 
     async signUp(user: User, password: string, repassword: string) {
-        console.log(user, password, repassword)
-
         let result = {"status": 200, "message": {}, "access_token": ""}; 
 
         // validate 
@@ -47,7 +29,6 @@ export class UserController {
         if (!validateResult.valid) { 
             result.status = 400; 
             result.message = {"error": validateResult.message}; 
-            console.log(result);
             return result; 
         }
 
@@ -58,8 +39,6 @@ export class UserController {
             result.message = {"error": "Email or linked account with this email is existed!"}; 
             return result; 
         }
-
-        console.log(user);
 
         // sign up 
         const createUserResult = await this.createUser(user); 

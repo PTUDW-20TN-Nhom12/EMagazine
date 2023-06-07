@@ -13,7 +13,8 @@ export class ViewLogController {
         try {
             return await this.viewLogRepository.save(viewLog);
         } catch (error) {
-            throw new Error(`Failed to create view log: ${error.message}`);
+            console.error(`Failed to create view log: ${error.message}`);
+            return null; 
         }
     }
 
@@ -26,7 +27,8 @@ export class ViewLogController {
             
             await this.viewLogRepository.save(viewLog);
         } catch (error) {
-            throw new Error(`Failed to add tag: ${error.message}`);
+            console.error(`Failed to add tag: ${error.message}`);
+            return null; 
         }
     }
 
@@ -34,7 +36,8 @@ export class ViewLogController {
         try {
             return await this.viewLogRepository.find();
         } catch (error) {
-            throw new Error(`Failed to retrieve view logs: ${error.message}`);
+            console.error(`Failed to retrieve view logs: ${error.message}`);
+            return null; 
         }
     }
 
@@ -42,7 +45,8 @@ export class ViewLogController {
         try {
             return await this.viewLogRepository.findOneBy({ id: id });
         } catch (error) {
-            throw new Error(`Failed to retrieve view log: ${error.message}`);
+            console.error(`Failed to retrieve view log: ${error.message}`);
+            return null; 
         }
     }
 
@@ -50,12 +54,14 @@ export class ViewLogController {
         try {
             const viewLog = await this.viewLogRepository.findOneBy({ id: id });
             if (!viewLog) {
-                throw new Error(`View log with ID ${id} not found.`);
+                console.error(`View log with ID ${id} not found.`);
+                return null; 
             }
             viewLog.article = article;
             return await this.viewLogRepository.save(viewLog);
         } catch (error) {
-            throw new Error(`Failed to update view log: ${error.message}`);
+            console.error(`Failed to update view log: ${error.message}`);
+            return null; 
         }
     }
 
@@ -63,11 +69,13 @@ export class ViewLogController {
         try {
             const viewLog = await this.viewLogRepository.findOneBy({ id: id });
             if (!viewLog) {
-                throw new Error(`View log with ID ${id} not found.`);
+                console.error(`View log with ID ${id} not found.`);
+                return null; 
             }
             await this.viewLogRepository.remove(viewLog);
         } catch (error) {
-            throw new Error(`Failed to delete view log: ${error.message}`);
+            console.error(`Failed to delete view log: ${error.message}`);
+            return null; 
         }
     }
 
@@ -75,7 +83,8 @@ export class ViewLogController {
         try {
             await this.viewLogRepository.delete({});
         } catch (error) {
-            throw new Error(`Failed to clear view logs: ${error.message}`);
+            console.error(`Failed to clear view logs: ${error.message}`);
+            return null; 
         }
     }
 }

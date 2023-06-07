@@ -22,6 +22,38 @@ async function signInWithGoogle() {
   })
 }
 
+async function signInWithEmail() { 
+  const email = $('#email').val().trim();
+  const password = $('#password').val().trim();
+
+  const { data, error } = await _supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  })
+
+  if (error) { 
+      const errorTextDiv = document.querySelector("#error-text");
+      errorTextDiv.textContent = "Email or password not match!!!";
+  } else { 
+    const jsonData = {email: data.user.email};
+
+
+    $.ajax({
+      url: '/signin',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(jsonData),
+      success: async function(response) {
+        window.location.href = '/';
+      },
+      error: function(error) {
+          const errorTextDiv = document.querySelector("#error-text");
+          errorTextDiv.textContent = error.responseJSON.error;
+      }
+    });
+  }
+}
+
 async function signUpWithEmail() { 
   const name = $('#name').val().trim(); 
   const email = $('#email').val().trim();
@@ -67,7 +99,6 @@ async function signUpWithEmail() {
         window.location.href = '/';
       },
       error: function(error) {
-          console.log(error); 
           const errorTextDiv = document.querySelector("#error-text");
           errorTextDiv.textContent = error.responseJSON.error;
       }

@@ -13,7 +13,7 @@ export class UserMiddleware {
             req.jwtObj = {"name": "", "isPremium": false};
             return next();
         }
-
+        
         try {
             const jwtHelper = JWTHelper.getInstance(); 
             const data = jwtHelper.verifyJWT(token);
@@ -26,6 +26,7 @@ export class UserMiddleware {
             const targetTimestamp = new Date(req.jwtObj.premium_expired).getTime();
             // @ts-ignore
             req.jwtObj.isPremium = targetTimestamp >= currentTimestamp;
+            // @ts-ignore
             return next();
         } catch {
             // @ts-ignore

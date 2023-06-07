@@ -8,7 +8,6 @@ export class RoleController {
     try {
       let results = await this.roleRepository.query('SELECT name FROM roles WHERE is_enabled = true;');
       results = results.map(item => item.name);
-      console.log(results); 
       return results; 
     } catch (error) {
       console.error(`Failed to get role to signup: ${error.message}`);

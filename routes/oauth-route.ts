@@ -24,7 +24,7 @@ router.get("/signup",  async (req: Request, res: Response) => {
         user: user
     })
   } catch (error) { 
-    console.log("Fail to render oauth signup ", error)
+    console.error("Fail to render oauth signup ", error)
     res.status(400);
   }
 })

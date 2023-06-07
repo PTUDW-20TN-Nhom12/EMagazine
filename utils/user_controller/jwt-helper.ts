@@ -23,13 +23,14 @@ export class JWTHelper {
   // Vulnerable to Race Condition! -> Call first
   private generateSecretKey(): void {
     if (this.SECRET_KEY != "") return; // Already created
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for (let i = 0; i < this.KEY_LENGTH; i++) {
-      this.SECRET_KEY += characters.charAt(
-        Math.floor(Math.random() * charactersLength)
-      );
-    }
+    // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // const charactersLength = characters.length;
+    // for (let i = 0; i < this.KEY_LENGTH; i++) {
+    //   this.SECRET_KEY += characters.charAt(
+    //     Math.floor(Math.random() * charactersLength)
+    //   );
+    // }
+    this.SECRET_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   }
 
   public signJWT(obj: object): string {

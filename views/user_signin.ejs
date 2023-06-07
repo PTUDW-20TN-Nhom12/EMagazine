@@ -26,7 +26,7 @@
                             <a href="/forgot-password">Forgot password?</a>
                         </div>
                         <button class="btn btn-primary btn-lg btn-block rounded-0 btn-main mb-3" type="submit"
-                            onclick="submitSignInForm()">Sign in</button>
+                            onclick="signInWithEmail()">Sign in</button>
                         <div class="d-flex justify-content-around align-items-center mb-2">
                             <p class="mb-0">Don't have an account? <a href="/signup">Sign up</a></p>
                         </div>
@@ -51,31 +51,4 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="/asset/js/authenticate.js"></script>
-    <script>
-        function submitSignInForm() {
-            const email = $('#email').val();
-            const password = $('#password').val();
-
-            const data = {
-                email: email,
-                password: password
-            };
-
-            $.ajax({
-                url: '/signin',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(data),
-                success: function (response) {
-                    window.location.href = '/';
-                },
-                error: function (response) {
-                    console.log(response);
-                    const errorTextDiv = document.querySelector("#error-text");
-                    errorTextDiv.textContent = response.responseJSON.error;
-                }
-            });
-        }
-
-    </script>
-    <%- include('signin_signup_resource/user/footer.ejs') %>
+<%- include('signin_signup_resource/user/footer.ejs') %>
