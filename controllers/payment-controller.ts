@@ -10,17 +10,17 @@ export class PaymentController {
         let new_expired: number = 0;
 
         if (u.premium_expired === null) {
-            new_expired = currentTimestamp + 86400 * days;
+            new_expired = currentTimestamp + 86400000 * days;
         } else {
             // @ts-ignore
             const targetTimestamp = new Date(u.premium_expired).getTime();
             // Currently premium
             if (currentTimestamp < targetTimestamp) {
                 // Add target
-                new_expired = targetTimestamp + 86400 * days;
+                new_expired = targetTimestamp + 86400000 * days;
             } else {
                 // Not premium
-                new_expired = currentTimestamp + 86400 * days;
+                new_expired = currentTimestamp + 86400000 * days;
             }
         }
 
