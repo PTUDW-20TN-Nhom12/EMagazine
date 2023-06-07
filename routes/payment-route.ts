@@ -1,17 +1,28 @@
 import express, {Router, Request, Response} from "express";
 import { getMoMo } from "../utils/momo_testing";
+import { UserMiddleware } from "../controllers/middleware/user-middleware";
 const router: Router = Router();
 
+const userMiddleware = new UserMiddleware();
 router.use(express.json());
 
-router.get("/client", async (req: Request, res: Response) => {
-    // TODO: render payment page
-    res.status(200).json();
+router.get("/client", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    // @ts-ignore
+    if (!req.isAuth) {
+        return res.status(401).send("Unauthorized");
+    }
+    res.status(200).render("pricing");
 })
 
 // TODO: change to jwt's authentication to get user id!
-router.get("/client/:id/:type", async (req: Request, res: Response) => {
-    const user_id = parseInt(req.params.id);
+router.get("/client/:type", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    // @ts-ignore
+    if (!req.isAuth) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    // @ts-ignore
+    const user_id = req.jwtObj.id;
     const type = parseInt(req.params.type); // 0, 1, 2
     if (type < 0 || type > 2) {
         return res.status(404);
@@ -51,7 +62,7 @@ router.post("/ipn", async (req: Request, res: Response) => {
         return res.status(204);
     }
     console.log("Unsuccess");
-    res.status(400);
+    res.status(204);
 })
 
 export {router as PaymentRouter};
