@@ -3,8 +3,8 @@ import { footerGenerator, headerGenerator } from "../utils/header-footer-generat
 import { ArticleController } from "../controllers/article-controller";
 import { TagController } from "../controllers/tag-controller";
 import { CommentController } from "../controllers/comment-controller";
-
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
+import puppeteer from 'puppeteer';
 
 const router: Router = Router();
 const ART_PER_PAGE = 6;
@@ -61,6 +61,42 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
         // @ts-ignore
         is_premium: req.jwtObj.isPremium,
     })
+})
+
+router.get("/api/raw-content/:id", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    const article_id = parseInt(req.params.id);
+    const articleControler = new ArticleController();
+    const article = await articleControler.getArticleById(article_id);
+
+    res.render("raw_post", {
+        // @ts-ignore
+        title: "Nội dung | Lacainews",
+        id: article_id,
+        category_name: article.category.name,
+        post_data: {
+            post_title: article.title,
+            date: article.date_created,
+            tags: article.tags,
+            content: article.content
+        },
+    })
+})
+
+router.get("/api/render-pdf/:id", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    // @ts-ignore
+    if (!req.jwtObj.isPremium) {
+        res.status(404).send("You do not have rights to visit this page");
+    }
+
+    const id = parseInt(req.params.id);
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.goto(req.protocol + '://' + req.headers.host +  `/api/raw-content/${id}`, {waitUntil: 'networkidle0'});
+    const pdf = await page.pdf({ format: 'A4' });
+    
+    await browser.close();
+    res.setHeader("filename", `article-${id}.pdf`);
+    res.send(pdf);
 })
 
 router.get("/category/:id/:page", userMiddleware.authenticate, async (req: Request, res: Response) => {

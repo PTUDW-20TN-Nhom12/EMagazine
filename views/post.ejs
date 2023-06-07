@@ -1,78 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap" rel="stylesheet"> 
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet"> 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Open+Sans:wght@300&display=swap" rel="stylesheet"> 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <link href="/asset/css/header.css" rel="stylesheet">
-  <link href="/asset/css/footer.css" rel="stylesheet">
-  <link href="/asset/css/comment.css" rel="stylesheet">
-  <link href="/asset/css/post.css" rel="stylesheet">
-  <link href="/asset/css/content.css" rel="stylesheet">
-  <link href="/asset/css/item.css" rel="stylesheet">
-  <link href="/asset/css/bootstrap-isolate.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Open+Sans:wght@300&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="/asset/css/header.css" rel="stylesheet">
+    <link href="/asset/css/footer.css" rel="stylesheet">
+    <link href="/asset/css/comment.css" rel="stylesheet">
+    <link href="/asset/css/post.css" rel="stylesheet">
+    <link href="/asset/css/content.css" rel="stylesheet">
+    <link href="/asset/css/item.css" rel="stylesheet">
+    <link href="/asset/css/bootstrap-isolate.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+
 <body>
-  <%- include('partials/header.ejs', {header}) %>
-  <main id="bootstrap-isolate">
-    <h2 class="font-weight-normal text-center mb-4 mt-4"><%= category_name %></h3>
-    <img src="<%= imgLink %>" class="img-category"/>
-    <div class="post-container">  
-      <div id="content-container-all">
-        <%- include('post_resource/content2.ejs', {post_data, items, is_premium}) %>
-      </div>
-      <%- include('post_resource/comment.ejs', {comments}) %>
-    </div>
-  </main>
-  <%- include('partials/footer.ejs', {footer}) %>
+    <%- include('partials/header.ejs', {header}) %>
+        <main id="bootstrap-isolate">
+            <h2 class="font-weight-normal text-center mb-4 mt-4">
+                <%= category_name %>
+                    </h3>
+                    <img src="<%= imgLink %>" class="img-category" />
+                    <div class="post-container">
+                        <div id="content-container-all">
+                            <%- include('post_resource/content2.ejs', {post_data, items, is_premium}) %>
+                        </div>
+                        <%- include('post_resource/comment.ejs', {comments}) %>
+                    </div>
+        </main>
+        <%- include('partials/footer.ejs', {footer}) %>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-  function exportPdfFromHtml() {
-    const element = $('#content-container-all')[0];
-    const opt = {
-      margin:       1,
-      filename:     'myfile.pdf',
-      image:        { type: 'png', quality: 1 },
-      html2canvas:  { scale: 1 },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
-    };
+    function downloadFile(urlToSend) {
+        let req = new XMLHttpRequest();
+        req.open("GET", urlToSend, true);
+        req.responseType = "blob";
+        req.onload = function (event) {
+            let blob = req.response;
+            let fileName = req.getResponseHeader("fileName");
+            let link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        };
 
-    html2pdf().set(opt).from(element).save();
-  }
+        req.send();
+    }
+    function exportPdfFromHtml() {
+        let url = window.location.pathname.replace('/content', '/api/render-pdf');
+        downloadFile(url)
+    }
 
 
-  function addComment() {
-    const name = $("#comment-username").val();
-    const content = $("#comment-content").val();
+    function addComment() {
+        const name = $("#comment-username").val();
+        const content = $("#comment-content").val();
 
-    const article_id = <%= id %>;
+        const article_id = <%= id %>;
 
-    // TODO: for logged in user
-    $.ajax({
-      type: 'post',
-      url: '/comment',
-      data: JSON.stringify({
-        name,
-        content,
-        article_id
-      }),
-      contentType: "application/json; charset=utf-8",
-      traditional: true,
-      success: function (data) {
-        location.reload();
-      }
-    });
-  }
+        // TODO: for logged in user
+        $.ajax({
+            type: 'post',
+            url: '/comment',
+            data: JSON.stringify({
+                name,
+                content,
+                article_id
+            }),
+            contentType: "application/json; charset=utf-8",
+            traditional: true,
+            success: function (data) {
+                location.reload();
+            }
+        });
+    }
 </script>
+
 </html>
