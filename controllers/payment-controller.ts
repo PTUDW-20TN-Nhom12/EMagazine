@@ -27,7 +27,7 @@ export class PaymentController {
         // Update
         await this.userRepository.save({
             id: u.id,
-            premium_expired: new_expired
+            premium_expired: new Date(new_expired)
         });
     }
 }
