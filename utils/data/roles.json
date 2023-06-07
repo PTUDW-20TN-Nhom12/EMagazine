@@ -1,32 +1,56 @@
-{
-  "Roles": [
+[
     {
-      "id": 1,
-      "name": "subscriber",
-      "description": "Role for subscribers.",
-      "category_id": null,
-      "is_enabled": true
+        "name": "admin",
+        "description": "Administrator role with full access and administrative privileges.",
+        "category": null,
+        "is_enabled": false
     },
     {
-      "id": 2,
-      "name": "writer",
-      "description": "Role for writers.",
-      "category_id": null,
-      "is_enabled": true
+        "name": "writer",
+        "description": "Writer role with permissions to create and submit articles.",
+        "category": null,
+        "is_enabled": true
     },
     {
-      "id": 3,
-      "name": "editor",
-      "description": "Role for editors.",
-      "category_id": null,
-      "is_enabled": true
+        "name": "subscriber",
+        "description": "Subscriber role with access to premium content and features.",
+        "category": null,
+        "is_enabled": false
     },
     {
-      "id": 4,
-      "name": "administrator",
-      "description": "Role for administrators.",
-      "category_id": null,
-      "is_enabled": false
+        "name": "reader",
+        "description": "Reader role with access to general content and features.",
+        "category": null,
+        "is_enabled": true
+    },
+    {
+        "name": "editor",
+        "description": "Editor role with permissions to check and edit content.",
+        "category": 3,
+        "is_enabled": false
+    },
+    {
+        "name": "editor",
+        "description": "Editor role with permissions to check and edit content.",
+        "category": 6,
+        "is_enabled": false
+    },
+    {
+        "name": "editor",
+        "description": "Editor role with permissions to check and edit content.",
+        "category": 7,
+        "is_enabled": false
+    },
+    {
+        "name": "editor",
+        "description": "Editor role with permissions to check and edit content.",
+        "category": 9,
+        "is_enabled": false
+    },
+    {
+        "name": "editor",
+        "description": "Editor role with permissions to check and edit content.",
+        "category": 11,
+        "is_enabled": false
     }
-  ]
-}
+]

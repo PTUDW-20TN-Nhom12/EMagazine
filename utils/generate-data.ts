@@ -3,6 +3,7 @@ import categories from './data/categories.json';
 import articles from './data/articles.json';
 import articlestags from './data/articlestags.json';
 import viewslog from './data/viewslog.json';
+import roles from './data/roles.json';
 
 import "reflect-metadata";
 import { AppDataSource, SupabaseDataSource } from "../models/data_source";
@@ -10,6 +11,33 @@ import { TagController } from '../controllers/tag-controller';
 import { CategoryController } from '../controllers/category-controller';
 import { ArticleController } from '../controllers/article-controller';
 import { ViewLogController } from '../controllers/viewslog-controller';
+import { RoleController } from '../controllers/role-controller';
+import { UserRole } from "../models/role";
+
+function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getRandomTimestamp(startDate: Date, endDate: Date): string {
+    const startTimestamp = startDate.getTime();
+    const endTimestamp = endDate.getTime();
+    const randomTimestamp = Math.floor(
+        startTimestamp + Math.random() * (endTimestamp - startTimestamp)
+    );
+    const date = new Date(randomTimestamp);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+const startDate = new Date("2022-01-01");
+const endDate = new Date("2023-5-31");
 
 async function reset() {
     const articleController = new ArticleController();
@@ -49,11 +77,25 @@ async function initArticles() {
 
     for (let article of articles) {
         let n = article['Cate'].length;
-        let category = await categoryController.getCategoryByName(article['Cate'][n-1])
-        await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], false);
+        let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
+        let k = randomIntFromInterval(0, 2);
+        let is_pre = false;
+        if (k == 2) {
+            is_pre = true;
+        }
+        const timestamp = getRandomTimestamp(startDate, endDate);
+        await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'],timestamp, is_pre);
     }
     for (let articletag of articlestags['ArticlesTags']) {
         articleController.addTag(articletag['articles_id'], articletag['tag_id']);
+    }
+}
+
+async function initRoles() {
+    const roleController = new RoleController();
+    for (let role of roles) {
+        const key = Object.keys(UserRole).filter(x => UserRole[x] == role['name'])[0];
+        await roleController.createRole(UserRole[key], role['description'], role['category'], role['is_enabled'])
     }
 }
 
@@ -65,18 +107,19 @@ async function initViewLog() {
 }
 
 async function init() {
-    await SupabaseDataSource.initialize()
-    .then(async () => {
-        console.log('Init connection completed');
-        // await reset();
-        // await initTags();
-        // await initCategories();
-        // await initArticles();
-        await initViewLog();
-    }) 
-    .catch((err) => {
-        console.error("Error during Data Source initialization", err)
-    });
+    SupabaseDataSource.initialize()
+        .then(async () => {
+            console.log('Init connection completed');
+            // await reset();
+            // await initTags();
+            // await initCategories();
+            // await initRoles();
+            await initArticles();
+            await initViewLog();
+        })
+        .catch((err) => {
+            console.error("Error during Data Source initialization", err)
+        });
 };
 
 init();

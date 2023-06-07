@@ -4,6 +4,7 @@ import {User} from "../models/user";
 import {Tag} from "../models/tag";
 import {Category} from "../models/category";
 import {Like} from "typeorm";
+import moment from "moment";
 
 export class ArticleController {
     private articleRepository = SupabaseDataSource.getRepository(Article);
@@ -15,6 +16,7 @@ export class ArticleController {
         short_description: string,
         content: string,
         thumbnail_url: string,
+        timestamp: string,
         is_premium: boolean
     ): Promise<Article> {
         const article = new Article();
@@ -24,6 +26,7 @@ export class ArticleController {
         article.short_description = short_description;
         article.content = content;
         article.thumbnail_url = thumbnail_url;
+        article.date_created = moment(timestamp).toDate();
         article.is_premium = is_premium;
         article.tags = [];
 
