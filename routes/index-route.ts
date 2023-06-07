@@ -54,6 +54,8 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
             content: article.content
         },
         items: relatedArticles,  
+        // @ts-ignore
+        is_premium: req.jwtObj.isPremium,
     })
 })
 

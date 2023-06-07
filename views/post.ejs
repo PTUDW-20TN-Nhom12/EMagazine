@@ -28,7 +28,7 @@
     <img src="<%= imgLink %>" class="img-category"/>
     <div class="post-container">  
       <div id="content-container-all">
-        <%- include('post_resource/content2.ejs', {post_data, items}) %>
+        <%- include('post_resource/content2.ejs', {post_data, items, is_premium}) %>
       </div>
       <%- include('post_resource/comment.ejs', {comments}) %>
     </div>

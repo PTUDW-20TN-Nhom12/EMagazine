@@ -5,9 +5,11 @@
     <button id="go-to-cmt-btn" type="button" class="btn btn-dark mt-2">
       Go to comments <i class="ml-2 bi bi-chat-left-dots"></i>
     </button>
-    <button id="export-btn" type="button" class="btn btn-dark mt-2" onclick="exportPdfFromHtml()">
-      Export as PDF<i class="ml-2 bi bi-file-earmark-pdf-fill"></i>
-    </button>
+    <% if (is_premium) { %>
+      <button id="export-btn" type="button" class="btn btn-dark mt-2" onclick="exportPdfFromHtml()">
+        Export as PDF<i class="ml-2 bi bi-file-earmark-pdf-fill"></i>
+      </button>
+    <% } %>
   </div>
 </div>
 <div class="d-flex mt-3 mb-3">
