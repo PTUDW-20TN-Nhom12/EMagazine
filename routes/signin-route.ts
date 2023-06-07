@@ -38,7 +38,7 @@ router.post("/", async (req: Request, res: Response) => {
     const userController = new UserController(); 
     const result = await userController.signIn(email, password); 
 
-    res.cookie("access_token", result.access_token, {"maxAge": 360000}).status(result.status).json(result.message);
+    // res.cookie("access_token", result.access_token, {"maxAge": 360000}).status(result.status).json(result.message);
 })
 
 export {router as signinRouter};

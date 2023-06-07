@@ -34,18 +34,23 @@
                             <p class="text-center mx-3 mb-0 text-muted">or</p>
                         </div>
 
-                        <button class="btn btn-lg btn-block btn-primary rounded-0" type="submit"><i
-                                class="fab fa-google me-2"></i>
-                            Continue with Google</button>
-                        <button class="btn btn-lg btn-block btn-primary mb-2 rounded-0" type="submit"><i
-                                class="fab fa-facebook-f me-2 rounded-0"></i>
-                            Continue with
-                            Facebook</button>
+                        <button class="btn btn-lg btn-block btn-primary rounded-0" type="submit"
+                            onclick="signInWithFacebook()">
+                                <i class="fab fa-google me-2"></i>
+                                Continue with Google
+                        </button>
+                        <button class="btn btn-lg btn-block btn-primary mb-2 rounded-0" type="submit"
+                            onclick="signInWithFacebook()">
+                                <i class="fab fa-facebook-f me-2 rounded-0"></i>
+                                Continue with Facebook
+                        </button>
                     </div>
                 </div>
             </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="/asset/js/authenticate.js"></script>
     <script>
         function submitSignInForm() {
             const email = $('#email').val();
@@ -61,15 +66,16 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-                success: function(response) {
+                success: function (response) {
                     window.location.href = '/';
                 },
-                error: function(response) {
-                    console.log(response); 
+                error: function (response) {
+                    console.log(response);
                     const errorTextDiv = document.querySelector("#error-text");
                     errorTextDiv.textContent = response.responseJSON.error;
                 }
             });
         }
+
     </script>
-<%- include('signin_signup_resource/user/footer.ejs') %>
+    <%- include('signin_signup_resource/user/footer.ejs') %>

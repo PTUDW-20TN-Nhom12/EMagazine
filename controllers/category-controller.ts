@@ -12,7 +12,8 @@ export class CategoryController {
         if (parentId) {
             const parentCategory = await this.categoryRepository.findOneBy({ id: parentId });
             if (!parentCategory) {
-                throw new Error(`Parent category with ID ${parentId} not found.`);
+                console.error(`Parent category with ID ${parentId} not found.`);
+                return null;
             }
             category.parent = parentCategory;
         }
@@ -20,7 +21,8 @@ export class CategoryController {
         try {
             return await this.categoryRepository.save(category);
         } catch (error) {
-            throw new Error(`Failed to create category: ${error.message}`);
+            console.error(`Failed to create category: ${error.message}`);
+            return null;
         }
     }
 
@@ -28,7 +30,8 @@ export class CategoryController {
         try {
             return await this.categoryRepository.find();
         } catch (error) {
-            throw new Error(`Failed to retrieve categories: ${error.message}`);
+            console.error(`Failed to retrieve categories: ${error.message}`);
+            return null;
         }
     }
 
@@ -48,7 +51,8 @@ export class CategoryController {
             }
             );
         } catch (error) {
-            throw new Error(`Failed to retrieve categories: ${error.message}`);
+            console.error(`Failed to retrieve categories: ${error.message}`);
+            return null;
         }
     }
 
@@ -56,7 +60,8 @@ export class CategoryController {
         try {
             return await this.categoryRepository.findOneBy({ id: id });
         } catch (error) {
-            throw new Error(`Failed to retrieve category: ${error.message}`);
+            console.error(`Failed to retrieve category: ${error.message}`);
+            return null;
         }
     }
 
@@ -64,7 +69,8 @@ export class CategoryController {
         try {
             return await this.categoryRepository.findOneBy({ name: name });
         } catch (error) {
-            throw new Error(`Failed to retrieve category: ${error.message}`);
+            console.error(`Failed to retrieve category: ${error.message}`);
+            return null;
         }
     }
 
@@ -72,14 +78,16 @@ export class CategoryController {
         try {
             const category = await this.categoryRepository.findOneBy({ id: id });
             if (!category) {
-                throw new Error(`Category with ID ${id} not found.`);
+                console.error(`Category with ID ${id} not found.`);
+                return null;
             }
             category.name = name;
             category.description = description;
             if (parentId) {
                 const parentCategory = await this.categoryRepository.findOneBy({ id: parentId });
                 if (!parentCategory) {
-                    throw new Error(`Parent category with ID ${parentId} not found.`);
+                    console.error(`Parent category with ID ${parentId} not found.`);
+                    return null;
                 }
                 category.parent = parentCategory;
             } else {
@@ -87,7 +95,8 @@ export class CategoryController {
             }
             return await this.categoryRepository.save(category);
         } catch (error) {
-            throw new Error(`Failed to update category: ${error.message}`);
+            console.error(`Failed to update category: ${error.message}`);
+            return null;
         }
     }
 
@@ -95,11 +104,13 @@ export class CategoryController {
         try {
             const category = await this.categoryRepository.findOneBy({ id: id });
             if (!category) {
-                throw new Error(`Category with ID ${id} not found.`);
+                console.error(`Category with ID ${id} not found.`);
+                return null;
             }
             await this.categoryRepository.remove(category);
         } catch (error) {
-            throw new Error(`Failed to delete category: ${error.message}`);
+            console.error(`Failed to delete category: ${error.message}`);
+            return null;
         }
     }
 
@@ -107,7 +118,8 @@ export class CategoryController {
         try {
             await this.categoryRepository.delete({});
         } catch (error) {
-            throw new Error(`Failed to clear categories: ${error.message}`);
+            console.error(`Failed to clear categories: ${error.message}`);
+            return null;
         }
     }
 }

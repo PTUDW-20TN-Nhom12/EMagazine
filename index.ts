@@ -5,13 +5,12 @@ import "reflect-metadata"; // Required for typeORM, import globally
 import { indexRouter } from './routes/index-route'
 import {signinRouter} from './routes/signin-route'
 import {signupRouter} from './routes/signup-route'
+import {oauthRouter} from './routes/oauth-route'
+import { CommentRouter as commentRouter } from './routes/comment-route';
 
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
-import { setupOauth } from './utils/user_controller/oauth-helper';
-
 // @ts-ignore
 import cookieParser from "cookie-parser";
-import { CommentRouter as commentRouter } from './routes/comment-route';
 
 const PORT: number = parseInt(process.env.PORT) || 8080;
 const app: Express = express();
@@ -31,13 +30,8 @@ app.use("/", indexRouter);
 app.use("/signin", signinRouter);
 app.use("/signup", signupRouter);
 app.use("/comment", commentRouter);
+app.use("/oauth", oauthRouter);
 
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);
-})
-
-setupOauth(app, (name, email) => {
-    console.log({name, email})
-    // Handle database here!
-    return true;
 })
