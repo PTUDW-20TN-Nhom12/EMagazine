@@ -78,7 +78,8 @@ export class UserController {
             user.password = await passwordHelper.encryptPassword(user.password); 
             return await this.userRepository.save(user);
         } catch (error) {
-            throw new Error(`Failed to create user: ${error.message}`);
+            console.error(`Failed to create user: ${error.message}`);
+            return null; 
         }
     }
 
@@ -86,7 +87,8 @@ export class UserController {
         try { 
             return await this.userRepository.createQueryBuilder().where("email = :email", {email: email}).getCount() > 0; 
         } catch (error) {
-            throw new Error(`Failed to get email (check existed email): ${error.message}`);
+            console.error(`Failed to get email (check existed email): ${error.message}`);
+            return null; 
         }
     }
 
@@ -94,7 +96,8 @@ export class UserController {
         try { 
             return await this.userRepository.createQueryBuilder().where("email = :email", {email: email}).getOne();
         } catch (error) { 
-            throw new Error(`Failed to get user by email: ${error.message}`);
+            console.error(`Failed to get user by email: ${error.message}`);
+            return null; 
         }
     }
 }
