@@ -12,7 +12,8 @@ export class TagController {
         try {
             return await this.tagRepository.save(tag);
         } catch (error) {
-            throw new Error(`Failed to create tag: ${error.message}`);
+            console.error(`Failed to create tag: ${error.message}`);
+            return null; 
         }
     }
 
@@ -20,7 +21,8 @@ export class TagController {
         try {
             return await this.tagRepository.find();
         } catch (error) {
-            throw new Error(`Failed to retrieve tags: ${error.message}`);
+            console.error(`Failed to retrieve tags: ${error.message}`);
+            return null; 
         }
     }
 
@@ -28,7 +30,8 @@ export class TagController {
         try {
             return await this.tagRepository.findOneBy({ id: id });
         } catch (error) {
-            throw new Error(`Failed to retrieve tag: ${error.message}`);
+            console.error(`Failed to retrieve tag: ${error.message}`);
+            return null; 
         }
     }
 
@@ -36,13 +39,15 @@ export class TagController {
         try {
             const tag = await this.tagRepository.findOneBy({ id: id });
             if (!tag) {
-                throw new Error(`Tag with ID ${id} not found.`);
+                console.error(`Tag with ID ${id} not found.`);
+                return null; 
             }
             tag.name = name;
             tag.description = description;
             return await this.tagRepository.save(tag);
         } catch (error) {
-            throw new Error(`Failed to update tag: ${error.message}`);
+            console.error(`Failed to update tag: ${error.message}`);
+            return null; 
         }
     }
 
@@ -50,11 +55,13 @@ export class TagController {
         try {
             const tag = await this.tagRepository.findOneBy({ id: id });
             if (!tag) {
-                throw new Error(`Tag with ID ${id} not found.`);
+                console.error(`Tag with ID ${id} not found.`);
+                return null; 
             }
             await this.tagRepository.remove(tag);
         } catch (error) {
-            throw new Error(`Failed to delete tag: ${error.message}`);
+            console.error(`Failed to delete tag: ${error.message}`);
+            return null; 
         }
     }
 
@@ -62,7 +69,8 @@ export class TagController {
         try {
             await this.tagRepository.delete({});
         } catch (error) {
-            throw new Error(`Failed to clear categories: ${error.message}`);
+            console.error(`Failed to clear categories: ${error.message}`);
+            return null; 
         }
     }
 }

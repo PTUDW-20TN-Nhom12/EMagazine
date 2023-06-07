@@ -6,16 +6,11 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    // @ManyToOne(() => Role, { nullable: false })
-    // role: Role;
-    @Column({ nullable: false, length: 64 })
-    role: string; 
+    @ManyToOne(() => Role, { nullable: false })
+    role: Role;
 
     @Column({ unique: true })
     email: string;
-
-    @Column({ nullable: false })
-    password: string;
 
     @Column({ nullable: false, length: 64 })
     full_name: string;

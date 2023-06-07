@@ -7,41 +7,25 @@ import { PasswordHelper } from "../utils/user_controller/password-helper";
 export class UserController {
     private userRepository = SupabaseDataSource.getRepository(User);
     
-    async signIn(email: any, password: any) {
+    async signIn(userEmail: string) {
         let result = {"status": 200, "message": {}, "access_token": ""}; 
         
-        const user = await this.getUserByEmail(email); 
+        const user = await this.getUserByEmail(userEmail); 
         
-        // check email
-        if (!user) { 
-            result.message = {"error": "Email not exist"}; 
-            result.status = 400; 
-            return result; 
-        }
-
-        // check password match
-        const passwordHelper = new PasswordHelper(); 
-        const passwordMatch = await passwordHelper.comparePasswords(password, user.password);
-        if (!passwordMatch) { 
-            result.message = {"error": "Password not match"}; 
-            result.status = 400; 
-            return result; 
-        }
-
         // generate access token 
-        const jwtHelper = JWTHelper.getInstance();  
-        const accessToken = jwtHelper.generateAccessTokenByUser(user); 
-        result.access_token = accessToken; 
+        const jwtHelper = JWTHelper.getInstance(); 
+        const accessTokenUser = jwtHelper.generateAccessTokenByUser(user); 
+        result.access_token = accessTokenUser; 
 
         return result; 
     }
 
-    async signUp(user: User, repassword: string) {
+    async signUp(user: User, password: string, repassword: string) {
         let result = {"status": 200, "message": {}, "access_token": ""}; 
 
         // validate 
         const userValidation = new UserValidation(); 
-        const validateResult = userValidation.validate(user, repassword); 
+        const validateResult = userValidation.validate(user, password, repassword); 
         if (!validateResult.valid) { 
             result.status = 400; 
             result.message = {"error": validateResult.message}; 
@@ -52,7 +36,7 @@ export class UserController {
         const emailExisted = await this.checkExistEmail(user.email); 
         if (emailExisted) { 
             result.status = 400; 
-            result.message = {"error": "Email is existed!"}; 
+            result.message = {"error": "Email or linked account with this email is existed!"}; 
             return result; 
         }
 
@@ -72,10 +56,9 @@ export class UserController {
         return result; 
     }
 
-    private async createUser(user: User) {
+    public async createUser(user: User) {
         try {
             const passwordHelper = new PasswordHelper(); 
-            user.password = await passwordHelper.encryptPassword(user.password); 
             return await this.userRepository.save(user);
         } catch (error) {
             console.error(`Failed to create user: ${error.message}`);

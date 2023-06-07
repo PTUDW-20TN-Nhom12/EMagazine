@@ -31,7 +31,7 @@ export class ArticleController {
             return await this.articleRepository.save(article);
         } catch (error) {
             console.error(`Failed to create article: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -51,7 +51,7 @@ export class ArticleController {
             return ret;
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -68,7 +68,7 @@ export class ArticleController {
             });
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -87,7 +87,7 @@ export class ArticleController {
             return ret;
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -116,7 +116,7 @@ export class ArticleController {
             return ret;
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -128,7 +128,7 @@ export class ArticleController {
             await this.articleRepository.save(article);
         } catch (error) {
             console.error(`Failed to add tag: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -145,7 +145,7 @@ export class ArticleController {
                         .getMany();
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -159,7 +159,7 @@ export class ArticleController {
                         .getCount();
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -176,7 +176,7 @@ export class ArticleController {
                         .getMany();  
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -190,7 +190,7 @@ export class ArticleController {
                         .getCount();
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -208,7 +208,7 @@ export class ArticleController {
             return ret;
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -219,7 +219,7 @@ export class ArticleController {
             WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', '${search_query}'))`)
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -236,7 +236,7 @@ export class ArticleController {
             });
         } catch (error) {
             console.error(`Failed to retrieve article: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -254,7 +254,7 @@ export class ArticleController {
             const article = await this.articleRepository.findOneBy({ id: id });
             if (!article) {
                 console.error(`Article with ID ${id} not found.`);
-                return null; 
+                return null;
             }
             // article.author = author;
             article.category = category;
@@ -266,7 +266,7 @@ export class ArticleController {
             return await this.articleRepository.save(article);
         } catch (error) {
             console.error(`Failed to update article: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -275,12 +275,12 @@ export class ArticleController {
             const article = await this.articleRepository.findOneBy({ id: id });
             if (!article) {
                 console.error(`Article with ID ${id} not found.`);
-                return null; 
+                return null;
             }
             await this.articleRepository.remove(article);
         } catch (error) {
             console.error(`Failed to delete article: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 
@@ -289,7 +289,7 @@ export class ArticleController {
             await this.articleRepository.delete({});
         } catch (error) {
             console.error(`Failed to clear articles: ${error.message}`);
-            return null; 
+            return null;
         }
     }
 }

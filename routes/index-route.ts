@@ -14,10 +14,13 @@ const userMiddleware = new UserMiddleware();
 router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
     const articleControler = new ArticleController();
 
+    // @ts-ignore
+    console.log(req.jwtObj)
+
     res.render("index", {
         title: "Trang chủ | Lacainews",
         // @ts-ignore
-        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.name),
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
         moi_nhat: await articleControler.getLatestArticles(),
         nhieu_nhat: await articleControler.getMostViewsArticles(),
@@ -35,7 +38,7 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
 
     res.render("post", {
         // @ts-ignore
-        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.name),
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
         title: "Nội dung | Lacainews",
 
@@ -68,7 +71,7 @@ router.get("/category/:id/:page", userMiddleware.authenticate, async (req: Reque
         current_page: page,
         max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
         // @ts-ignore
-        header: await headerGenerator(false, false, req.jwtObj.isPremium, category_id, req.jwtObj.name),
+        header: await headerGenerator(false, false, req.jwtObj.isPremium, category_id, req.jwtObj.full_name),
         footer: await footerGenerator(),
     })
 })
@@ -89,7 +92,7 @@ router.get("/tag/:id/:page", userMiddleware.authenticate, async (req: Request, r
         current_page: page,
         max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
         // @ts-ignore
-        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.name),
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
     })
 })
@@ -109,7 +112,7 @@ router.get("/search/:query/:page", userMiddleware.authenticate, async (req: Requ
         current_page: page,
         max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
         // @ts-ignore
-        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.name), 
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name), 
         footer: await footerGenerator(),
     })
 })

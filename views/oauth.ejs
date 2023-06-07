@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const fragment = window.location.hash.substr(1); 
+    const params = new URLSearchParams(fragment);
+    const accessToken = params.get('access_token');
+    const expiresIn = params.get('expires_in');
+    const providerToken = params.get('provider_token');
+
+    const data = {
+        access_token: accessToken,
+        expires_in: expiresIn,
+        provider_token: providerToken,
+    };
+
+    $.ajax({
+        url: '/oauth',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+            window.location.href = '/oauth/signup';
+        },
+        error: function (response) {
+            alert("Error not found hmu hmu~~");
+        }
+    });
+</script>
+</html>
