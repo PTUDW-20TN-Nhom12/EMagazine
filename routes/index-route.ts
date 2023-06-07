@@ -22,10 +22,14 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
         // @ts-ignore
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
-        moi_nhat: await articleControler.getLatestArticles(),
-        nhieu_nhat: await articleControler.getMostViewsArticles(),
-        top_10: await articleControler.getMostViewByCategoryArticles(),
-        noi_bat: await articleControler.getHotArticles(),
+        //@ts-ignore
+        moi_nhat: await articleControler.getLatestArticles(req.jwtObj.isPremium),
+        //@ts-ignore
+        nhieu_nhat: await articleControler.getMostViewsArticles(req.jwtObj.isPremium),
+        //@ts-ignore
+        top_10: await articleControler.getMostViewByCategoryArticles(req.jwtObj.isPremium),
+        //@ts-ignores
+        noi_bat: await articleControler.getHotArticles(req.jwtObj.isPremium),
     })
 })
 
@@ -100,12 +104,14 @@ router.get("/tag/:id/:page", userMiddleware.authenticate, async (req: Request, r
 })
 
 router.get("/search/:query/:page", userMiddleware.authenticate, async (req: Request, res: Response) => {
-    const query = atob(req.params.query);
+    const query = req.params.query;
     const page = parseInt(req.params.page);
     const articleControler = new ArticleController(); 
     const searchQuery = query.replace(/ /g,"&");
-    let totalArticles = await articleControler.countSearchResults(searchQuery);
-    const articles = await articleControler.getSearchResults(searchQuery, page);
+    //@ts-ignore
+    let totalArticles = await articleControler.countSearchResults(req.jwtObj.isPremium, searchQuery);
+    //@ts-ignore
+    const articles = await articleControler.getSearchResults(req.jwtObj.isPremium, searchQuery, page);
     totalArticles = Math.min(20,totalArticles[0]['count']);
     res.render("category_detail", {  
         title: 'Search: '+ query,

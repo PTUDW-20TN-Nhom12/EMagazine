@@ -94,6 +94,6 @@
     }
 
     document.querySelector("#SearchButton").addEventListener('click', (e) => {
-        window.location.href = '/search/' + btoa(document.querySelector("#SearchText").value.trim()) + "/0";
+        window.location.href = '/search/' + encodeURIComponent(document.querySelector("#SearchText").value.trim()) + "/0";
     })
 </script> 

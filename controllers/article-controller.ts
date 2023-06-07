@@ -38,14 +38,14 @@ export class ArticleController {
         }
     }
 
-    async getHotArticles(number = 4): Promise<Article[]> {
+    async getHotArticles(is_premium, number = 4): Promise<Article[]> {
         try {
             let results = await this.articleRepository.query(`SELECT "articleId", COUNT(*) AS view_count
             FROM views_log
             WHERE time >= CURRENT_DATE - INTERVAL '30 days'
             GROUP BY "articleId"
             ORDER BY view_count DESC
-            LIMIT ${number};`); 
+            LIMIT $1`, [number]); 
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleById(result.articleId);
@@ -58,7 +58,7 @@ export class ArticleController {
         }
     }
 
-    async getLatestArticles(number = 10): Promise<Article[]> {
+    async getLatestArticles(is_premium, number = 10): Promise<Article[]> {
         try {
             return await this.articleRepository.find({
                 relations: {
@@ -76,13 +76,13 @@ export class ArticleController {
         }
     }
 
-    async getMostViewsArticles(number = 10): Promise<Article[]> {
+    async getMostViewsArticles(is_premium, number = 10): Promise<Article[]> {
         try {
             let results = await this.articleRepository.query(`SELECT "articleId", COUNT(*) AS view_count
             FROM views_log
             GROUP BY "articleId"
             ORDER BY view_count DESC
-            LIMIT ${number};`);
+            LIMIT $1`, [number]);
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleById(result.articleId);
@@ -95,7 +95,7 @@ export class ArticleController {
         }
     }
 
-    async getMostViewByCategoryArticles(number = 10): Promise<Article[]> {
+    async getMostViewByCategoryArticles(is_premium, number = 10): Promise<Article[]> {
         try {
             let results = await this.articleRepository.query(`SELECT a."categoryId", a.id, COUNT(v."articleId") AS views
             FROM articles a
@@ -111,7 +111,7 @@ export class ArticleController {
               ) subquery
             )
             ORDER BY views DESC
-            LIMIT ${number};`);  
+            LIMIT $1`, [number]);  
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleById(result.id);
@@ -202,11 +202,11 @@ export class ArticleController {
         }
     }
 
-    async getSearchResults(search_query: string, page: number, page_size: number = 6) {
+    async getSearchResults(is_premium, search_query: string, page: number, page_size: number = 6) {
         try {
-            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', title || ' ' || short_description || ' ' || content), to_tsquery('english', '${search_query}')) AS rank
+            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', title || ' ' || short_description || ' ' || content), to_tsquery('english', $1)) AS rank
             FROM articles
-            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', '${search_query}')) LIMIT 20`);
+            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $2)) LIMIT 20`, [search_query, search_query]);
             let ret = [];
             results = results.slice(page * page_size, (page + 1) * page_size);
             for (let result of results) {
@@ -220,11 +220,11 @@ export class ArticleController {
         }
     }
 
-    async countSearchResults(search_query: string) {
+    async countSearchResults(is_premium, search_query: string) {
         try {
             return await this.articleRepository.query(`SELECT COUNT(*)
             FROM articles 
-            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', '${search_query}'))`)
+            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $1))`, [search_query])
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
             return null;
