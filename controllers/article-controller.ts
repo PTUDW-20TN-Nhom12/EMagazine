@@ -204,9 +204,11 @@ export class ArticleController {
 
     async getSearchResults(is_premium, search_query: string, page: number, page_size: number = 6) {
         try {
-            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', title || ' ' || short_description || ' ' || content), to_tsquery('english', $1)) AS rank
+            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content), to_tsquery('english', $1)) AS rank
             FROM articles
-            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $2)) LIMIT 20`, [search_query, search_query]);
+            WHERE (to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $2)) 
+            AND ts_rank(to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content), to_tsquery('english', $3)) > 0.3
+            ORDER BY rank DESC LIMIT 20`, [search_query, search_query, search_query]);
             let ret = [];
             results = results.slice(page * page_size, (page + 1) * page_size);
             for (let result of results) {
@@ -224,7 +226,7 @@ export class ArticleController {
         try {
             return await this.articleRepository.query(`SELECT COUNT(*)
             FROM articles 
-            WHERE (to_tsvector('english', title || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $1))`, [search_query])
+            WHERE (to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $1))`, [search_query])
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
             return null;
