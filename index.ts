@@ -6,6 +6,7 @@ import { indexRouter } from './routes/index-route'
 import {signinRouter} from './routes/signin-route'
 import {signupRouter} from './routes/signup-route'
 import {oauthRouter} from './routes/oauth-route'
+import { writerRouter } from './routes/writer-route';
 import { CommentRouter as commentRouter } from './routes/comment-route';
 
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
@@ -32,6 +33,7 @@ app.use("/signin", signinRouter);
 app.use("/signup", signupRouter);
 app.use("/comment", commentRouter);
 app.use("/oauth", oauthRouter);
+app.use("/writer", writerRouter); 
 
 app.use("/payment", paymentRouter)
 

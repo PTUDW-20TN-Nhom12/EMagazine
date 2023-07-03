@@ -8,6 +8,13 @@ import puppeteer from 'puppeteer';
 
 const router: Router = Router();
 const ART_PER_PAGE = 6;
+const REDIRECT_MAPPING = {
+    "reader": "/",
+    "subcriber": "/",
+    "writer": "/writer",
+    "editor": "/editor",
+    "admin": "/admin",
+}
 
 const userMiddleware = new UserMiddleware(); 
 
@@ -17,6 +24,14 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
     // @ts-ignore
     console.log(req.jwtObj)
 
+    // @ts-ignore
+    if (req.isAuth) { 
+        // @ts-ignore
+        const role = req.jwtObj.role.name; 
+        res.redirect(REDIRECT_MAPPING[role])
+    } 
+    
+    // for guest 
     res.render("index", {
         title: "Trang chủ | Lacainews",
         // @ts-ignore

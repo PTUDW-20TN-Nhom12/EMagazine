@@ -7,14 +7,6 @@ const router: Router = Router();
 
 router.use(express.json());
 
-const REDIRECT_MAPPING = {
-    "Reader": "/",
-    "Subcriber": "/",
-    "Writer": "/writer",
-    "Editor": "/editor",
-    "Admin": "/admin",
-}
-
 const userMiddleware = new UserMiddleware(); 
 
 router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
@@ -23,7 +15,7 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
     if (req.isAuth) { 
         // @ts-ignore
         const role = req.jwtObj.role; 
-        res.redirect(REDIRECT_MAPPING[role])
+        res.redirect('/')
     }
     
     res.render("user_signin", {
