@@ -3,6 +3,8 @@ import { User } from "../models/user";
 import { UserValidation } from "./validation/user-validation";
 import { JWTHelper } from "../utils/user_controller/jwt-helper";
 import { PasswordHelper } from "../utils/user_controller/password-helper";
+import { Role } from "../models/role"; 
+import { use } from "passport";
 
 export class UserController {
     private userRepository = SupabaseDataSource.getRepository(User);
@@ -85,6 +87,40 @@ export class UserController {
         } catch (error) { 
             console.error(`Failed to get user by email: ${error.message}`);
             return null; 
+        }
+    }
+    
+    async genUser(
+        full_name: string,
+        email: string,
+        pseudonym: string,
+        birthday: Date,
+        date_created: Date,
+        role: Role
+    ): Promise<User> {
+        let user = new User(); 
+        user.full_name = full_name; 
+        user.role = null; 
+        user.email = email; 
+        user.birthday = birthday;
+        user.date_created = date_created;
+        user.pseudonym = pseudonym;
+        user.role = role;
+
+        try {
+            return await this.userRepository.save(user);
+        } catch (error) {
+            console.error(`Failed to create article: ${error.message}`);
+            return null;
+        }
+    }
+
+    async getUserById(id: number): Promise<User> {
+        try {
+            return await this.userRepository.findOneBy({ id: id });
+        } catch (error) {
+            console.error(`Failed to retrieve category: ${error.message}`);
+            return null;
         }
     }
 }

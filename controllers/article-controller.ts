@@ -10,23 +10,21 @@ export class ArticleController {
     private articleRepository = SupabaseDataSource.getRepository(Article);
 
     async createArticle(
-        // author: User,
+        author: User,
         category: Category,
         title: string,
         short_description: string,
         content: string,
         thumbnail_url: string,
-        timestamp: string,
         is_premium: boolean
     ): Promise<Article> {
         const article = new Article();
-        // article.author = author;
+        article.author = author;
         article.category = category;
         article.title = title;
         article.short_description = short_description;
         article.content = content;
         article.thumbnail_url = thumbnail_url;
-        article.date_created = moment(timestamp).toDate();
         article.is_premium = is_premium;
         article.tags = [];
 
@@ -63,9 +61,6 @@ export class ArticleController {
             return await this.articleRepository.find({
                 relations: {
                     category: true,
-                },
-                order: {
-                    date_created: 'DESC',
                 },
                 take: number,
                 cache: true,

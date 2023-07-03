@@ -12,7 +12,9 @@ import { CategoryController } from '../controllers/category-controller';
 import { ArticleController } from '../controllers/article-controller';
 import { ViewLogController } from '../controllers/viewslog-controller';
 import { RoleController } from '../controllers/role-controller';
+import { UserController } from '../controllers/user-controller';
 import { UserRole } from "../models/role";
+import moment from "moment";; 
 
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -38,6 +40,10 @@ function getRandomTimestamp(startDate: Date, endDate: Date): string {
 
 const startDate = new Date("2022-01-01");
 const endDate = new Date("2023-5-31");
+const startBirth = new Date("1999-01-01");
+const endBirth = new Date("2002-5-31");
+const startJoin = new Date("2021-01-01");
+const endJoin = new Date("2021-5-31");
 
 async function reset() {
     const articleController = new ArticleController();
@@ -74,6 +80,8 @@ async function initCategories() {
 async function initArticles() {
     const articleController = new ArticleController();
     const categoryController = new CategoryController();
+    const userController = new UserController();
+    const user = await userController.getUserById(1);
 
     for (let article of articles) {
         let n = article['Cate'].length;
@@ -83,8 +91,7 @@ async function initArticles() {
         if (k == 2) {
             is_pre = true;
         }
-        const timestamp = getRandomTimestamp(startDate, endDate);
-        await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'],timestamp, is_pre);
+        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
     }
     for (let articletag of articlestags['ArticlesTags']) {
         articleController.addTag(articletag['articles_id'], articletag['tag_id']);
@@ -106,6 +113,28 @@ async function initViewLog() {
     }
 }
 
+async function initUsers() {
+    const userController = new UserController();
+    const roleController = new RoleController();
+    const adminRole = await roleController.getRoleById(1);
+
+
+    await userController.genUser("Admin", "admin@lacainews.com", "admin", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+   
+    await userController.genUser("Writer", "writer@lacainews.com", "writer", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+
+    await userController.genUser("Reader", "reader@lacainews.com", "reader", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+
+    await userController.genUser("Premium", "premium@lacainews.com", "premium", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+
+    await userController.genUser("Editor 1", "editor1@lacainews.com", "editor1", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+    await userController.genUser("Editor 2", "editor2@lacainews.com", "editor2", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+    await userController.genUser("Editor 3", "editor3@lacainews.com", "editor3", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+    await userController.genUser("Editor 4", "editor4@lacainews.com", "editor4", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+    await userController.genUser("Editor 5", "editor5@lacainews.com", "editor5", moment(getRandomTimestamp(startBirth, endBirth)).toDate(), moment(getRandomTimestamp(startJoin, endJoin)).toDate(), adminRole);
+    
+}
+
 async function init() {
     SupabaseDataSource.initialize()
         .then(async () => {
@@ -116,6 +145,7 @@ async function init() {
             // await initRoles();
             await initArticles();
             await initViewLog();
+            // await initUsers();
         })
         .catch((err) => {
             console.error("Error during Data Source initialization", err)
