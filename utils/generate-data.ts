@@ -14,6 +14,8 @@ import { ViewLogController } from '../controllers/viewslog-controller';
 import { RoleController } from '../controllers/role-controller';
 import { UserController } from '../controllers/user-controller';
 import { UserRole } from "../models/role";
+import { StatusList } from '../models/article-status';
+import { ArticleStatusController } from '../controllers/article-status-controller';
 import moment from "moment";; 
 
 function randomIntFromInterval(min, max) {
@@ -80,21 +82,24 @@ async function initCategories() {
 async function initArticles() {
     const articleController = new ArticleController();
     const categoryController = new CategoryController();
+    const tagController = new TagController();
     const userController = new UserController();
     const user = await userController.getUserById(1);
 
-    for (let article of articles) {
-        let n = article['Cate'].length;
-        let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
-        let k = randomIntFromInterval(0, 2);
-        let is_pre = false;
-        if (k == 2) {
-            is_pre = true;
-        }
-        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
-    }
+    // for (let article of articles) {
+    //     let n = article['Cate'].length;
+    //     let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
+    //     let k = randomIntFromInterval(0, 2);
+    //     let is_pre = false;
+    //     if (k == 2) {
+    //         is_pre = true;
+    //     }
+    //     await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
+    // }
+
     for (let articletag of articlestags['ArticlesTags']) {
-        articleController.addTag(articletag['articles_id'], articletag['tag_id']);
+        let tag = await tagController.getTagById(articletag['tag_id']);
+        articleController.addTag(articletag['articles_id'], tag);
     }
 }
 
@@ -111,6 +116,23 @@ async function initViewLog() {
     for (let log of viewslog['ViewsLog']) {
         viewLogController.addViewLog(log['articles_id'], log['time']);
     }
+}
+
+async function initArticleStatus() {
+    const articleStatusController = new ArticleStatusController();
+    const articleController = new ArticleController();
+    const userController = new UserController();
+    const user = await userController.getUserById(1);
+    for (let i = 1; i <= 333; i++) {
+        let article = await articleController.getArticleById(i);
+        let day = moment(getRandomTimestamp(startDate, endDate)).toDate();
+        let nextDay = new Date(day);
+        nextDay.setDate(day.getDate() + 1);
+        await articleStatusController.createArticleStatus(article, user, StatusList.DRAFT, day, "Init article");
+        await articleStatusController.createArticleStatus(article, user, StatusList.PUBLISHED, nextDay, "Published article");
+    
+    }
+
 }
 
 async function initUsers() {
@@ -143,9 +165,10 @@ async function init() {
             // await initTags();
             // await initCategories();
             // await initRoles();
-            await initArticles();
-            await initViewLog();
+            // await initArticles();
+            // await initViewLog();
             // await initUsers();
+            // await initArticleStatus();
         })
         .catch((err) => {
             console.error("Error during Data Source initialization", err)

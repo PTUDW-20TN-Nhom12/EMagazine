@@ -23,8 +23,12 @@ export class ArticleStatus {
     @ManyToOne(() => User, { nullable: false })
     performer: User;
 
-    @Column({ default: 0 })
-    status: number;
+    @Column({
+        type: "enum",
+        enum: StatusList,
+        default: StatusList.DRAFT
+    })
+    status: StatusList;
 
     @Column({ default: null, nullable: true })
     note: string;

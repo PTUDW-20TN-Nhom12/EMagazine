@@ -119,10 +119,9 @@ export class ArticleController {
         }
     }
 
-    async addTag(article_id: number, tag_id:number) {
+    async addTag(article_id: number, tag: Tag) {
         try {
             let article = await this.getArticleById(article_id);
-            let tag = await SupabaseDataSource.getRepository(Tag).findOneBy({id: tag_id});
             article.tags.push(tag);
             await this.articleRepository.save(article);
         } catch (error) {
