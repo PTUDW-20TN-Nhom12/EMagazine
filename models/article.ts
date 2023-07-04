@@ -8,8 +8,8 @@ export class Article {
     @PrimaryGeneratedColumn()
     id: number;
 
-    // @ManyToOne(() => User, { nullable: false })
-    // author: User;
+    @ManyToOne(() => User, { nullable: false })
+    author: User;
 
     @ManyToOne(() => Category, (category) => category.articles)
     category: Category;
@@ -25,9 +25,6 @@ export class Article {
 
     @Column({ nullable: false, length: 256 })
     thumbnail_url: string;
-
-    @Column({ default: () => "CURRENT_TIMESTAMP"})
-    date_created: Date;
 
     @Column({ default: false })
     is_premium: boolean;

@@ -19,9 +19,6 @@ dependencies:
   jsonwebtoken:
     specifier: ^9.0.0
     version: 9.0.0
-  jwt-simple:
-    specifier: ^0.5.6
-    version: 0.5.6
   moment:
     specifier: ^2.29.4
     version: 2.29.4
@@ -1603,11 +1600,6 @@ packages:
     dependencies:
       jwa: 1.4.1
       safe-buffer: 5.2.1
-    dev: false
-
-  /jwt-simple@0.5.6:
-    resolution: {integrity: sha512-40aUybvhH9t2h71ncA1/1SbtTNCVZHgsTsTgqPUxGWDmUDrXyDf2wMNQKEbdBjbf4AI+fQhbECNTV6lWxQKUzg==}
-    engines: {node: '>= 0.4.0'}
     dev: false
 
   /levn@0.3.0:

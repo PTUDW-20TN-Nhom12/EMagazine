@@ -35,6 +35,15 @@ export class TagController {
         }
     }
 
+    async getTagByName(tagName: string): Promise<Tag> {
+        try {
+            return await this.tagRepository.findOneBy({ name: tagName });
+        } catch (error) {
+            console.error(`Failed to retrieve tag: ${error.message}`);
+            return null; 
+        }
+    }
+
     async updateTag(id: number, name: string, description: string): Promise<Tag> {
         try {
             const tag = await this.tagRepository.findOneBy({ id: id });
