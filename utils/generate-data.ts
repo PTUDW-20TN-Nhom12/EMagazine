@@ -75,17 +75,17 @@ async function initArticles() {
     const articleController = new ArticleController();
     const categoryController = new CategoryController();
 
-    for (let article of articles) {
-        let n = article['Cate'].length;
-        let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
-        let k = randomIntFromInterval(0, 2);
-        let is_pre = false;
-        if (k == 2) {
-            is_pre = true;
-        }
-        const timestamp = getRandomTimestamp(startDate, endDate);
-        await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'],timestamp, is_pre);
-    }
+    // for (let article of articles) {
+    //     let n = article['Cate'].length;
+    //     let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
+    //     let k = randomIntFromInterval(0, 2);
+    //     let is_pre = false;
+    //     if (k == 2) {
+    //         is_pre = true;
+    //     }
+    //     const timestamp = getRandomTimestamp(startDate, endDate);
+    //     await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'],timestamp, is_pre);
+    // }
     for (let articletag of articlestags['ArticlesTags']) {
         articleController.addTag(articletag['articles_id'], articletag['tag_id']);
     }

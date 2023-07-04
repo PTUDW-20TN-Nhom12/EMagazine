@@ -3,6 +3,7 @@ import { footerGenerator, headerGenerator } from "../utils/header-footer-generat
 import { CategoryController } from "../controllers/category-controller";
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
 import { Category } from "../models/category";
+import { TagController } from "../controllers/tag-controller";
 
 const router: Router = Router();
 
@@ -36,6 +37,7 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
 
 router.get("/new-article", userMiddleware.authenticate, async (req: Request, res: Response) => {
     const categoryController = new CategoryController();
+    const tagController = new TagController(); 
 
     // @ts-ignore
     console.log(req.jwtObj)
@@ -46,10 +48,10 @@ router.get("/new-article", userMiddleware.authenticate, async (req: Request, res
         const role = req.jwtObj.role.name; 
         if (role == "writer") { 
             const categories = (await categoryController.getAllCategories()).map(item => item.name);
-            console.log(categories);
+            const tags = (await tagController.getAllTags()).map(item => item.name); 
 
             // @ts-ignore
-            res.render("writer_post", {"fullname": req.jwtObj.full_name, "categories": categories});
+            res.render("writer_post", {"fullname": req.jwtObj.full_name, "categories": categories, "tags": tags});
             return; 
         }
     } 
@@ -61,6 +63,10 @@ router.get("/new-article", userMiddleware.authenticate, async (req: Request, res
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
     }); 
+})
+
+router.post("/upload", userMiddleware.authenticate, async (req: Request, res: Response) => {
+
 })
 
 export {router as writerRouter};
