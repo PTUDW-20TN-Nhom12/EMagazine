@@ -97,6 +97,17 @@ async function initArticles() {
     //     await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
     // }
 
+    // for (let article of articles) {
+    //     let n = article['Cate'].length;
+    //     let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
+    //     let k = randomIntFromInterval(0, 2);
+    //     let is_pre = false;
+    //     if (k == 2) {
+    //         is_pre = true;
+    //     }
+    //     const timestamp = getRandomTimestamp(startDate, endDate);
+    //     await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'],timestamp, is_pre);
+    // }
     for (let articletag of articlestags['ArticlesTags']) {
         let tag = await tagController.getTagById(articletag['tag_id']);
         articleController.addTag(articletag['articles_id'], tag);

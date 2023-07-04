@@ -10,7 +10,6 @@ router.use(express.json());
 const userMiddleware = new UserMiddleware(); 
 
 router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
-    
     // @ts-ignore
     if (req.isAuth) { 
         // @ts-ignore
