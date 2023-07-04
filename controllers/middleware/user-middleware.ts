@@ -36,4 +36,12 @@ export class UserMiddleware {
             return next();
         }
     }
+    checkRole = (requiredRole) => (req: Request, res: Response, next: NextFunction) => {
+        // @ts-ignore
+        if (!req.jwtObj.hasOwnProperty("role") || req.jwtObj.role.name !== requiredRole) {
+            return res.status(403).send('Forbidden');
+        }
+        return next();
+    }
+
 }
