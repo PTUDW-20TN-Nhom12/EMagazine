@@ -35,6 +35,27 @@ export class WriterController {
         })
     }
 
+    async getLatestStatusOfArticle(articleId: number): Promise<ArticleStatus> {
+        const result = await this.statusRepository.find({
+            where: {
+                article: {id: articleId}
+            },
+            relations: {
+                performer: true
+            },
+            order: {
+                time: "DESC"
+            },
+            take: 1,
+            cache: true,
+        });
+        if (result.length > 0) {
+            return result[0];
+        } else {
+            return null;
+        }
+    }
+
     async getLatestStatusOfArticles(articleIds: number[]): Promise<ArticleStatus[]> {
         const promises = articleIds.map(async (id) => {
             return this.statusRepository.findOneBy({ id });
@@ -75,7 +96,7 @@ export class WriterController {
             newArticle.short_description = summary;
             newArticle.title = title;
             newArticle.tags = tags;
-            newArticle.thumbnail_url = "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"; // Hardcoded image
+            newArticle.thumbnail_url = "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w="; // Hardcoded image
             
             const saveArticleResult = await this.articleRepository.save(newArticle);
 

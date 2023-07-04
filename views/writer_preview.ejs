@@ -1,0 +1,40 @@
+<%- include('writer_dashboard_resource/writer_head.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <div class="d-flex">
+                <a href="writer/edit/<%=article.id %>" class="ms-auto btn btn-primary btn-lg active mb-4" role="button"
+                    aria-pressed="true">Edit</a>
+            </div>
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <img src=<%=article.thumbnail_url %> width="100%" />
+                                <div class="post-container">
+                                    <h3 class="font-weight-normal mt-4">
+                                        <%=article.title %>
+                                    </h3>
+                                    <div class="d-flex mt-3">
+                                        <span>
+                                            <%=article_status.time %>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex mt-3 mb-3">
+                                        <% for (let i = 0; i < article.tags.length; ++i) { %>
+                                            <span class="post-tag">#<%= article.tags[i].name %></span>
+                                        <% } %>
+                                    </div>
+                                    <hr>
+
+
+                                    <div class="d-flex flex-column justify-content-center" style="text-align: justify;">
+                                        <%-article.content %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </section>
+        </div>
+    </main>
+    <%- include('writer_dashboard_resource/writer_foot.ejs') %>

@@ -71,8 +71,8 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <% for (let i=0; i < tags.length; ++i) { %>
-                                                    <li><a id=<%="tag_type_" + i %> class="dropdown-item" onclick=
-                                                            <%= '$("#tag0").text($("#tag_type_' + i + '").text());' %>>
+                                                    <li><a id=<%="tag0_type_" + i %> class="dropdown-item" onclick=
+                                                            <%= '$("#tag0").text($("#tag0_type_' + i + '").text());' %>>
                                                                 <%= tags[i] %>
                                                         </a></li>
                                                     <% } %>
@@ -180,7 +180,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <% for (let i=0; i < tags.length; ++i) { %>
                                 <li>
-                                    <a id=<%="tag${numTags}_type_" + i %> class="dropdown-item" onclick=<%= '$("#tag${numTags}").text($("#tag_type_' + i + '").text());' %>>
+                                    <a id=<%="tag${numTags}_type_" + i %> class="dropdown-item" onclick=<%= '$("#tag${numTags}").text($("#tag${numTags}_type_' + i + '").text());' %>>
                                         <%= tags[i] %>
                                     </a>
                                 </li>

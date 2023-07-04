@@ -14,100 +14,13 @@
             </section>
             <section>
                 <div class="row">
-                    <!-- <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp"
-                                    class="img-fluid" />
-                                <a href="preview.html">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Article title</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum quasi
-                                    quam iste! Amet maiores reiciendis accusantium repellat tenetur iure eum tempore
-                                    dolor</p>
-                                <div class="d-flex">
-                                    <p>March 03 2023</p>
-                                    <p class="ms-auto"><i class="bi bi-circle-fill circle-published me-1"></i>Published
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp"
-                                    class="img-fluid" />
-                                <a href="preview.html">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Article title</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum quasi
-                                    quam iste! Amet maiores reiciendis accusantium repellat tenetur iure eum tempore
-                                    dolor</p>
-                                <div class="d-flex">
-                                    <p>March 03 2023</p>
-                                    <p class="ms-auto"><i class="bi bi-circle-fill circle-pending me-1"></i>Pending</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp"
-                                    class="img-fluid" />
-                                <a href="preview.html">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Article title</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum quasi
-                                    quam iste! Amet maiores reiciendis accusantium repellat tenetur iure eum tempore
-                                    dolor</p>
-                                <div class="d-flex">
-                                    <p>March 03 2023</p>
-                                    <p class="ms-auto"><i class="bi bi-circle-fill circle-reject me-1"></i>Reject</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp"
-                                    class="img-fluid" />
-                                <a href="preview.html">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Article title</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum quasi
-                                    quam iste! Amet maiores reiciendis accusantium repellat tenetur iure eum tempore
-                                    dolor</p>
-                                <div class="d-flex">
-                                    <p>March 03 2023</p>
-                                    <p class="ms-auto"><i class="bi bi-circle-fill circle-approved me-1"></i>Approved
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                     <% for (let i=0; i < articles.length; ++i) { %>
                         <div class="col-xl-4 col-sm-8 col-12 mb-4">
                             <div class="card">
                                 <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                     <img src=<%=articles[i].thumbnail_url %>
                                     class="img-fluid" />
-                                    <a href="preview.html">
+                                    <a href="/writer/preview/<%=articles[i].id %>">
                                         <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                                     </a>
                                 </div>
@@ -120,15 +33,15 @@
                                     </p>
                                     <div class="d-flex">
                                         <p>
-                                            <%=articles[i].time %>
+                                            <%=articles_status[i].time %>
                                         </p>
                                         <p class="ms-auto">
-                                            <i class="bi bi-circle-fill me-1 <%=(articles_status[i]=="draft"
+                                            <i class="bi bi-circle-fill me-1 <%=(articles_status[i].status=="draft"
                                                 ? "circle-pending" :
                                                 (articles_status[i]=="published"
                                                 ? "circle-approved"
                                                 : "circle-reject" )) %>"></i>
-                                            <%=articles_status[i] %>
+                                            <%=articles_status[i].status %>
                                         </p>
                                     </div>
                                 </div>

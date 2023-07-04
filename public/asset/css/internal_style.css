@@ -66,6 +66,14 @@ body {
     padding: 100px 200px; 
 }
 
+.post-tag { 
+    background-color: #F65050;
+    padding: 3px; 
+    border-radius: 5px;
+    color: #fff;
+    margin-right: 5px; 
+}
+
 .edit-post-tag { 
     padding: 5px; 
     background-color: #FF8A00;
