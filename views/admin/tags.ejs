@@ -1,0 +1,128 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row mb-4">
+                    <ul class="navbar-nav ms-auto d-flex flex-row">
+                        <form
+                            class="d-none d-md-flex input-group w-auto ms-auto align-items-center justify-content-center">
+                            <input autocomplete="off" type="search" class="form-control rounded"
+                                placeholder='Search tag' style="min-width:500px" />
+                            <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
+                        </form>
+                        <button class="btn btn-primary ms-auto d-flex flex-row" data-mdb-toggle="modal"
+                            data-mdb-target="#new-modal">
+                            Add new tag
+                        </button>
+                    </ul>
+                </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 id="tag-total" class="card-title">Total: 5</h5>
+                                <div id="tag-list">
+                                    <button type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                        data-mdb-toggle="modal" data-mdb-target="#edit-modal">#bitcoin</button>
+                                    <button type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                        data-mdb-toggle="modal" data-mdb-target="#edit-modal">#chatgpt</button>
+                                    <button type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                        data-mdb-toggle="modal" data-mdb-target="#edit-modal">#nuocsach</button>
+                                    <button type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                        data-mdb-toggle="modal" data-mdb-target="#edit-modal">#chinhtri</button>
+                                    <button type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                        data-mdb-toggle="modal" data-mdb-target="#edit-modal">#quockhanh</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            <section>
+                <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="edit-modal-label">Edit tag</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="tag-name" class="col-form-label">Tag name</label>
+                                        <input type="text" class="form-control" id="tag-name" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="saveTag()">Save</button>
+                                <button type="button" class="btn btn-danger" onclick="removeTag()">Remove Tag</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="new-modal" tabindex="-1" aria-labelledby="new-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="new-modal-label">New tag</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="new-tag-name" class="col-form-label">Tag name</label>
+                                        <input type="text" class="form-control" id="new-tag-name" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="addTag()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script>
+                let targetTag = '';
+                $('#edit-modal').on('show.bs.modal', function (event) {
+                    targetTag = event.relatedTarget;
+                    let tagName = $(event.relatedTarget).text().trim();
+                    if (tagName[0] == '#') {
+                        tagName = tagName.substring(1);
+                        $('#edit-modal-label').text('Edit Tag');
+                    }
+                    else {
+                        tagName = '';
+                        $('#edit-modal-label').text('New Tag');
+                    }
+                    $('#tag-name').val(tagName);
+
+                })
+
+                $('#tag-total').text('Total: ' + $('#tag-list *').length);
+
+                function saveTag() {
+                    $(targetTag).text('#' + $('#tag-name').val());
+                    $('#edit-modal').modal('hide');
+                    $('#tag-total').text('Total: ' + $('#tag-list *').length);
+                }
+
+                function removeTag() {
+                    $(targetTag).remove();
+                    $('#edit-modal').modal('hide');
+                    $('#tag-total').text('Total: ' + $('#tag-list *').length);
+                }
+
+                function addTag() {
+                    let newTag = '#' + $('#new-tag-name').val().trim();
+                    $('#tag-list').append(`<button type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                    data-mdb-toggle="modal" data-mdb-target="#edit-modal">${newTag}</button>`)
+                    $('#new-modal').modal('hide');
+                    $('#tag-total').text('Total: ' + $('#tag-list *').length);
+                }
+            </script>
+            <%- include('footer.ejs') %>

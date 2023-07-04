@@ -1,0 +1,14 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+<script>
+    const path = window.location.pathname;
+    const currentPage = path.substring(path.lastIndexOf("/") + 1, path.length);
+    if ($(`#${currentPage}`).length > 0) {
+        $(`#${currentPage}`).addClass('active');
+    }
+    else {
+        $(`#dashboard`).addClass('active');
+    }
+</script>
+</body>
+
+</html>

@@ -68,7 +68,7 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
         imgLink: article.thumbnail_url.replace(/zoom\/260_163\//, ""),
         post_data: {
             post_title: article.title,
-            date: article.date_created,
+            date: new Date(),
             tags: article.tags,
             content: article.content
         },
@@ -90,7 +90,7 @@ router.get("/api/raw-content/:id", userMiddleware.authenticate, async (req: Requ
         category_name: article.category.name,
         post_data: {
             post_title: article.title,
-            date: article.date_created,
+            date: new Date(),
             tags: article.tags,
             content: article.content
         },

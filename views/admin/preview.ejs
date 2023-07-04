@@ -1,0 +1,199 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <div class="d-flex">
+                <button class="ms-auto me-4 btn btn-success btn-lg active mb-4" role="button">Save</button>
+                <button class="btn btn-primary btn-lg active mb-4" role="button" aria-pressed="true"
+                    data-mdb-toggle="modal" data-mdb-target="#status-modal">Change Status</button>
+            </div>
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <span style="font-weight: bold; color: #7A8291;">CATEGORY: </span>
+                                <div class="btn-group mb-3">
+                                    <button type="button" class="btn btn-warning"><text id="user_type">Kinh
+                                            doanh</text></button>
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+                                        data-mdb-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a id="type_1" class="dropdown-item"
+                                                onclick="$('#user_type').text($('#type_1').text());">
+                                                Kinh doanh</a></li>
+                                        <li><a id="type_2" class="dropdown-item"
+                                                onclick="$('#user_type').text($('#type_2').text());">
+                                                Bóng đá</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <span style="font-weight: bold; color: #7A8291;">TAGS</span>
+                                <hr>
+                                <div class="d-flex">
+                                    <div class="edit-post-tag">
+                                        <span style="margin-right: 2px;">USA</span>
+                                        <i class="bi bi-x"></i>
+                                    </div>
+                                    <div class="edit-post-tag">
+                                        <span>USA</span>
+                                        <i class="bi bi-x"></i>
+                                    </div>
+                                    <div class="edit-post-tag">
+                                        <span>USA</span>
+                                        <i class="bi bi-x"></i>
+                                    </div>
+                                    <button class="btn btn-success btn-rounded btn-edit"><i
+                                            class="bi bi-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            <div class="row">
+                <div class="col mb-4">
+                    <div class="card d-flex px-4 py-4">
+                        <span style="font-weight: bold; color: #7A8291;">Thời gian xuất bản:</span>
+                        <input class="w-50" type="date" class="form-control" placeholder="Thời gian xuất bản">
+                    </div>
+                </div>
+            </div>
+            <section>
+                <h3 class="text-center">PREVIEW</h3>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <img src="/asset/img_post_1.png" width="100%" />
+                                <div class="post-container">
+                                    <h3 class="font-weight-normal mt-4">Furor Over Chinese Spy Balloon Leads to a
+                                        Diplomatic
+                                        Crisis</h3>
+                                    <div class="d-flex mt-3">
+                                        <span>03/04/2023</span>
+                                        <i class="ms-auto bi bi-chat-left-dots"></i>
+                                    </div>
+                                    <div class="d-flex mt-3 mb-3">
+                                        <span class="post-tag">#khac</span>
+                                        <span class="post-tag">#quoc te</span>
+                                    </div>
+                                    <hr>
+
+
+                                    <div class="d-flex flex-column justify-content-center" style="text-align: justify;">
+                                        <p>The Pentagon called the object, which has flown from Montana to Kansas, an
+                                            “intelligence gathering” balloon.
+                                            Beijing said it was used mainly for weather research and had strayed off
+                                            course. </p>
+                                        <p> WASHINGTON — Secretary of State Antony J. Blinken on Friday canceled a
+                                            weekend trip to Beijing after a Chinese spy
+                                            balloon was sighted above the Rocky Mountain state of Montana, igniting a
+                                            frenzy of media coverage and political
+                                            commentary over a machine that the Pentagon said posed no threat to the
+                                            United States. </p>
+                                        <p>Mr. Blinken called the Chinese surveillance an “irresponsible act” and a
+                                            “clear violation of U.S. sovereignty and
+                                            international law.” </p>
+                                        <p>China's “decision to take this action on the eve of my planned visit is
+                                            detrimental to the substantive discussions
+                                            that we were prepared to have,” he said at a news conference on Friday
+                                            afternoon. </p>
+                                        <p> Mr. Blinken canceled the trip after civilians in Montana this week began
+                                            spotting the balloon, which the Pentagon
+                                            said was an “intelligence-gathering” airship. Military officials had been
+                                            monitoring the balloon for days, and Mr.
+                                            Blinken and a deputy secretly confronted Chinese diplomats in Washington on
+                                            Wednesday. But it became a diplomatic
+                                            crisis only as media attention mounted on Thursday night and Republican
+                                            politicians called for President Biden and
+                                            Mr. Blinken to act. </p>
+                                        <p>The balloon's presence and Mr. Blinken's announcement added to the rising
+                                            tensions between the two superpowers. The
+                                            situation also underscored the sensitive politics in the United States as
+                                            both Democratic and Republican leaders vie
+                                            to be seen as sufficiently hawkish on China. </p>
+                                        <img src="/asset/img_post_2.png" width="100%" />
+                                        <p style="font-size: small; color: #A6A6A6; margin: 10px 0px;">A high-altitude
+                                            balloon was filmed by a resident in
+                                            Billings, Mont. The Pentagon has not confirmed that the balloon seen in the
+                                            picture is the one it identified as
+                                            being from China.</p>
+                                        <p>Mr. Blinken said he told Mr. Wang he would visit China “when conditions
+                                            allow.”</p>
+                                        <p>Mr. Wang told Mr. Blinken in their phone call that “China is a responsible
+                                            country and has always strictly abided
+                                            by international law,” the Chinese Foreign Ministry said on its website.</p>
+                                        <p>The brief Chinese summary of their call did not mention the balloon or Mr.
+                                            Blinken's cancellation of his trip, but
+                                            suggested China's leaders believed the Biden administration had blown the
+                                            incident out of proportion. Mr. Wang, the
+                                            summary said, urged that both sides must “avoid misjudgments, and manage and
+                                            control their disagreements.”</p>
+                                        <p>Some Republican lawmakers criticized Mr. Biden on Thursday for allowing the
+                                            balloon to drift for days over the
+                                            United States and not taking harsher measures against China. White House
+                                            officials said such balloons have appeared
+                                            over U.S. territory before, including during the Trump administration.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </section>
+            <section>
+                <div class="modal fade" id="status-modal" tabindex="-1" aria-labelledby="status-modal"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Change article status</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div>
+                                        <span class="me-3">Status: </span>
+                                        <div class="btn-group mb-3">
+                                            <button type="button" class="btn btn-warning"><text
+                                                    id="user_typea">Approved</text></button>
+                                            <button type="button"
+                                                class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+                                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                                <span class="visually-hidden">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a id="typea_1" class="dropdown-item"
+                                                        onclick="$('#user_typea').text($('#typea_1').text());">
+                                                        Refuse</a></li>
+                                                <li><a id="typea_2" class="dropdown-item"
+                                                        onclick="$('#user_typea').text($('#typea_2').text());">
+                                                        Approved</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="message" class="col-form-label">Message</label>
+                                        <input type="text" class="form-control" id="message" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="save()">Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <%- include('footer.ejs') %>

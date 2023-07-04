@@ -1,0 +1,135 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row mb-4">
+                    <ul class="navbar-nav ms-auto d-flex flex-row">
+                        <form
+                            class="d-none d-md-flex input-group w-auto ms-auto align-items-center justify-content-center">
+                            <input autocomplete="off" type="search" class="form-control rounded"
+                                placeholder='Search user' style="min-width:500px" />
+                            <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
+                        </form>
+                        <button class="btn btn-primary ms-auto d-flex flex-row">
+                            Add new user
+                        </button>
+                    </ul>
+                </div>
+            </section>
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-header py-3">
+                        <h5 class="mb-0">
+                            <strong>Users</strong>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0 bg-white">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p class="fw-normal mb-1">123456</p>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
+                                                    style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">John Doe</p>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-success rounded-pill d-inline">Normal</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="fw-normal mb-1">456232</p>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/9.jpg" alt=""
+                                                    style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">Alex Ray</p>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0">alex.ray@gmail.com</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-warning rounded-pill d-inline">Premium</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="fw-normal mb-1">123712</p>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/10.jpg" alt=""
+                                                    style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="fw-bold mb-1">John Smith</p>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0">john.smith@gmail.com</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-danger rounded-pill d-inline">Writer</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <%- include('footer.ejs') %>

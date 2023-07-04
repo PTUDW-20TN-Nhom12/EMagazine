@@ -1,0 +1,41 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <h5 class="card-title">Thay đổi thông tin tài khoản</h5>
+                                </div>
+                                <div class="mt-5 mb-5 d-flex flex-column align-items-center justify-content-center">
+
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Họ tên: </span>
+                                        <input type="text" class="form-control" id="name" placeholder="Họ và tên">
+                                    </div>
+
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Email liên lạc:</span>
+                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                    </div>
+
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Ngày tháng năm sinh:</span>
+                                        <input type="date" class="form-control" id="dateOfBirth"
+                                            placeholder="Ngày sinh">
+                                    </div>
+                                    <button type="button" class="btn btn-primary">Save</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+    </main>
+    <%- include('footer.ejs') %>

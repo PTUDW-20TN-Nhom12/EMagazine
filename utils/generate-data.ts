@@ -86,16 +86,16 @@ async function initArticles() {
     const userController = new UserController();
     const user = await userController.getUserById(1);
 
-    // for (let article of articles) {
-    //     let n = article['Cate'].length;
-    //     let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
-    //     let k = randomIntFromInterval(0, 2);
-    //     let is_pre = false;
-    //     if (k == 2) {
-    //         is_pre = true;
-    //     }
-    //     await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
-    // }
+    for (let article of articles) {
+        let n = article['Cate'].length;
+        let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
+        let k = randomIntFromInterval(0, 2);
+        let is_pre = false;
+        if (k == 2) {
+            is_pre = true;
+        }
+        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
+    }
 
     // for (let article of articles) {
     //     let n = article['Cate'].length;
@@ -176,10 +176,10 @@ async function init() {
             // await initTags();
             // await initCategories();
             // await initRoles();
-            // await initArticles();
-            // await initViewLog();
+            await initArticles();
+            await initViewLog();
             // await initUsers();
-            // await initArticleStatus();
+            await initArticleStatus();
         })
         .catch((err) => {
             console.error("Error during Data Source initialization", err)

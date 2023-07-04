@@ -1,0 +1,50 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <h5 class="card-title">Thông tin tài khoản</h5>
+                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"
+                                        onclick="location.href='edit-profile.html'"><i
+                                            class="bi bi-pencil"></i></button>
+                                </div>
+                                <div class="mt-5 mb-5 d-flex flex-column align-items-center justify-content-center">
+
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Lacainews ID:</span>
+                                        <input type="text" class="form-control" id="LacainewsID" placeholder="123456"
+                                            disabled>
+                                    </div>
+
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Họ tên: </span>
+                                        <input type="text" class="form-control" id="name" placeholder="Nguyễn Văn A"
+                                            disabled>
+                                    </div>
+
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Email liên lạc:</span>
+                                        <input type="email" class="form-control" id="email"
+                                            placeholder="hello@gmail.com" disabled>
+                                    </div>
+                                    <div
+                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form">Ngày tháng năm sinh:</span>
+                                        <input type="text" class="form-control" id="dateOfBirth"
+                                            placeholder="01/01/1999" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+
+    </main>
+    <%- include('footer.ejs') %>

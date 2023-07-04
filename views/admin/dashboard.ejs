@@ -1,0 +1,176 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between px-md-1">
+                                    <div class="align-self-center">
+                                        <i class="far fa-heart text-danger fa-3x"></i>
+                                    </div>
+                                    <div class="text-end">
+                                        <h3>$76,456</h3>
+                                        <p class="mb-0">Total Sales</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between px-md-1">
+                                    <div class="align-self-center">
+                                        <i class="fas fa-pencil-alt text-info fa-3x"></i>
+                                    </div>
+                                    <div class="text-end">
+                                        <h3>278</h3>
+                                        <p class="mb-0">New Posts</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between px-md-1">
+                                    <div class="align-self-center">
+                                        <i class="far fa-user text-success fa-3x"></i>
+                                    </div>
+                                    <div class="text-end">
+                                        <h3 class="text-success">156</h3>
+                                        <p class="mb-0">New Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between px-md-1">
+                                    <div class="align-self-center">
+                                        <i class="fas fa-map-marker-alt text-danger fa-3x"></i>
+                                    </div>
+                                    <div class="text-end">
+                                        <h3>423</h3>
+                                        <p class="mb-0">Total Visits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-header py-3 d-flex">
+                        <h5 class="mb-0"><strong>Traffic</strong></h5>
+                        <p class="ms-auto me-3">Day </p>
+                        <p class="me-3 active"> Week </p>
+                        <p class="me-3"> Month </p>
+                        <p class="me-3"> Year </p>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="mb-0"><small>Weekly Traffic</small></h5>
+                        <canvas class="my-4 w-100" id="traffic-chart" height="300px"></canvas>
+                    </div>
+                </div>
+            </section>
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-header py-3">
+                        <h5 class="mb-0">
+                            <strong>Activities</strong>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0 bg-white">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
+                                                    style="width: 45px; height: 45px" class="rounded-circle" />
+                                                <div class="ms-3">
+                                                    <p class="mb-1">Lorem ipsum dolor sit amet consectetur, adipisicing
+                                                        elit. Doloremque aliquid non odit illum dolor eligendi aliquam
+                                                        omnis minima molestias officiis, dolorum magni quo cumque sit
+                                                        aut! Hic quidem rem reprehenderit!</p>
+                                                    <p class="text-muted mb-0">5 days ago</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/6.jpg"
+                                                    class="rounded-circle" alt="" style="width: 45px; height: 45px" />
+                                                <div class="ms-3">
+                                                    <p class="mb-1">Lorem ipsum dolor sit amet consectetur adipisicing
+                                                        elit. Nihil, tempore eveniet, dolores quidem at temporibus
+                                                        cumque ullam minima voluptatum cupiditate excepturi
+                                                        necessitatibus architecto cum error, vero consequuntur maxime
+                                                        nisi et.</p>
+                                                    <p class="text-muted mb-0">6 days ago</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://mdbootstrap.com/img/new/avatars/7.jpg"
+                                                    class="rounded-circle" alt="" style="width: 45px; height: 45px" />
+                                                <div class="ms-3">
+                                                    <p class="mb-1">Lorem ipsum dolor sit amet consectetur adipisicing
+                                                        elit. Modi tempora quisquam fuga voluptate facere cum, totam at
+                                                        minima consequatur odit deleniti nesciunt dolores hic quas amet
+                                                        odio optio vitae maiores.</p>
+                                                    <p class="text-muted mb-0">7 days ago</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        const ctx = $('#traffic-chart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Monday", "Tuesday", "Wednesday", "Thurday", "Friday",
+                    "Saturday", "Sunday"],
+                datasets: [{
+                    label: 'food Items',
+                    backgroundColor: 'rgba(88, 175, 255, 1)',
+                    borderColor: 'rgb(47, 128, 237)',
+                    data: [300, 400, 200, 500, 800, 900, 200],
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                },
+            },
+        });
+    </script>
+    <%- include('footer.ejs') %>
