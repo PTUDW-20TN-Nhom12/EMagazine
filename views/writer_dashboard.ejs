@@ -14,7 +14,7 @@
             </section>
             <section>
                 <div class="row">
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
+                    <!-- <div class="col-xl-4 col-sm-8 col-12 mb-4">
                         <div class="card">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                                 <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/111.webp"
@@ -99,7 +99,42 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+                    <% for (let i=0; i < articles.length; ++i) { %>
+                        <div class="col-xl-4 col-sm-8 col-12 mb-4">
+                            <div class="card">
+                                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                    <img src=<%=articles[i].thumbnail_url %>
+                                    class="img-fluid" />
+                                    <a href="preview.html">
+                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%=articles[i].title %>
+                                    </h5>
+                                    <p class="card-text">
+                                        <%=articles[i].short_description %>
+                                    </p>
+                                    <div class="d-flex">
+                                        <p>
+                                            <%=articles[i].time %>
+                                        </p>
+                                        <p class="ms-auto">
+                                            <i class="bi bi-circle-fill me-1 <%=(articles_status[i]=="draft"
+                                                ? "circle-pending" :
+                                                (articles_status[i]=="published"
+                                                ? "circle-approved"
+                                                : "circle-reject" )) %>"></i>
+                                            <%=articles_status[i] %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
                 </div>
             </section>
 

@@ -30,7 +30,7 @@
                             <div class="card-body">
                                 <span style="font-weight: bold; color: #7A8291;">CATEGORY: </span>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-warning"><text id="user_type"
+                                    <button type="button" class="btn btn-warning"><text id="category"
                                             style="text-transform: none;">
                                             <%=categories[0] %>
                                         </text></button>
@@ -41,7 +41,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <% for (let i=0; i < categories.length; ++i) { %>
                                             <li><a id=<%="type_" + i %> class="dropdown-item" onclick=
-                                                    <%= '$("#user_type").text($("#type_' + i + '").text());' %>>
+                                                    <%= '$("#category").text($("#type_' + i + '").text());' %>>
                                                         <%= categories[i] %>
                                                 </a></li>
                                             <% } %>
@@ -66,7 +66,7 @@
                                                     <%=tags[0] %>
                                                 </text></button>
                                             <button type="button" class="btn btn-success"
-                                                style="border-radius: 0px 4px 4px 0px;">
+                                                style="border-radius: 0px 4px 4px 0px;" onclick="removeTag(this)">
                                                 <i class="bi bi-x"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
@@ -109,6 +109,7 @@
                 [{ 'color': [] }, { 'background': [] }],
                 [{ 'font': [] }],
                 [{ 'align': [] }],
+                ['image', 'video'],
                 ['clean']
             ];
 
@@ -124,12 +125,27 @@
                 const title = $('#title').val().trim();
                 const shortDescription = $('#short-description').val().trim();
                 const content = editor.root.innerHTML;
+                const isPremium = document.getElementById("is-premium").checked;
+                const category = document.getElementById("category").textContent.trim();
+                const tagsGroup = document.getElementById("tags-group");
+                const tagElements = tagsGroup.getElementsByClassName("btn-group");
+
+                let tags = [];
+                for (var i = 0; i < tagElements.length; i++) {
+                    var tagText = tagElements[i].querySelector("text").textContent.trim();
+                    tags.push(tagText);
+                }
 
                 const data = {
                     title: title,
                     shortDescription: shortDescription,
-                    content: content
+                    content: content,
+                    isPremium: isPremium,
+                    category: category,
+                    tags: tags
                 };
+
+                console.log(data);
 
                 $.ajax({
                     url: '/writer/upload',
@@ -140,30 +156,31 @@
                         window.location.href = '/';
                     },
                     error: function (error) {
-                        alert(error);
+                        alert(error.message);
                     }
                 });
             }
 
+            var numTags = 1;
+
             function addTag() {
                 let tagsGroupElement = document.getElementById("tags-group");
                 let newElement = document.createElement("div");
-                const numOfChildren = tagsGroupElement.childElementCount;
 
                 newElement.innerHTML = `
                     <div class="btn-group mr-2">
                         <button type="button" class="btn btn-success" data-mdb-toggle="dropdown" aria-expanded="false">
-                            <text id="tag${numOfChildren}" style="text-transform: none;">
+                            <text id="tag${numTags}" style="text-transform: none;">
                                 <%=tags[0] %>
                             </text>
                         </button>
-                        <button type="button" class="btn btn-success" style="border-radius: 0px 4px 4px 0px;">
+                        <button type="button" class="btn btn-success" style="border-radius: 0px 4px 4px 0px;" onclick="removeTag(this)">
                             <i class="bi bi-x"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <% for (let i=0; i < tags.length; ++i) { %>
                                 <li>
-                                    <a id=<%="tag${numOfChildren}_type_" + i %> class="dropdown-item" onclick=<%= '$("#tag${numOfChildren}").text($("#tag_type_' + i + '").text());' %>>
+                                    <a id=<%="tag${numTags}_type_" + i %> class="dropdown-item" onclick=<%= '$("#tag${numTags}").text($("#tag_type_' + i + '").text());' %>>
                                         <%= tags[i] %>
                                     </a>
                                 </li>
@@ -173,6 +190,15 @@
                 `;
 
                 tagsGroupElement.appendChild(newElement);
+
+                numTags += 1;
+            }
+
+            function removeTag(tag) {
+                var tagsGroupElement = tag.parentElement.parentElement;
+                if (tagsGroupElement) {
+                    tagsGroupElement.removeChild(tag.parentElement);
+                }
             }
         </script>
     </main>
