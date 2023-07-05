@@ -109,47 +109,60 @@ export class WriterController {
 
             return {"status": 200, "message": "OK"}; 
         } catch (error) { 
-            console.error(`Failed to get user by email: ${error.message}`);
-            return {"status": 200, "message": error.message}; 
+            console.error(`Failed to upload article: ${error.message}`);
+            return {"status": 403, "message": error.message}; 
         }
     }
 
     async editArticle(articleId: number, title: string, summary: string, content: string,
         categoryName: string, tagList: string[], premium = false) {
         
-        let article = await this.articleRepository.findOneBy({id: articleId});
-        let category = await this.categoryController.getCategoryByName(categoryName);
-        // if category == null -> create new category
-        if (category == null) {
-            category = await this.categoryController.createCategory(categoryName, "", null);
-        }
-
-        const tags = await Promise.all(tagList.map(async tagName => {
-            const t = await this.tagController.getTagByName(tagName);
-            if (t == null) {
-                return await this.tagController.createTag(tagName, "");
-            } else {
-                return t;
+        try { 
+            let article = await this.articleRepository
+                .createQueryBuilder('article')
+                .leftJoinAndSelect('article.author', 'author')
+                .where('article.id = :id', { id: articleId })
+                .getOne();
+            let category = await this.categoryController.getCategoryByName(categoryName);
+            // if category == null -> create new category
+            if (category == null) {
+                category = await this.categoryController.createCategory(categoryName, "", null);
             }
-        }));
 
-        // Modify article & status
-        article.category = category;
-        article.content = content;
-        article.is_premium = premium;
-        article.short_description = summary;
-        article.title = title;
-        article.tags = tags;
-        
-        await this.articleRepository.save(article);
+            const tags = await Promise.all(tagList.map(async tagName => {
+                const t = await this.tagController.getTagByName(tagName);
+                if (t == null) {
+                    return await this.tagController.createTag(tagName, "");
+                } else {
+                    return t;
+                }
+            }));
 
-        const newStatus = new ArticleStatus();
+            console.log(article); 
 
-        newStatus.article = article;
-        newStatus.note = "Created"
-        newStatus.performer = article.author;
-        newStatus.status = StatusList.DRAFT;
+            // Modify article & status
+            article.category = category;
+            article.content = content;
+            article.is_premium = premium;
+            article.short_description = summary;
+            article.title = title;
+            article.tags = tags;
+            
+            await this.articleRepository.save(article); 
 
-        await this.statusRepository.save(newStatus);
+            const newStatus = new ArticleStatus();
+
+            newStatus.article = article;
+            newStatus.note = "Created"
+            newStatus.performer = article.author;
+            newStatus.status = StatusList.DRAFT;
+
+            await this.statusRepository.save(newStatus);
+
+            return {"status": 200, "message": "OK"}; 
+        } catch (error) { 
+            console.error(`Failed to edit article: ${error.message}`);
+            return {"status": 403, "message": error.message}; 
+        }
     }
 }

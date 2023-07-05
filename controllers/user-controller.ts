@@ -61,7 +61,6 @@ export class UserController {
 
     public async createUser(user: User) {
         try {
-            const passwordHelper = new PasswordHelper(); 
             return await this.userRepository.save(user);
         } catch (error) {
             console.error(`Failed to create user: ${error.message}`);
@@ -76,6 +75,10 @@ export class UserController {
             console.error(`Failed to get email (check existed email): ${error.message}`);
             return null; 
         }
+    }
+
+    public async updateUser(user: User) { 
+        return await this.userRepository.save(user);
     }
 
     private async getUserByEmail(email: string) : Promise<User> { 
@@ -117,7 +120,11 @@ export class UserController {
 
     async getUserById(id: number): Promise<User> {
         try {
-            return await this.userRepository.findOneBy({ id: id });
+            return await this.userRepository
+                .createQueryBuilder('user')
+                .leftJoinAndSelect('user.role', 'role')
+                .where('user.id = :id', { id })
+                .getOne();
         } catch (error) {
             console.error(`Failed to retrieve category: ${error.message}`);
             return null;
