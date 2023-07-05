@@ -26,6 +26,8 @@ async function signInWithEmail() {
     const email = $('#email').val().trim();
     const password = $('#password').val().trim();
 
+    const captchaToken = grecaptcha.getResponse();
+
     const { data, error } = await _supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -35,7 +37,7 @@ async function signInWithEmail() {
         const errorTextDiv = document.querySelector("#error-text");
         errorTextDiv.textContent = "Email or password not match!!!";
     } else {
-        const jsonData = { email: data.user.email };
+        const jsonData = { email: data.user.email, token: captchaToken,};
 
 
         $.ajax({
@@ -62,6 +64,8 @@ async function signUpWithEmail() {
     const repassword = $('#repassword').val().trim();
     const role = $('#user_type').text().trim();
 
+    const captchaToken = grecaptcha.getResponse();
+
     const data = {
         name: name,
         email: email,
@@ -69,6 +73,7 @@ async function signUpWithEmail() {
         role: role,
         password: password,
         repassword: repassword,
+        token: captchaToken,
     };
 
     $.ajax({
