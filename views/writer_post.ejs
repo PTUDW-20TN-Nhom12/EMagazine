@@ -123,6 +123,12 @@
         <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
 
         <script>
+            const dashboardElement = document.getElementById('dashboard'); 
+            const newArticleElement = document.getElementById('new-article'); 
+
+            dashboardElement.classList.remove('active'); 
+            newArticleElement.classList.add('active'); 
+
             var toolbarOptions = [
                 ['bold', 'italic', 'underline', 'strike'],
                 ['blockquote', 'code-block'],

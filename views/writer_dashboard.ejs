@@ -12,6 +12,24 @@
                     </ul>
                 </div>
             </section>
+            <div id="article-status-group" class="mb-3">
+                <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
+                    <i class="bi bi-check2 mr-1"></i>
+                    Draft
+                </button>
+                <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
+                    <i class="bi bi-check2 mr-1"></i>
+                    Reject
+                </button>
+                <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
+                    <i class="bi bi-check2 mr-1"></i>
+                    Published
+                </button>
+                <button type="button" class="btn-article-status active btn-secondary ml-2">
+                    <i class="bi bi-funnel mr-1"></i>
+                    Submit Filter
+                </button>
+            </div>
             <section>
                 <div class="row">
                     <% for (let i=0; i < articles.length; ++i) { %>
@@ -52,12 +70,23 @@
             </section>
 
             <script>
-                const path = window.location.pathname;
-                const currentPage = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
-                if (currentPage && $(`#${currentPage}`).length > 0) {
-                    $(`#${currentPage}`).addClass('active');
-                } else {
-                    $('#dashboard').addClass('active');
+                // const path = window.location.pathname;
+                // const currentPage = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
+                // if (currentPage && $(`#${currentPage}`).length > 0) {
+                //     $(`#${currentPage}`).addClass('active');
+                // } else {
+                //     $('#dashboard').addClass('active');
+                // }
+                
+                function setStatusFilter(button) { 
+                    const isActived = button.classList.contains("active");
+                    if (isActived) { 
+                        button.classList.remove("active");
+                        button.getElementsByTagName('i')[0].classList.add("d-none"); 
+                    } else { 
+                        button.classList.add("active");
+                        button.getElementsByTagName('i')[0].classList.remove("d-none"); 
+                    }
                 }
             </script>
     </main>

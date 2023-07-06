@@ -120,3 +120,21 @@ body {
 .form-control:disabled {
     background-color: #ffffff !important;
 }
+
+.btn-article-status{
+    padding: 5px 15px; 
+    border: 2px solid black; 
+    border-radius: 15px; 
+    background-color: #ECEEF1; 
+    border-color: #E1E1E1; 
+    color: #686868;
+}
+
+.btn-article-status.active{
+    padding: 5px 15px; 
+    border: 2px solid black; 
+    border-radius: 15px; 
+    background-color: #DBE9FB; 
+    border-color: #5499F1; 
+    color: #1258B4;
+}
