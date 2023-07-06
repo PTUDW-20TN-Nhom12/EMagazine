@@ -17,7 +17,7 @@ import bodyParser from "body-parser";
 import { PaymentRouter as paymentRouter } from './routes/payment-route';
 import { tagApiRouter } from './routes/tag-api-route';
 
-const PORT: number = parseInt(process.env.PORT) || 8080;
+const PORT: number = parseInt(process.env.PORT) || 80;
 const app: Express = express();
 
 // Set view engine to ejs

@@ -2,6 +2,7 @@ import express, {Router, Request, Response} from "express";
 import {JWTHelper} from "../utils/user_controller/jwt-helper";
 import { UserController } from "../controllers/user-controller";
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
+import { checkToken } from "../utils/captcha_helper";
 
 const router: Router = Router();
 
@@ -24,7 +25,14 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
 
 
 router.post("/", async (req: Request, res: Response) => {
-    const userEmail = req.body.email; 
+    const userEmail = req.body.email;
+    const token = req.body.token;
+    
+    if (!await checkToken(token)) {
+        return res.status(400).json(
+            {"status": 400, "message": {"error": "Invalid captcha"}, "access_token": ""}
+        )
+    }
 
     const userController = new UserController(); 
     const result = await userController.signIn(userEmail); 

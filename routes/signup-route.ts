@@ -2,6 +2,7 @@ import express, {Router, Request, Response} from "express";
 import { UserController } from "../controllers/user-controller";
 import { User } from "../models/user";
 import { RoleController } from "../controllers/role-controller";
+import { checkToken } from "../utils/captcha_helper";
 
 const router: Router = Router();
 
@@ -20,7 +21,13 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.post("/", async (req: Request, res: Response) => {
     const roleController = new RoleController();
-    const {name, email, birthday, password, repassword, role} = req.body; 
+    const {name, email, birthday, password, repassword, role, token} = req.body;
+
+    if (!await checkToken(token)) {
+        return res.status(400).json(
+            {"status": 400, "message": {"error": "Invalid captcha"}, "access_token": ""}
+        )
+    }
 
     // create user from request 
     let user = new User(); 
