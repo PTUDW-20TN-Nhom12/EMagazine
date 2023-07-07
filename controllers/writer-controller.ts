@@ -23,7 +23,7 @@ export class WriterController {
     private articleRepository = SupabaseDataSource.getRepository(Article);
     private statusRepository = SupabaseDataSource.getRepository(ArticleStatus);
 
-    async getListArticleOfAuthor(authorId: number) {
+    async getListArticleOfAuthor(authorId: number, num_start_article: number) {
         return await this.articleRepository.find({
             where: {
                 author: {id: authorId},
@@ -31,35 +31,62 @@ export class WriterController {
             relations: {
                 category: true,
                 tags: true,
-            }
-        })
+            }, 
+            skip: num_start_article, 
+            take: 6
+        }) 
     }
 
+    async getListArticleOfAuthorWithStatus(authorId: number, num_start_article: number, status: string[]) {
+        return await this.articleRepository.query(
+          `SELECT *
+          FROM
+              (SELECT * FROM articles WHERE "authorId" = $1) articles
+          LEFT JOIN
+              (SELECT latest_status."articleId",
+                      latest_status.status, 
+                      latest_status.time
+              FROM articles_status latest_status
+              INNER JOIN
+                  (SELECT "articleId",
+                          MAX(time) AS max_time
+                  FROM articles_status
+                  GROUP BY "articleId") latest_time 
+              ON latest_status."articleId" = latest_time."articleId" 
+                  AND latest_status.time = latest_time.max_time) latest_status 
+          ON articles.id = latest_status."articleId"
+          WHERE status IN ('${status.join("','")}')
+          OFFSET $2
+          LIMIT $3`,
+          [authorId, num_start_article, 6]
+        );
+    }
+      
+
     async getLatestStatusOfArticle(articleId: number): Promise<ArticleStatus> {
-        const result = await this.statusRepository.find({
+        return await this.statusRepository.findOne({
             where: {
                 article: {id: articleId}
             },
-            relations: {
+            relations: { 
                 performer: true
             },
-            order: {
-                time: "DESC"
-            },
-            take: 1,
-            cache: true,
+            order: { 
+                time:'DESC'
+            }
         });
-        if (result.length > 0) {
-            return result[0];
-        } else {
-            return null;
-        }
     }
 
     async getLatestStatusOfArticles(articleIds: number[]): Promise<ArticleStatus[]> {
         const promises = articleIds.map(async (id) => {
-            return this.statusRepository.findOneBy({ id });
-        });
+                return await this.statusRepository.findOne({
+                    where: {
+                        article: {id: id}
+                    },
+                    order: { 
+                        time:'DESC'
+                    }});
+            });
     
         const results = await Promise.all(promises);
         return results;

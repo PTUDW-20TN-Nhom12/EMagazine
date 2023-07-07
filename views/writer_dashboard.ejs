@@ -19,65 +19,27 @@
                 </button>
                 <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
                     <i class="bi bi-check2 mr-1"></i>
-                    Reject
+                    Rejected
                 </button>
                 <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
                     <i class="bi bi-check2 mr-1"></i>
                     Published
                 </button>
-                <button type="button" class="btn-article-status active btn-secondary ml-2">
+                <button type="button" class="btn-article-status active btn-secondary ml-2" onclick="filterArticles()">
                     <i class="bi bi-funnel mr-1"></i>
                     Submit Filter
                 </button>
             </div>
-            <section>
-                <div class="row">
-                    <% for (let i=0; i < articles.length; ++i) { %>
-                        <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                            <div class="card">
-                                <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                    <img src=<%=articles[i].thumbnail_url %>
-                                    class="img-fluid" />
-                                    <a href="/writer/preview/<%=articles[i].id %>">
-                                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <%=articles[i].title %>
-                                    </h5>
-                                    <p class="card-text">
-                                        <%=articles[i].short_description %>
-                                    </p>
-                                    <div class="d-flex">
-                                        <p>
-                                            <%=articles_status[i].time %>
-                                        </p>
-                                        <p class="ms-auto">
-                                            <i class="bi bi-circle-fill me-1 <%=(articles_status[i].status=="draft"
-                                                ? "circle-pending" :
-                                                (articles_status[i]=="published"
-                                                ? "circle-approved"
-                                                : "circle-reject" )) %>"></i>
-                                            <%=articles_status[i].status %>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <% } %>
+            <section class="d-flex flex-column">
+                <div class="row" id="articles-wrapper">
+                    <%- include('writer_dashboard_resource/writer_articles.ejs', {"articles": articles}) %>
                 </div>
+                <button id="btn-load-article" type="button" class="btn btn-primary mb-3 align-self-center" style="width: fit-content;" onclick="loadArticles()">Xem thêm</button>
             </section>
 
             <script>
-                // const path = window.location.pathname;
-                // const currentPage = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
-                // if (currentPage && $(`#${currentPage}`).length > 0) {
-                //     $(`#${currentPage}`).addClass('active');
-                // } else {
-                //     $('#dashboard').addClass('active');
-                // }
-                
+                var previousStatus = ['draft', 'rejected', 'published']
+
                 function setStatusFilter(button) { 
                     const isActived = button.classList.contains("active");
                     if (isActived) { 
@@ -87,6 +49,74 @@
                         button.classList.add("active");
                         button.getElementsByTagName('i')[0].classList.remove("d-none"); 
                     }
+                }
+
+                async function filterArticles() { 
+                    let status = document.getElementsByClassName('btn-article-status active') 
+                    status = Array.from(status); 
+                    status.pop()
+                    status = status.map(item => item.textContent.trim().toLowerCase())
+
+                    if (status == previousStatus) { 
+                        return; 
+                    }
+
+                    previousStatus = status; 
+
+                    const jsonData = { 
+                        "status": status, 
+                        "num_start_article": 0, 
+                    }
+
+                    $.ajax({
+                        url: '/writer/load-article',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(jsonData),
+                        success: async function (response) {
+                            const btn = document.getElementById('btn-load-article'); 
+                            if (btn.classList.contains('d-none')) 
+                                btn.classList.remove('d-none');
+                            console.log(response)
+                            const articlesWrapper = document.getElementById('articles-wrapper'); 
+                            articlesWrapper.innerHTML = response
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+
+                async function loadArticles() { 
+                    let status = document.getElementsByClassName('btn-article-status active') 
+                    status = Array.from(status); 
+                    status.pop()
+                    status = status.map(item => item.textContent.trim().toLowerCase())
+                    
+                    const numArticles = document.getElementsByClassName('col-xl-4 col-sm-8 col-12 mb-4').length; 
+                    
+                    const jsonData = { 
+                        "status": status, 
+                        "num_start_article": numArticles, 
+                    }
+
+                    $.ajax({
+                        url: '/writer/load-article',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(jsonData),
+                        success: async function (response) {
+                            if (response == '') { 
+                                const btn = document.getElementById('btn-load-article'); 
+                                btn.classList.add('d-none');
+                            } else { 
+                                console.log(response)
+                                const articlesWrapper = document.getElementById('articles-wrapper'); 
+                                articlesWrapper.innerHTML += response
+                            }
+                        },
+                        error: function (error) {
+                        }
+                    });
                 }
             </script>
     </main>

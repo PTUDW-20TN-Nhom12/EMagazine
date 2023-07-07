@@ -2,8 +2,10 @@
     <main style="margin-top: calc(0.5625rem + 67.6px)">
         <div class="container pt-4">
             <div class="d-flex">
-                <a href="/writer/edit/<%=article.id %>" class="ms-auto btn btn-primary btn-lg active mb-4" role="button"
-                    aria-pressed="true">Edit</a>
+                <%if (article_status.status != 'published') { %>
+                    <a href="/writer/edit/<%=article.id %>" class="ms-auto btn btn-primary btn-lg active mb-4" role="button"
+                        aria-pressed="true">Edit</a>
+                <% } %>
             </div>
             <section>
                 <div class="row">

@@ -7,23 +7,26 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="text-muted font-weight-bold">Title</h5>
-                                <input type="text" class="form-control mb-3" id="title" value="<%= article ? article.title : '' %>">
+                                <input type="text" class="form-control mb-3" id="title"
+                                    value="<%= article ? article.title : '' %>">
 
 
                                 <h5 class="text-muted font-weight-bold">Short description</h5>
-                                <input type="text" class="form-control mb-3" id="short-description" value="<%=article ? article.short_description : ''%>">
+                                <input type="text" class="form-control mb-3" id="short-description"
+                                    value="<%=article ? article.short_description : ''%>">
 
                                 <h5 class="text-muted font-weight-bold">Content</h5>
                                 <div id="toolbar"></div>
                                 <div id="editor" style="min-height: 300px;">
-                                    <%-(article ? article.content : "")%>
+                                    <%-(article ? article.content : "" )%>
                                 </div>
                             </div>
                         </div>
                     </div>
             </section>
             <div class="form-check mb-4" style="margin-left: 5px;">
-                <input class="form-check-input" type="checkbox" value="" id="is-premium" <%=(article && article.is_premium ? "checked" : "")%>>
+                <input class="form-check-input" type="checkbox" value="" id="is-premium" <%=(article &&
+                    article.is_premium ? "checked" : "" )%>>
                 <h5 class="text-warning">Is PREMIUM</h5>
             </div>
             <section>
@@ -63,48 +66,54 @@
                                 <div class="mt-3 d-flex">
                                     <div id="tags-group" class="d-flex">
                                         <% if (article) { %>
-                                            <% for (let i = 0; i < article.tags.length; ++i) { %>
+                                            <% for (let i=0; i < article.tags.length; ++i) { %>
                                                 <div class="btn-group mr-2">
-                                                    <button type="button" class="btn btn-success " data-mdb-toggle="dropdown"
-                                                        aria-expanded="false">
+                                                    <button type="button" class="btn btn-success "
+                                                        data-mdb-toggle="dropdown" aria-expanded="false">
                                                         <text id="tag0" style="text-transform: none;">
                                                             <%= article.tags[i].name %>
                                                         </text></button>
                                                     <button type="button" class="btn btn-success"
-                                                        style="border-radius: 0px 4px 4px 0px;" onclick="removeTag(this)">
+                                                        style="border-radius: 0px 4px 4px 0px;"
+                                                        onclick="removeTag(this)">
                                                         <i class="bi bi-x"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-end">
                                                         <% for (let i=0; i < tags.length; ++i) { %>
-                                                            <li><a id=<%="tag0_type_" + i %> class="dropdown-item" onclick=
-                                                                    <%= '$("#tag0").text($("#tag0_type_' + i + '").text());' %>>
+                                                            <li><a id=<%="tag0_type_" + i %> class="dropdown-item"
+                                                                    onclick=
+                                                                    <%= '$("#tag0").text($("#tag0_type_' + i
+                                                                        + '").text());' %>>
                                                                         <%= tags[i] %>
                                                                 </a></li>
                                                             <% } %>
                                                     </ul>
                                                 </div>
-                                            <% } %>
-                                        <% } else { %>
-                                            <div class="btn-group mr-2">
-                                                <button type="button" class="btn btn-success " data-mdb-toggle="dropdown"
-                                                    aria-expanded="false">
-                                                    <text id="tag0" style="text-transform: none;">
-                                                        <%=tags[0] %>
-                                                    </text></button>
-                                                <button type="button" class="btn btn-success"
-                                                    style="border-radius: 0px 4px 4px 0px;" onclick="removeTag(this)">
-                                                    <i class="bi bi-x"></i>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
-                                                    <% for (let i=0; i < tags.length; ++i) { %>
-                                                        <li><a id=<%="tag0_type_" + i %> class="dropdown-item" onclick=
-                                                                <%= '$("#tag0").text($("#tag0_type_' + i + '").text());' %>>
-                                                                    <%= tags[i] %>
-                                                            </a></li>
+                                                <% } %>
+                                                    <% } else { %>
+                                                        <div class="btn-group mr-2">
+                                                            <button type="button" class="btn btn-success "
+                                                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                                                <text id="tag0" style="text-transform: none;">
+                                                                    <%=tags[0] %>
+                                                                </text></button>
+                                                            <button type="button" class="btn btn-success"
+                                                                style="border-radius: 0px 4px 4px 0px;"
+                                                                onclick="removeTag(this)">
+                                                                <i class="bi bi-x"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                                <% for (let i=0; i < tags.length; ++i) { %>
+                                                                    <li><a id=<%="tag0_type_" + i %>
+                                                                            class="dropdown-item" onclick=
+                                                                            <%= '$("#tag0").text($("#tag0_type_' + i
+                                                                                + '").text());' %>>
+                                                                                <%= tags[i] %>
+                                                                        </a></li>
+                                                                    <% } %>
+                                                            </ul>
+                                                        </div>
                                                         <% } %>
-                                                </ul>
-                                            </div>
-                                        <% } %>
                                     </div>
                                     <button class="btn btn-success" onclick="addTag()">
                                         <i class="bi bi-plus"></i>
@@ -123,11 +132,11 @@
         <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
 
         <script>
-            const dashboardElement = document.getElementById('dashboard'); 
-            const newArticleElement = document.getElementById('new-article'); 
+            const dashboardElement = document.getElementById('dashboard');
+            const newArticleElement = document.getElementById('new-article');
 
-            dashboardElement.classList.remove('active'); 
-            newArticleElement.classList.add('active'); 
+            dashboardElement.classList.remove('active');
+            newArticleElement.classList.add('active');
 
             var toolbarOptions = [
                 ['bold', 'italic', 'underline', 'strike'],
@@ -171,7 +180,7 @@
 
                 <% if (article) { %> 
                     const data = {
-                        id: <%=article.id%>,
+                        id: <%=article.id %>,
                         title: title,
                         shortDescription: shortDescription,
                         content: content,
@@ -190,7 +199,7 @@
                     };
                 <% } %>
 
-                console.log(data);
+                    console.log(data);
 
                 $.ajax({
                     url: '<%= !article ? "/writer/upload" : "/writer/edit" %>',

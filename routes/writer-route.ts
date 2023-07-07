@@ -16,29 +16,41 @@ router.use(express.json());
 
 const userMiddleware = new UserMiddleware();
 
+
+const ARTICLE_STATUS_ORDER = {
+    "reject": 0,
+    "draft": 1,
+    "published": 2,
+};
+
+
 router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
     const writerController = new WriterController();
 
     // @ts-ignore
     if (req.isAuth) {
         // @ts-ignore
-        const role = req.jwtObj.role.name;
+        const role = req.jwtObj.role.name; 
         if (role == "writer") {
             // @ts-ignore
-            const articles = await writerController.getListArticleOfAuthor(req.jwtObj.id); 
-            const articlesStatus = await Promise.all(articles
-                .map(async (item) =>
-                    {
-                        const currentStatus = await writerController.getLatestStatusOfArticle(item.id); 
-                        const formattedDate = currentStatus.time.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
-                        return {"status": currentStatus.status, "time": formattedDate}
-                    })); 
+            let articles = await writerController.getListArticleOfAuthor(req.jwtObj.id, 0);   
+            let articlesStatus = (await writerController.getLatestStatusOfArticles(articles.map(item => item.id)));
+
+            // let sortedArticles = []; 
+            // for (let i = 0; i < articles.length; ++i) { 
+                //     sortedArticles.push({"article": articles[i], "article_status": articlesStatus[i]}); 
+            // }
+            // sortedArticles.sort((a, b) => ARTICLE_STATUS_ORDER[a.article_status.status] - ARTICLE_STATUS_ORDER[b.article_status.status])
+
+            // articles = sortedArticles.map(item => item.article); 
+            // articlesStatus = sortedArticles.map(item => item.article_status); 
             
+            articles = articles.map((item, i) => {return {...item, "status": articlesStatus[i].status, "time": articlesStatus[i].time}})
+
             res.render("writer_dashboard", { 
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name, 
                 "articles": articles, 
-                "articles_status": articlesStatus
             });
 
             return;
@@ -52,6 +64,28 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
     });
+})
+
+router.post('/load-article', userMiddleware.authenticate, async (req: Request, res: Response) => { 
+    // @ts-ignore
+    if (!req.isAuth) {
+        res.status(401); 
+        return; 
+    }
+    
+    // @ts-ignore
+    if (req.jwtObj.role.name != 'writer') { 
+        res.status(401); 
+        return; 
+    } 
+
+    const writerController = new WriterController(); 
+    const { status, num_start_article } = req.body;
+ 
+    // @ts-ignore
+    const articles = await writerController.getListArticleOfAuthorWithStatus(req.jwtObj.id, num_start_article, status); 
+
+    res.render('writer_dashboard_resource/writer_articles.ejs', {articles})
 })
 
 router.get("/new-article", userMiddleware.authenticate, async (req: Request, res: Response) => {
@@ -169,6 +203,11 @@ router.post("/edit", userMiddleware.authenticate, async (req: Request, res: Resp
 
     const { id, title, shortDescription, content, isPremium, category, tags } = req.body;
     const writerController = new WriterController(); 
+
+    const articleStatus = await writerController.getLatestStatusOfArticle(id); 
+    if (!articleStatus || articleStatus.status == 'published') { 
+        return res.status(400).json({"error": "The article is published"}); 
+    }
     
     const result = await writerController.editArticle(id, title, 
             shortDescription, content, category, tags, isPremium); 
@@ -190,13 +229,13 @@ router.get("/preview/:id", userMiddleware.authenticate, async (req: Request, res
         if (role == "writer") { 
             const articleId = parseInt(req.params.id); 
             const article = await articleController.getArticleById(articleId); 
-            const articlesStatus = await writerController.getLatestStatusOfArticle(articleId); 
+            const articleStatus = await writerController.getLatestStatusOfArticle(articleId); 
             
             res.render("writer_preview", { 
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name,
                 "article": article, 
-                "article_status": articlesStatus
+                "article_status": articleStatus
             });
 
             return;
