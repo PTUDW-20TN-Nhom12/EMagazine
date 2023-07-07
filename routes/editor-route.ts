@@ -7,12 +7,11 @@ const router: Router = Router();
 const userMiddleware = new UserMiddleware(); 
 router.use(express.json());
 
-router.get("/", userMiddleware.authenticate,
-        userMiddleware.checkRole(["editor"]), 
+router.get("/", 
         async (req: Request, res: Response) => {
 
         // Render here
-        res.status(200).json({});
+        return res.render("editor");
 })
 
 //  Get list of article related to editor's category
@@ -72,3 +71,5 @@ router.post("/make-response", userMiddleware.authenticate,
     }
     res.status(200).json({"message": "OK"});
 });
+
+export {router as editorRoute};
