@@ -23,7 +23,7 @@ export class WriterController {
     private articleRepository = SupabaseDataSource.getRepository(Article);
     private statusRepository = SupabaseDataSource.getRepository(ArticleStatus);
 
-    async getListArticleOfAuthor(authorId: number) {
+    async getListArticleOfAuthor(authorId: number, num_start_article: number) {
         return await this.articleRepository.find({
             where: {
                 author: {id: authorId},
@@ -31,14 +31,62 @@ export class WriterController {
             relations: {
                 category: true,
                 tags: true,
+            }, 
+            skip: num_start_article, 
+            take: 6
+        }) 
+    }
+
+    async getListArticleOfAuthorWithStatus(authorId: number, num_start_article: number, status: string[]) {
+        return await this.articleRepository.query(
+          `SELECT *
+          FROM
+              (SELECT * FROM articles WHERE "authorId" = $1) articles
+          LEFT JOIN
+              (SELECT latest_status."articleId",
+                      latest_status.status, 
+                      latest_status.time
+              FROM articles_status latest_status
+              INNER JOIN
+                  (SELECT "articleId",
+                          MAX(time) AS max_time
+                  FROM articles_status
+                  GROUP BY "articleId") latest_time 
+              ON latest_status."articleId" = latest_time."articleId" 
+                  AND latest_status.time = latest_time.max_time) latest_status 
+          ON articles.id = latest_status."articleId"
+          WHERE status IN ('${status.join("','")}')
+          OFFSET $2
+          LIMIT $3`,
+          [authorId, num_start_article, 6]
+        );
+    }
+      
+
+    async getLatestStatusOfArticle(articleId: number): Promise<ArticleStatus> {
+        return await this.statusRepository.findOne({
+            where: {
+                article: {id: articleId}
+            },
+            relations: { 
+                performer: true
+            },
+            order: { 
+                time:'DESC'
             }
-        })
+        });
     }
 
     async getLatestStatusOfArticles(articleIds: number[]): Promise<ArticleStatus[]> {
         const promises = articleIds.map(async (id) => {
-            return this.statusRepository.findOneBy({ id });
-        });
+                return await this.statusRepository.findOne({
+                    where: {
+                        article: {id: id}
+                    },
+                    order: { 
+                        time:'DESC'
+                    }});
+            });
     
         const results = await Promise.all(promises);
         return results;
@@ -75,7 +123,7 @@ export class WriterController {
             newArticle.short_description = summary;
             newArticle.title = title;
             newArticle.tags = tags;
-            newArticle.thumbnail_url = "https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"; // Hardcoded image
+            newArticle.thumbnail_url = "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w="; // Hardcoded image
             
             const saveArticleResult = await this.articleRepository.save(newArticle);
 
@@ -88,47 +136,60 @@ export class WriterController {
 
             return {"status": 200, "message": "OK"}; 
         } catch (error) { 
-            console.error(`Failed to get user by email: ${error.message}`);
-            return {"status": 200, "message": error.message}; 
+            console.error(`Failed to upload article: ${error.message}`);
+            return {"status": 403, "message": error.message}; 
         }
     }
 
     async editArticle(articleId: number, title: string, summary: string, content: string,
         categoryName: string, tagList: string[], premium = false) {
         
-        let article = await this.articleRepository.findOneBy({id: articleId});
-        let category = await this.categoryController.getCategoryByName(categoryName);
-        // if category == null -> create new category
-        if (category == null) {
-            category = await this.categoryController.createCategory(categoryName, "", null);
-        }
-
-        const tags = await Promise.all(tagList.map(async tagName => {
-            const t = await this.tagController.getTagByName(tagName);
-            if (t == null) {
-                return await this.tagController.createTag(tagName, "");
-            } else {
-                return t;
+        try { 
+            let article = await this.articleRepository
+                .createQueryBuilder('article')
+                .leftJoinAndSelect('article.author', 'author')
+                .where('article.id = :id', { id: articleId })
+                .getOne();
+            let category = await this.categoryController.getCategoryByName(categoryName);
+            // if category == null -> create new category
+            if (category == null) {
+                category = await this.categoryController.createCategory(categoryName, "", null);
             }
-        }));
 
-        // Modify article & status
-        article.category = category;
-        article.content = content;
-        article.is_premium = premium;
-        article.short_description = summary;
-        article.title = title;
-        article.tags = tags;
-        
-        await this.articleRepository.save(article);
+            const tags = await Promise.all(tagList.map(async tagName => {
+                const t = await this.tagController.getTagByName(tagName);
+                if (t == null) {
+                    return await this.tagController.createTag(tagName, "");
+                } else {
+                    return t;
+                }
+            }));
 
-        const newStatus = new ArticleStatus();
+            console.log(article); 
 
-        newStatus.article = article;
-        newStatus.note = "Created"
-        newStatus.performer = article.author;
-        newStatus.status = StatusList.DRAFT;
+            // Modify article & status
+            article.category = category;
+            article.content = content;
+            article.is_premium = premium;
+            article.short_description = summary;
+            article.title = title;
+            article.tags = tags;
+            
+            await this.articleRepository.save(article); 
 
-        await this.statusRepository.save(newStatus);
+            const newStatus = new ArticleStatus();
+
+            newStatus.article = article;
+            newStatus.note = "Created"
+            newStatus.performer = article.author;
+            newStatus.status = StatusList.DRAFT;
+
+            await this.statusRepository.save(newStatus);
+
+            return {"status": 200, "message": "OK"}; 
+        } catch (error) { 
+            console.error(`Failed to edit article: ${error.message}`);
+            return {"status": 403, "message": error.message}; 
+        }
     }
 }

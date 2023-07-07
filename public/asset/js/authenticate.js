@@ -113,3 +113,24 @@ async function signUpWithEmail() {
 async function signOut() {
     const { error } = await _supabase.auth.signOut()
 }
+
+async function updatePassword() { 
+    const password = $('#new-password').val().trim();
+    const retypePassword = $('#retype-password').val().trim();
+    const errorTextDiv = document.querySelector("#error-text");
+    const successTextDiv = document.querySelector("#success-text");
+
+    if (password != retypePassword) { 
+        errorTextDiv.textContent = 'New Password and Retype Password not match';
+        successTextDiv.textContent = ''; 
+    } else { 
+        const { data, error } = await _supabase.auth.updateUser({ password: password });
+        if (error) { 
+            errorTextDiv.textContent = 'Some error from database';
+            successTextDiv.textContent = ''; 
+        } else { 
+            errorTextDiv.textContent = '';
+            successTextDiv.textContent = 'Change password successfully!'; 
+        }
+    }
+}
