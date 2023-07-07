@@ -29,9 +29,7 @@ router.post("/", async (req: Request, res: Response) => {
     const token = req.body.token;
     
     if (!await checkToken(token)) {
-        return res.status(400).json(
-            {"status": 400, "message": {"error": "Invalid captcha"}, "access_token": ""}
-        )
+        return res.status(400).json({"error": "Invalid captcha"})
     }
 
     const userController = new UserController(); 
