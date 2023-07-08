@@ -1,29 +1,7 @@
 <%- include("./editor_resource/editor_head.ejs") %>
 
-<div class="row">
-    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-        <div class="card">
-            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://www.solidbackgrounds.com/images/1280x720/1280x720-black-solid-color-background.jpg"
-                    class="img-fluid" />
-                <div>
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </div>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    abc
-                </h5>
-                <p class="card-text">
-                    xyz
-                </p>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-id="1">
-                    details
-                </button>
-            </div>
-        </div>
-    </div>
+<div class="row" id="main-list">
+    
 </div>
 
 
@@ -93,7 +71,7 @@
           
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal">Close</button>
           <button type="button" class="btn btn-primary" id="save">Save changes</button>
         </div>
       </div>
