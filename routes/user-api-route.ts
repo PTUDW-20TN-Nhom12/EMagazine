@@ -43,7 +43,9 @@ router.post('/', async (req: Request, res: Response) => {
     data.full_name = req.body.name;
     data.role = await roleController.getRoleByName(req.body.role);
     data.birthday = moment(req.body.dateOfBirth, 'YYYY-MM-DD').toDate();
-    console.log(data);
+    if (req.body.role === UserRole.SUBSCRIBER) {
+        data.premium_expired = moment().add(1,'w').toDate();
+    }
     const user = await userController.createUser(data);
     res.json(user);
 });
@@ -55,6 +57,17 @@ router.put('/:id', async (req: Request, res: Response) => {
     user.full_name = req.body.full_name;
     user.birthday = moment(req.body.birthday, 'YYYY-MM-DD').toDate();
     user.role = await roleController.getRoleByName(req.body.role);
+    if (req.body.role === UserRole.SUBSCRIBER) {
+        if (user.premium_expired === null) {
+            user.premium_expired = moment().add(1,'w').toDate();
+        }
+        else {
+            user.premium_expired = moment(req.body.premium_expired, 'YYYY-MM-DD').toDate();
+        }
+    }
+    else {
+        user.premium_expired = null;
+    }
     const update = await userController.updateUser(user);
     res.json(update);
 });

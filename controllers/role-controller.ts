@@ -21,7 +21,7 @@ export class RoleController {
     async getAllRoles(): Promise<Role[]> {
         try {
             let result = await this.roleRepository.find();
-            result = result.filter(item => item.name !== UserRole.ADMIN);
+            result = result.filter(item => (item.name !== UserRole.ADMIN && item.name !== UserRole.EDITOR));
 
             result = result.filter((item, index, self) =>
                 index === self.findIndex((t) => (
