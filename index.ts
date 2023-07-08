@@ -17,6 +17,7 @@ import cookieParser from "cookie-parser";
 import { PaymentRouter as paymentRouter } from './routes/payment-route';
 import { tagApiRouter } from './routes/tag-api-route';
 import { editorRoute } from './routes/editor-route';
+import { userApiRouter } from './routes/user-api-route';
 
 const PORT: number = parseInt(process.env.PORT) || 80;
 const app: Express = express();
@@ -38,14 +39,16 @@ app.use("/signin", signinRouter);
 app.use("/signup", signupRouter);
 app.use("/comment", commentRouter);
 app.use("/oauth", oauthRouter);
-app.use("/writer", writerRouter);
 app.use("/payment", paymentRouter);
+
+app.use("/writer", writerRouter);
 app.use("/admin", adminRouter);
+app.use("/editor", editorRoute);
 
 
 app.use("/api/tag", tagApiRouter);
+app.use("/api/user", userApiRouter);
 
-app.use("/editor", editorRoute);
 
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);

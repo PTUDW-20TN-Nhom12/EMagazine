@@ -1,0 +1,100 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-header mt-2">
+                                <h5 class="card-title">Tạo người dùng mới</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mt-2 mb-2 d-flex flex-column align-items-center justify-content-center">
+                                    <div id="message"></div>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Họ tên:</b> </span>
+                                        <input type="text" class="form-control" id="name" placeholder="Nguyễn Văn A">
+                                    </div>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Email:</b> </span>
+                                        <input type="text" class="form-control" id="email"
+                                            placeholder="name@address.com">
+                                    </div>
+
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Ngày tháng năm sinh:</b></span>
+                                        <input type="date" class="form-control" id="dateOfBirth">
+                                    </div>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Password:</b> </span>
+                                        <input type="password" class="form-control" id="password" placeholder="">
+                                    </div>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Role:</b> </span>
+                                        <select id='role' class="form-select text-capitalize">
+                                            <% for (let i=0; i < roles.length; ++i) { %>
+                                                <option class="text-capitalize" <%=roles[i] %>"><%= roles[i].name %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary mt-4" onclick="addUser()">Add
+                                        User</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="/asset/js/authenticate.js"></script>
+    <script defer>
+        function addUser() {
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let dateOfBirth = document.getElementById('dateOfBirth').value;
+            let password = document.getElementById('password').value;
+            let role = document.getElementById('role').value;
+            let data = {
+                name: name,
+                email: email,
+                dateOfBirth: dateOfBirth,
+                password: password,
+                role: role
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/user",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                success: async function (response) {
+                    const { data, error } = await _supabase.auth.signUp({
+                        email: email,
+                        password: password,
+                    });
+
+                    // retry 5 times 
+                    if (error) {
+                        for (let i = 0; i < 5; ++i) {
+                            const { data, error } = await _supabase.auth.resend({
+                                type: 'signup',
+                                email: email
+                            });
+
+                            if (!error) {
+                                break;
+                            }
+                        }
+                    }
+                    $('#message').html(`<div class="alert alert-success py-2" role="alert">Add user successfully!</div>`);
+                    setTimeout(function(){location.href='/admin/users'}, 1000);   
+                },
+                error: function (error) {
+                    console.log(error);
+                    $('#message').html(`<div class="alert alert-danger py-2" role="alert">Add user failed!</div>`);
+                }
+            });
+        }
+    </script>
+    <%- include('footer.ejs') %>

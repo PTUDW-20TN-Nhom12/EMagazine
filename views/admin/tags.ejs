@@ -2,27 +2,20 @@
     <main style="margin-top: calc(0.5625rem + 67.6px)">
         <div class="container pt-4">
             <section>
-                <div class="row mb-4">
-                    <ul class="navbar-nav ms-auto d-flex flex-row">
-                        <form
-                            class="d-none d-md-flex input-group w-auto ms-auto align-items-center justify-content-center">
-                            <input autocomplete="off" type="search" class="form-control rounded"
-                                placeholder='Search tag' style="min-width:500px" />
-                            <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
-                        </form>
-                        <button class="btn btn-primary ms-auto d-flex flex-row" data-mdb-toggle="modal"
-                            data-mdb-target="#new-modal">
-                            Add new tag
-                        </button>
-                    </ul>
-                </div>
-            </section>
-            <section>
                 <div class="row">
                     <div class="col">
                         <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title mt-2 mb-4">Tags</h3>
+                                <ul class="navbar-nav d-flex flex-row justify-content-between">
+                                    <h5 id="tag-total">Total: 0</h5>
+                                    <button class="btn btn-primary" data-mdb-toggle="modal"
+                                        data-mdb-target="#new-modal">
+                                        Add new tag
+                                    </button>
+                                </ul>
+                            </div>
                             <div class="card-body">
-                                <h5 id="tag-total" class="card-title">Total: 0</h5>
                                 <div id="tag-list">
                                 </div>
                             </div>
@@ -84,6 +77,20 @@
             </section>
             <script>
                 $(document).ready(function () {
+                    getTags();
+                    $('#tag-total').text('Total: ' + $('#tag-list *').length);
+                })
+                let targetTag = '';
+                $('#edit-modal').on('show.bs.modal', function (event) {
+                    targetTag = event.relatedTarget;
+                    let tagName = $(event.relatedTarget).text().trim();
+                    tagName = tagName.substring(1);
+                    $('#tag-name').val(tagName);
+                    $('#tag-description').val($(event.relatedTarget).attr('title'));
+                })
+
+
+                function getTags() {
                     $.ajax({
                         url: '/api/tag',
                         type: 'GET',
@@ -94,26 +101,8 @@
                             });
                             $('#tag-total').text('Total: ' + $('#tag-list *').length);
                         }
-                    })
-                })
-                let targetTag = '';
-                $('#edit-modal').on('show.bs.modal', function (event) {
-                    targetTag = event.relatedTarget;
-                    let tagName = $(event.relatedTarget).text().trim();
-                    if (tagName[0] == '#') {
-                        tagName = tagName.substring(1);
-                        $('#edit-modal-label').text('Edit Tag');
-                    }
-                    else {
-                        tagName = '';
-                        $('#edit-modal-label').text('New Tag');
-                    }
-                    $('#tag-name').val(tagName);
-
-                })
-
-                $('#tag-total').text('Total: ' + $('#tag-list *').length);
-
+                    });
+                }
                 function updateTag() {
                     let tagId = $(targetTag).attr('id').substring(4);
                     $.ajax({

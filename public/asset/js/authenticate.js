@@ -117,20 +117,18 @@ async function signOut() {
 async function updatePassword() { 
     const password = $('#new-password').val().trim();
     const retypePassword = $('#retype-password').val().trim();
-    const errorTextDiv = document.querySelector("#error-text");
-    const successTextDiv = document.querySelector("#success-text");
 
-    if (password != retypePassword) { 
-        errorTextDiv.textContent = 'New Password and Retype Password not match';
-        successTextDiv.textContent = ''; 
+    if (password !== retypePassword) { 
+        $('#message').attr('class', 'alert alert-danger py-2');
+        $('#message').text('New password and confirm password does not match');
     } else { 
         const { data, error } = await _supabase.auth.updateUser({ password: password });
         if (error) { 
-            errorTextDiv.textContent = 'Some error from database';
-            successTextDiv.textContent = ''; 
+            $('#message').attr('class', 'alert alert-danger py-2');
+            $('#message').text('Some error from database');
         } else { 
-            errorTextDiv.textContent = '';
-            successTextDiv.textContent = 'Change password successfully!'; 
+            $('#message').attr('class', 'alert alert-success py-2');
+            $('#message').text('Password updated successfully !');
         }
     }
 }

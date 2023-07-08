@@ -1,31 +1,20 @@
 <%- include('header.ejs') %>
     <main style="margin-top: calc(0.5625rem + 67.6px)">
         <div class="container pt-4">
-            <section>
-                <div class="row mb-4">
-                    <ul class="navbar-nav ms-auto d-flex flex-row">
-                        <form
-                            class="d-none d-md-flex input-group w-auto ms-auto align-items-center justify-content-center">
-                            <input autocomplete="off" type="search" class="form-control rounded"
-                                placeholder='Search user' style="min-width:500px" />
-                            <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
-                        </form>
-                        <button class="btn btn-primary ms-auto d-flex flex-row">
-                            Add new user
-                        </button>
-                    </ul>
-                </div>
-            </section>
             <section class="mb-4">
                 <div class="card">
-                    <div class="card-header py-3">
-                        <h5 class="mb-0">
-                            <strong>Users</strong>
-                        </h5>
+                    <div class="card-header">
+                        <h3 class="card-title mt-2 mb-4">Users</h3>
+                        <ul class="navbar-nav d-flex flex-row justify-content-between">
+                            <h5 id="user-total">Total: 0</h5>
+                            <a href="/admin/add-user" class="btn btn-primary">
+                                Add new user
+                            </a>
+                        </ul>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table align-middle mb-0 bg-white">
+                            <table class="table align-middle mb-0 bg-white  text-center">
                                 <thead class="bg-light">
                                     <tr>
                                         <th>ID</th>
@@ -35,95 +24,8 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <p class="fw-normal mb-1">123456</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
-                                                    style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">John Doe</p>
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-success rounded-pill d-inline">Normal</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                Edit
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                Remove
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="fw-normal mb-1">456232</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/9.jpg" alt=""
-                                                    style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">Alex Ray</p>
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-warning rounded-pill d-inline">Premium</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                Edit
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                Remove
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p class="fw-normal mb-1">123712</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <img src="https://mdbootstrap.com/img/new/avatars/10.jpg" alt=""
-                                                    style="width: 45px; height: 45px" class="rounded-circle" />
-                                                <div class="ms-3">
-                                                    <p class="fw-bold mb-1">John Smith</p>
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted mb-0">john.smith@gmail.com</p>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-danger rounded-pill d-inline">Writer</span>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                Edit
-                                            </button>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                                Remove
-                                            </button>
-                                        </td>
-                                    </tr>
-
+                                <tbody id="user-list">
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -131,5 +33,87 @@
                 </div>
             </section>
         </div>
+        <div class="modal fade" id="remove-modal" tabindex="-1" aria-labelledby="remove-modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="new-modal-label">Remove user</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="text-remove" class="text-center mb-0"></p>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-danger" data-mdb-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-outline-danger" onclick="removeUser()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+    <script defer>
+        let targetUser = '';
+        $('#remove-modal').on('show.bs.modal', function (event) {
+            targetUser = event.relatedTarget;
+            let username = $(targetUser).parents('tr').find('#row-username').text();
+            $('#text-remove').html(`Are you sure to remove user <b>${username}</b> ?`);
+        })
+        $(document).ready(function () {
+            getUsers();
+            changeUI();
+        });
+
+        function changeUI() {
+            $('#user-total').text('Total: ' + $('#user-list tr').length);   
+            $('.badge-reader').removeClass('badge-reader').addClass('badge-success');
+            $('.badge-subscriber').removeClass('badge-subscriber').addClass('badge-warning');
+            $('.badge-writer').removeClass('badge-writer').addClass('badge-danger');
+        }
+        function getUsers() {
+            $.ajax({
+                url: '/api/user',
+                type: 'GET',
+                success: function (data) {
+                    data.forEach(user => {
+                        $('#user-list').append(`<tr>
+                                        <td>
+                                            <p id="row-id" class="fw-normal mb-1">${user.id}</p>
+                                        </td>
+                                        <td>
+                                            <p id="row-username" class="fw-bold mb-1">${user.full_name}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0">${user.email}</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-${user.role.name} rounded-pill d-inline text-capitalize">${user.role.name}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded" onclick="location.href='/admin/user/${user.id}'">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded" data-mdb-toggle="modal" data-mdb-target="#remove-modal"> 
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>`);
+                    });
+                    changeUI();
+                }
+            });
+        }
+
+        function removeUser() {
+            $.ajax({
+                url: '/api/user/' + $(targetUser).parents('tr').find('#row-id').text(),
+                type: 'DELETE',
+                success: function (data) {
+                    $(targetUser).parents('tr').remove();
+                    $('#remove-modal').modal('hide');
+                    changeUI();
+                }
+            });
+        }
+    </script>
     <%- include('footer.ejs') %>

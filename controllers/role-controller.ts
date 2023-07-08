@@ -20,7 +20,15 @@ export class RoleController {
 
     async getAllRoles(): Promise<Role[]> {
         try {
-            return await this.roleRepository.find();
+            let result = await this.roleRepository.find();
+            result = result.filter(item => item.name !== UserRole.ADMIN);
+
+            result = result.filter((item, index, self) =>
+                index === self.findIndex((t) => (
+                    t.name === item.name
+                ))
+            );
+            return result;
         } catch (error) {
             throw new Error(`Failed to retrieve roles: ${error.message}`);
         }
@@ -59,7 +67,7 @@ export class RoleController {
         }
     }
 
-    async getRoleIdByName(name: string) {
+    async getRoleByName(name: string) {
         try {
             const role = await this.roleRepository.createQueryBuilder().where("name = :name", { name: name }).getOne();
             return role;

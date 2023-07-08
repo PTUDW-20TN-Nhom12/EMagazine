@@ -23,8 +23,11 @@ const ARTICLE_STATUS_ORDER = {
     "published": 2,
 };
 
-
 router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    res.redirect('writer/dashboard');
+})
+
+router.get("/dashboard", userMiddleware.authenticate, async (req: Request, res: Response) => {
     const writerController = new WriterController();
 
     // @ts-ignore
@@ -47,7 +50,7 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
             
             articles = articles.map((item, i) => {return {...item, "status": articlesStatus[i].status, "time": articlesStatus[i].time}})
 
-            res.render("writer_dashboard", { 
+            res.render("writer/dashboard", { 
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name, 
                 "articles": articles, 
@@ -85,7 +88,7 @@ router.post('/load-article', userMiddleware.authenticate, async (req: Request, r
     // @ts-ignore
     const articles = await writerController.getListArticleOfAuthorWithStatus(req.jwtObj.id, num_start_article, status); 
 
-    res.render('writer_dashboard_resource/writer_articles.ejs', {articles})
+    res.render('writer/articles', {articles})
 })
 
 router.get("/new-article", userMiddleware.authenticate, async (req: Request, res: Response) => {
@@ -100,7 +103,7 @@ router.get("/new-article", userMiddleware.authenticate, async (req: Request, res
             const categories = (await categoryController.getAllCategories()).map(item => item.name);
             const tags = (await tagController.getAllTags()).map(item => item.name);
             
-            res.render("writer_post", { 
+            res.render("writer/post", { 
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name, 
                 "categories": categories, 
@@ -139,7 +142,7 @@ router.get("/edit/:id", userMiddleware.authenticate, async (req: Request, res: R
 
             console.log(article);
 
-            res.render("writer_post", { 
+            res.render("writer/post", { 
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name, 
                 "categories": categories, 
@@ -231,7 +234,7 @@ router.get("/preview/:id", userMiddleware.authenticate, async (req: Request, res
             const article = await articleController.getArticleById(articleId); 
             const articleStatus = await writerController.getLatestStatusOfArticle(articleId); 
             
-            res.render("writer_preview", { 
+            res.render("writer/preview", { 
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name,
                 "article": article, 
@@ -260,7 +263,7 @@ router.get("/profile", userMiddleware.authenticate, async (req: Request, res: Re
         // @ts-ignore
         const role = req.jwtObj.role.name;
         if (role == "writer") { 
-            res.render("writer_profile", {
+            res.render("writer/profile", {
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name,
                 // @ts-ignore
@@ -288,7 +291,7 @@ router.get("/edit-profile", userMiddleware.authenticate, async (req: Request, re
         // @ts-ignore
         const role = req.jwtObj.role.name;
         if (role == "writer") { 
-            res.render("writer_edit_profile", {
+            res.render("writer/edit_profile", {
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name,
                 // @ts-ignore
@@ -352,7 +355,7 @@ router.get("/change-password", userMiddleware.authenticate, async (req: Request,
         // @ts-ignore
         const role = req.jwtObj.role.name;
         if (role == "writer") { 
-            res.render("writer_changepassword", {
+            res.render("writer/change_pass", {
                 // @ts-ignore
                 "fullname": req.jwtObj.full_name,
                 // @ts-ignore

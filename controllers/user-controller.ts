@@ -5,6 +5,7 @@ import { JWTHelper } from "../utils/user_controller/jwt-helper";
 import { PasswordHelper } from "../utils/user_controller/password-helper";
 import { Role } from "../models/role"; 
 import { use } from "passport";
+import { UserRole } from "../models/role";
 
 export class UserController {
     private userRepository = SupabaseDataSource.getRepository(User);
@@ -121,14 +122,55 @@ export class UserController {
 
     async getUserById(id: number): Promise<User> {
         try {
-            return await this.userRepository
-                .createQueryBuilder('user')
-                .leftJoinAndSelect('user.role', 'role')
-                .where('user.id = :id', { id })
-                .getOne();
+            let result = await this.userRepository.findOne({
+                where: { 
+                    id: id 
+                },
+                relations: {
+                    role: true,
+                },
+            });
+            return result;
         } catch (error) {
             console.error(`Failed to retrieve category: ${error.message}`);
             return null;
+        }
+    }
+
+    async getAllUsers(roles: Array<UserRole>): Promise<User[]> {
+        try {
+            let result = await this.userRepository.find({
+                relations: {
+                    role: true,
+                },
+            });
+
+            if (roles.length > 0) {
+                result = result.filter((user) => {
+                    return roles.includes(user.role.name); 
+                });
+            }
+            result.sort((a, b) => {
+                return a.id - b.id;
+            });
+            
+            return result; 
+        } catch (error) {
+            console.error(`Failed to retrieve categories: ${error.message}`);
+            return null;
+        }
+    }
+
+    async deleteUser(id: number): Promise<void> {
+        try {
+            const user = await this.userRepository.findOneBy({ id: id });
+            if (!user) {
+                console.error(`Tag with ID ${id} not found.`);
+                return null; 
+            }
+            await this.userRepository.remove(user);
+        } catch (error) {
+            console.error(`Failed to delete category: ${error.message}`);
         }
     }
 }
