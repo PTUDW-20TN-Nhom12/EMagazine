@@ -84,8 +84,9 @@ export class UserController {
     private async getUserByEmail(email: string) : Promise<User> { 
         try { 
             return await this.userRepository.createQueryBuilder('user')
-            .leftJoinAndSelect('user.role', 'role')
             .where('user.email = :email', { email })
+            .leftJoinAndSelect('user.role', 'role')
+            .leftJoinAndSelect('role.category', 'category')
             .getOne();
         } catch (error) { 
             console.error(`Failed to get user by email: ${error.message}`);

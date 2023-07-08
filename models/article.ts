@@ -29,6 +29,9 @@ export class Article {
     @Column({ default: false })
     is_premium: boolean;
 
+    @Column({default: null, nullable: true})
+    date_published: Date;
+
     @ManyToMany(() => Tag)
     @JoinTable()
     tags: Tag[]

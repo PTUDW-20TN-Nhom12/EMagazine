@@ -1,0 +1,183 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+<script>
+
+function getTagHTML(tagName) {
+    return `
+    <button type="button" class="btn btn-info">
+        <text style="text-transform: none;">
+            #${tagName}
+        </text>
+    </button>
+    `;
+}
+
+function getItem(articleId, imgSrc, title, short) {
+    return `
+    <div class="col-xl-4 col-sm-8 col-12 mb-4">
+        <div class="card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="${imgSrc}"
+                    class="img-fluid" />
+                <div>
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    ${title}
+                </h5>
+                <p class="card-text">
+                    ${short}
+                </p>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-id="${articleId}">
+                    details
+                </button>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+function setCategoryHTML(categoryName) {
+    $("#category").text(categoryName);
+}
+
+function setTitleHTML(title) {
+    $("#title").val(title);
+}
+
+function setShortHTML(short) {
+    $("#short-description").val(short);
+}
+
+function setContentHTML(editor, content) {
+    editor.root.innerHTML = content;
+}
+
+var editor;
+
+$(document).ready(() => {
+    editor = new Quill('#editor', {
+        modules: {
+            toolbar: false
+        },
+        readOnly: true,
+        theme: 'snow',
+    });
+    $("#accept").hide();
+    $("#decline").hide();
+    
+    $.ajax({
+        url: '/editor/getList',
+        type: 'GET',
+        contentType: 'application/json',
+        success: async function (response) {
+            console.log(response)
+            for (let i of response) {
+                $("#main-list").append(getItem(i["id"], i["thumbnail_url"], i["title"], i["short_description"]))
+            }
+        },
+        error: function (_,_,error) {
+            alert(error);
+        }
+    });
+})
+
+function upload(articleId) {
+    let decision = $("#sel").val();
+
+    let data = {};
+    data["articleId"] = articleId;
+    data["note"] = "";
+    data["publishedDate"] = "";
+    data["isAccept"] = false;
+
+    if (decision == "accept") {
+        data["isAccept"] = true;
+        let date = $("#date").val();
+        if (date == "") return;
+        console.log(date);
+        data["publishedDate"] = date;
+
+    } else if (decision == "decline") {
+        let reason = $("#reason").val();
+        if (reason == "") return;
+
+        console.log(reason);
+        data["note"] = reason;
+
+    } else { return; }
+
+    $.ajax({
+        url: '/editor/make-response',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: async function (response) {
+            $("#close-modal").click();
+        },
+        error: function (error) {
+            alert(error.message);
+        }
+    });
+}
+
+$('#myModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var id = button.data('id') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+
+    $.ajax({
+        url: `/editor/details/${id}`,
+        type: 'GET',
+        contentType: 'application/json',
+        success: async function (response) {
+            console.log(response)
+
+            $("#tags").empty();
+            for (let i of response["tags"]) {
+                $("#tags").append(getTagHTML(i["name"]));
+            }
+            setCategoryHTML(response["category"]["name"])
+            setTitleHTML(response["title"]);
+            setShortHTML(response["short_description"]);
+            setContentHTML(editor, response["content"]);
+
+        },
+        error: function (_,_,error) {
+            alert(error);
+        }
+    });
+
+    console.log(id);
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var modal = $(this)
+    modal.find('.modal-title').text('Details')
+    modal.find('#save').on('click', () => {
+        console.log("save clicked");
+        upload(id);
+    })
+})
+
+$("#sel").on("change", (event) => {
+    const result = event.target.value;
+    console.log(result);
+    if (result === "accept") {
+        $("#accept").show();
+        $("#decline").hide();
+    } else if (result === "decline") {
+        $("#accept").hide();
+        $("#decline").show();
+    } else {
+        $("#accept").hide();
+        $("#decline").hide();
+    }
+})
+</script>
+</body>
+
+</html>
