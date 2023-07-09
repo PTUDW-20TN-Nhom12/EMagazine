@@ -11,12 +11,12 @@
                         
                         <% if (typeof type_sign_up !== 'undefined') { %>
                             <div class="form-outline mb-3">
-                                <input type="text" id="name" class="form-control form-control-lg" value=<%= user.name %>/>
+                                <input type="text" id="name" class="form-control form-control-lg" value="<%= user.name %>"/>
                                 <label class="form-label" for="name">Your Name</label>
                             </div>
 
                             <div class="form-outline mb-3">
-                                <input type="email" id="email" class="form-control form-control-lg" value=<%= user.email %> readonly/>
+                                <input type="email" id="email" class="form-control form-control-lg" value="<%= user.email %>" readonly/>
                                 <label class="form-label" for="email">Your Email</label>
                             </div>
 

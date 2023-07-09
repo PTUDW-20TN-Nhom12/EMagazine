@@ -171,6 +171,7 @@ export class UserController {
             await this.userRepository.remove(user);
         } catch (error) {
             console.error(`Failed to delete category: ${error.message}`);
+            return null; 
         }
     }
 }
