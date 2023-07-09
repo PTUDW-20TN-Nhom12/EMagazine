@@ -1,6 +1,6 @@
 import { SupabaseDataSource } from "../models/data_source";
 import { Category } from "../models/category";
-import { IsNull } from "typeorm";
+import { ChildEntity, IsNull } from "typeorm";
 
 export class CategoryController {
     private categoryRepository = SupabaseDataSource.getRepository(Category);
@@ -58,7 +58,14 @@ export class CategoryController {
 
     async getCategoryById(id: number): Promise<Category> {
         try {
-            return await this.categoryRepository.findOneBy({ id: id });
+            return await this.categoryRepository.findOne({
+                    where: {
+                        id: id,
+                    },
+                    relations: {
+                        children: true,
+                    }
+                });
         } catch (error) {
             console.error(`Failed to retrieve category: ${error.message}`);
             return null;
@@ -102,10 +109,22 @@ export class CategoryController {
 
     async deleteCategory(id: number): Promise<void> {
         try {
-            const category = await this.categoryRepository.findOneBy({ id: id });
+            const category = await this.categoryRepository.findOne({
+                where: {
+                    id: id,
+                },
+                relations: {
+                    children: true,
+                }
+            });
             if (!category) {
                 console.error(`Category with ID ${id} not found.`);
                 return null;
+            }
+            if (category.children.length > 0) {
+                for (const child of category.children) {
+                    await this.categoryRepository.remove(child);
+                }
             }
             await this.categoryRepository.remove(category);
         } catch (error) {

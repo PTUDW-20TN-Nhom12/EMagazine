@@ -23,6 +23,13 @@ router.get("/categories", async (req: Request, res: Response) => {
     res.render('admin/categories');
 })
 
+router.get("/category/:id", async (req: Request, res: Response) => {
+    let id = parseInt(req.params.id);
+    const categoryController = new CategoryController();
+    const category = await categoryController.getCategoryById(id);
+    res.render('admin/category', {category: category});
+})
+
 router.get("/articles", async (req: Request, res: Response) => {
     res.render('admin/articles');
 })

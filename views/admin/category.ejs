@@ -1,0 +1,159 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title mt-2 mb-4">Category: <b style="color:#1890ff"><%= category.name %></b></h3>
+                                <ul class="navbar-nav d-flex flex-row justify-content-between">
+                                    <h5 id="subcategory-total">Total: 0</h5>
+                                    <button class="btn btn-primary" data-mdb-toggle="modal"
+                                        data-mdb-target="#new-modal">
+                                        Add new subcategory
+                                    </button>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div id="subcategory-list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+            <section>
+                <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="edit-modal-label">Edit Subcategory</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="subcategory-name" class="col-form-label">Subcategory Name</label>
+                                        <input type="text" class="form-control" id="subcategory-name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="subcategory-description" class="col-form-label">Subcategory Description</label>
+                                        <input type="text" class="form-control" id="subcategory-description" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="updateSubcategory()">Save</button>
+                                <button type="button" class="btn btn-danger" onclick="removeSubcategory()">Remove Subcategory</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="new-modal" tabindex="-1" aria-labelledby="new-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="new-modal-label">New Subcategory</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="new-subcategory-name" class="col-form-label">Subcategory Name</label>
+                                        <input type="text" class="form-control" id="new-subcategory-name" />
+                                        <label for="new-subcategory-description" class="col-form-label">Subcategory Description</label>
+                                        <input type="text" class="form-control" id="new-subcategory-description" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="addSubcategory()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script>
+                $(document).ready(function () {
+                    getSubcategories();
+                    $('#subcategory-total').text('Total: ' + $('#subcategory-list *').length);
+                })
+                let targetSubcategory = '';
+                $('#edit-modal').on('show.bs.modal', function (event) {
+                    targetSubcategory = event.relatedTarget;
+                    let subcategoryName = $(event.relatedTarget).text().trim();
+                    $('#subcategory-name').val(subcategoryName);
+                    $('#subcategory-description').val($(event.relatedTarget).attr('title'));
+                })
+
+
+                function getSubcategories() {
+                    $.ajax({
+                        url: '/api/category/<%= category.id %>',
+                        type: 'GET',
+                        success: function (data) {
+                            data.children.forEach(subcategory => {
+                                $('#subcategory-list').append(`<button id="subcategory-${subcategory.id}" type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                    data-mdb-toggle="modal" data-mdb-target="#edit-modal" title="${subcategory.description}">${subcategory.name}</button>`)
+                            });
+                            $('#subcategory-total').text('Total: ' + $('#subcategory-list *').length);
+                        }
+                    });
+                }
+
+                function updateSubcategory() {
+                    let subcategoryId = $(targetSubcategory).attr('id').substring(12);
+                    $.ajax({
+                        url: '/api/category/' + subcategoryId,
+                        type: 'PUT',
+                        data: JSON.stringify({
+                            name: $('#subcategory-name').val(),
+                            description: $('#subcategory-description').val(),
+                            parent: <%= category.id %>
+                        }),
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $(targetSubcategory).text($('#subcategory-name').val());
+                            $(targetSubcategory).attr('title', $('#subcategory-description').val());
+                            $('#edit-modal').modal('hide');
+                        }
+                    })
+                }
+
+                function removeSubcategory() {
+                    let subcategoryId = $(targetSubcategory).attr('id').substring(12);
+                    $.ajax({
+                        url: '/api/category/' + subcategoryId,
+                        type: 'DELETE',
+                        success: function (data) {
+                            $(targetSubcategory).remove();
+                            $('#edit-modal').modal('hide');
+                            $('#subcategory-total').text('Total: ' + $('#subcategory-list *').length);
+                        }
+                    });
+                }
+
+                function addSubcategory() {
+                    $.ajax({
+                        url: '/api/category',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            name: $('#new-subcategory-name').val(),
+                            description: $('#new-subcategory-description').val(),
+                            parent: <%= category.id %>
+                        }),
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $('#subcategory-list').append(`<button id="subcategory-${data.id}" type="button" class="btn btn-secondary btn-rounded me-2 my-2"
+                                    data-mdb-toggle="modal" data-mdb-target="#edit-modal" title="${data.description}">${data.name}</button>`)
+                            $('#new-modal').modal('hide');
+                            $('#new-subcategory-name').val('');
+                            $('#new-subcategory-description').val('');
+                            $('#subcategory-total').text('Total: ' + $('#subcategory-list *').length);
+                        }
+                    })
+                }
+            </script>
+            <%- include('footer.ejs') %>
