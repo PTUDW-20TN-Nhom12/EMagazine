@@ -18,7 +18,7 @@
                             <%= article.title %>
                         </p>
                         <p style="font-size: 13px;">
-                            <%= moment(article.date_created).format('DD/MM/YYYY') %>
+                            <%= moment(article.date_published).format('DD/MM/YYYY') %>
                         </p>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                                 <%= article.category.name %>
                             </div>
                             <div>
-                                <%= moment(article.date_created).format('DD/MM/YYYY') %>
+                                <%= moment(article.date_published).format('DD/MM/YYYY') %>
                             </div>
                         </div>
                     </div>

@@ -4,13 +4,14 @@ import { ArticleController } from "../controllers/article-controller";
 import { TagController } from "../controllers/tag-controller";
 import { CommentController } from "../controllers/comment-controller";
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
+import { ViewLogController } from "../controllers/viewslog-controller";
 import puppeteer from 'puppeteer';
 
 const router: Router = Router();
 const ART_PER_PAGE = 6;
 const REDIRECT_MAPPING = {
     "reader": "/",
-    "subcriber": "/",
+    "subscriber": "/",
     "writer": "/writer",
     "editor": "/editor",
     "admin": "/admin",
@@ -21,30 +22,26 @@ const userMiddleware = new UserMiddleware();
 router.get("/", userMiddleware.authenticate, async (req: Request, res: Response) => {
     const articleControler = new ArticleController();
 
-    // @ts-ignore
-    console.log(req.jwtObj)
+    // [DEBUG]
+    // console.log(req.jwtObj)
 
     // @ts-ignore
-    if (req.isAuth) { 
+    if (req.isAuth && req.jwtObj.role.name != "subscriber") { 
         // @ts-ignore
         const role = req.jwtObj.role.name; 
         res.redirect(REDIRECT_MAPPING[role])
     } 
-    
-    // for guest 
+    // @ts-ignore
+    let isPremium = req.jwtObj.isPremium;
     res.render("index", {
         title: "Trang chủ | Lacainews",
         // @ts-ignore
-        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
+        header: await headerGenerator(true, false, isPremium, -1, req.jwtObj.full_name),
         footer: await footerGenerator(),
-        //@ts-ignore
-        moi_nhat: await articleControler.getLatestArticles(req.jwtObj.isPremium),
-        //@ts-ignore
-        nhieu_nhat: await articleControler.getMostViewsArticles(req.jwtObj.isPremium),
-        //@ts-ignore
-        top_10: await articleControler.getMostViewByCategoryArticles(req.jwtObj.isPremium),
-        //@ts-ignores
-        noi_bat: await articleControler.getHotArticles(req.jwtObj.isPremium),
+        moi_nhat: await articleControler.getLatestArticles(isPremium),
+        nhieu_nhat: await articleControler.getMostViewsArticles(isPremium),
+        top_10: await articleControler.getMostViewByCategoryArticles(isPremium),
+        noi_bat: await articleControler.getHotArticles(isPremium),
     })
 })
 
@@ -52,9 +49,12 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
     const article_id = parseInt(req.params.id);
     const articleControler = new ArticleController();
     const article = await articleControler.getArticleById(article_id);
-    const relatedArticles = await articleControler.getArticlesByCategoryID(article.category.id, 0, 4);
+    // @ts-ignore
+    const relatedArticles = await articleControler.getArticlesByCategoryID(req.jwtObj.isPremium, article.category.id, 0, 4);
     const commentController = new CommentController();
-
+    const viewlogController = new ViewLogController();
+    await viewlogController.createViewLog(article);
+    
     res.render("post", {
         // @ts-ignore
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
@@ -68,7 +68,7 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
         imgLink: article.thumbnail_url.replace(/zoom\/260_163\//, ""),
         post_data: {
             post_title: article.title,
-            date: new Date(),
+            date: article.date_published,
             tags: article.tags,
             content: article.content
         },
@@ -90,7 +90,7 @@ router.get("/api/raw-content/:id", userMiddleware.authenticate, async (req: Requ
         category_name: article.category.name,
         post_data: {
             post_title: article.title,
-            date: new Date(),
+            date: article.date_published,
             tags: article.tags,
             content: article.content
         },
@@ -118,10 +118,13 @@ router.get("/category/:id/:page", userMiddleware.authenticate, async (req: Reque
     const category_id = parseInt(req.params.id);
     const page = parseInt(req.params.page);
     const articleControler = new ArticleController();
-    const articles = await articleControler.getArticlesByCategoryID(category_id, page);
-    const totalArticles = await articleControler.countArticlesByCategoryID(category_id);
+    // @ts-ignore
+    const isPremium = req.jwtObj.isPremium;
+    const articles = await articleControler.getArticlesByCategoryID(isPremium, category_id, page);
+    const totalArticles = await articleControler.countArticlesByCategoryID(isPremium, category_id);
 
     res.render("category_detail", {
+        search_page: false,
         title: articles[0].category.name,
         page_name: articles[0].category.name,
         items: articles,
@@ -139,10 +142,13 @@ router.get("/tag/:id/:page", userMiddleware.authenticate, async (req: Request, r
     const articleControler = new ArticleController(); 
     const tagController = new TagController();
     const tag = await tagController.getTagById(tag_id);
-    const articles = await articleControler.getArticlesByTagID(tag_id, page);
-    const totalArticles = await articleControler.countArticlesByTagID(tag_id);
+    // @ts-ignore
+    const isPremium = req.jwtObj.isPremium;
+    const articles = await articleControler.getArticlesByTagID(isPremium, tag_id, page);
+    const totalArticles = await articleControler.countArticlesByTagID(isPremium, tag_id);
 
     res.render("category_detail", {
+        search_page: false,
         title: '#' + tag.name,
         page_name: '#' + tag.name, 
         items: articles,
@@ -154,22 +160,14 @@ router.get("/tag/:id/:page", userMiddleware.authenticate, async (req: Request, r
     })
 })
 
-router.get("/search/:query/:page", userMiddleware.authenticate, async (req: Request, res: Response) => {
+router.get("/search/:query", userMiddleware.authenticate, async (req: Request, res: Response) => {
     const query = req.params.query;
-    const page = parseInt(req.params.page);
-    const articleControler = new ArticleController(); 
-    const searchQuery = query.replace(/ /g,"&");
-    //@ts-ignore
-    let totalArticles = await articleControler.countSearchResults(req.jwtObj.isPremium, searchQuery);
-    //@ts-ignore
-    const articles = await articleControler.getSearchResults(req.jwtObj.isPremium, searchQuery, page);
-    totalArticles = Math.min(20,totalArticles[0]['count']);
-    res.render("category_detail", {  
+    res.render("search_detail", {  
+        // @ts-ignore
+        is_pre: req.jwtObj.isPremium,
+        search_page: true,
         title: 'Search: '+ query,
         page_name: 'Search: ' + query,
-        items: articles,
-        current_page: page,
-        max_page: Math.ceil(totalArticles/ ART_PER_PAGE),
         // @ts-ignore
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name), 
         footer: await footerGenerator(),

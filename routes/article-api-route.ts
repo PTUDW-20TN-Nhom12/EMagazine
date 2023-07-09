@@ -22,6 +22,11 @@ router.get('/:id', async (req: Request, res: Response) => {
     }
 });
 
+router.post('/search', async (req: Request, res: Response) => {
+    const articleController = new ArticleController();
+    const articles = await articleController.getSearchResults(req.body.is_premium, req.body.format, req.body.query);
+    res.json(articles);
+});
 
 export {
     router as articleApiRouter

@@ -14,7 +14,7 @@
             <% } %>
             <div class="d-flex align-items-center ml-auto mr-5">
                 <div class="form-outline">
-                    <input type="search" id="SearchText" class="form-control" placeholder="Tìm kiếm" />
+                    <input type="search" id="SearchText" class="form-control" placeholder="Tìm kiếm" required />
                 </div>
                 <button id="SearchButton" type="button" class="btn btn-dark">
                   <i class="fas fa-search"></i>
@@ -94,6 +94,8 @@
     }
 
     document.querySelector("#SearchButton").addEventListener('click', (e) => {
-        window.location.href = '/search/' + encodeURIComponent(document.querySelector("#SearchText").value.trim()) + "/0";
+        if (document.querySelector("#SearchText").value.trim() != '') {
+            window.location.href = '/search/' + encodeURIComponent(document.querySelector("#SearchText").value.trim());
+        }
     })
 </script> 

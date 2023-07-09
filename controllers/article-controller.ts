@@ -38,18 +38,49 @@ export class ArticleController {
         }
     }
 
+    async getArticleMetadataById(id: number): Promise<Article> {
+        try {
+            return await this.articleRepository.findOne({
+                relations: {
+                    category: true,
+                },
+                where: {
+                    id: id,
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail_url: true,
+                    is_premium: true,
+                    date_published: true,
+                    category: {
+                        name: true,
+                    },
+                },
+                cache: true,
+            });
+        } catch (error) {
+            console.error(`Failed to retrieve article: ${error.message}`);
+            return null;
+        }
+    }                 
+
     async getHotArticles(is_premium, number = 4): Promise<Article[]> {
         try {
             let results = await this.articleRepository.query(`SELECT "articleId", COUNT(*) AS view_count
             FROM views_log
             WHERE time >= CURRENT_DATE - INTERVAL '30 days'
             GROUP BY "articleId"
-            ORDER BY view_count DESC
-            LIMIT $1`, [number]); 
+            ORDER BY view_count DESC`); 
             let ret = [];
             for (let result of results) {
-                let article = await this.getArticleById(result.articleId);
-                ret.push(article);
+                let article = await this.getArticleMetadataById(result.articleId);
+                if (is_premium === true || article.is_premium === false) {
+                    ret.push(article);
+                }
+                if (ret.length === number) {
+                    break;
+                }
             }
             return ret;
         } catch (error) {
@@ -60,13 +91,33 @@ export class ArticleController {
 
     async getLatestArticles(is_premium, number = 10): Promise<Article[]> {
         try {
-            return await this.articleRepository.find({
+            let results = await this.articleRepository.find({
                 relations: {
                     category: true,
                 },
-                take: number,
-                cache: true,
+                order: {
+                    date_published: "DESC",
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail_url: true,
+                    is_premium: true,
+                    category: {
+                        name: true,
+                    },
+                }
             });
+            let ret = [];
+            for (let result of results) {
+                if (is_premium === true || result.is_premium === false) {
+                    ret.push(result);
+                }
+                if (ret.length === number) {
+                    break;
+                }
+            }
+            return ret;          
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
             return null;
@@ -78,12 +129,16 @@ export class ArticleController {
             let results = await this.articleRepository.query(`SELECT "articleId", COUNT(*) AS view_count
             FROM views_log
             GROUP BY "articleId"
-            ORDER BY view_count DESC
-            LIMIT $1`, [number]);
+            ORDER BY view_count DESC`);
             let ret = [];
             for (let result of results) {
-                let article = await this.getArticleById(result.articleId);
-                ret.push(article);
+                let article = await this.getArticleMetadataById(result.articleId);
+                if (is_premium === true || article.is_premium === false) {
+                    ret.push(article);
+                }
+                if (ret.length === number) {
+                    break;
+                }
             }
             return ret;
         } catch (error) {
@@ -107,12 +162,16 @@ export class ArticleController {
                 GROUP BY b."categoryId", b.id
               ) subquery
             )
-            ORDER BY views DESC
-            LIMIT $1`, [number]);  
+            ORDER BY views DESC`);  
             let ret = [];
             for (let result of results) {
-                let article = await this.getArticleById(result.id);
-                ret.push(article);
+                let article = await this.getArticleMetadataById(result.id);
+                if (is_premium === true || article.is_premium === false) {
+                    ret.push(article);
+                }
+                if (ret.length === number) {
+                    break;
+                }
             }
             return ret;
         } catch (error) {
@@ -132,84 +191,220 @@ export class ArticleController {
         }
     }
 
-    async getArticlesByCategoryID(category_id: number, page: number, page_size: number = 6): Promise<Article[]> {
+    async getArticlesByCategoryID(is_premium, category_id: number, page: number, page_size: number = 6): Promise<Article[]> {
         try {
-            return await this.articleRepository
-                        .createQueryBuilder("articles")
-                        .leftJoinAndSelect("articles.category", "category")
-                        .leftJoinAndSelect("articles.tags", "tag")
-                        .where("category.id = :category_id", { category_id: category_id })
-                        .orderBy('articles.id', 'ASC')
-                        .skip(page * page_size)
-                        .take(page_size)
-                        .cache(true)
-                        .getMany();
-        } catch (error) {
-            console.error(`Failed to retrieve articles: ${error.message}`);
-            return null;
-        }
-    }
-
-    async countArticlesByCategoryID(category_id: number): Promise<number> {
-        try {
-            return await this.articleRepository
-                        .createQueryBuilder("articles")
-                        .leftJoinAndSelect("articles.category", "category")
-                        .leftJoinAndSelect("articles.tags", "tag")
-                        .where("category.id = :category_id", { category_id: category_id })
-                        .cache(true)
-                        .getCount();
-        } catch (error) {
-            console.error(`Failed to retrieve articles: ${error.message}`);
-            return null;
-        }
-    }
-
-    async getArticlesByTagID(tag_id: number, page: number, page_size: number = 6): Promise<Article[]> {
-        try {
-            return await this.articleRepository
-                        .createQueryBuilder("articles")
-                        .leftJoinAndSelect("articles.category", "category")
-                        .leftJoinAndSelect("articles.tags", "tag")
-                        .where("tag.id = :tag_id", { tag_id: tag_id })
-                        .orderBy('articles.id', 'ASC')
-                        .skip(page * page_size)
-                        .take(page_size)
-                        .cache(true)
-                        .getMany();  
-        } catch (error) {
-            console.error(`Failed to retrieve articles: ${error.message}`);
-            return null;
-        }
-    }
-
-    async countArticlesByTagID(tag_id: number): Promise<number> {
-        try {
-            return await this.articleRepository
-                        .createQueryBuilder("articles")
-                        .leftJoinAndSelect("articles.category", "category")
-                        .leftJoinAndSelect("articles.tags", "tag")
-                        .where("tag.id = :tag_id", { tag_id: tag_id })
-                        .cache(true)
-                        .getCount();
-        } catch (error) {
-            console.error(`Failed to retrieve articles: ${error.message}`);
-            return null;
-        }
-    }
-
-    async getSearchResults(is_premium, search_query: string, page: number, page_size: number = 6) {
-        try {
-            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content), to_tsquery('english', $1)) AS rank
-            FROM articles
-            WHERE (to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $2)) 
-            AND ts_rank(to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content), to_tsquery('english', $3)) > 0.3
-            ORDER BY rank DESC LIMIT 20`, [search_query, search_query, search_query]);
+            let results = await this.articleRepository.find({
+                relations: {
+                    category: true,
+                    tags: true,
+                },
+                where: {
+                    category: {
+                        id: category_id,
+                    },
+                },
+                order: {
+                    is_premium: "DESC",
+                    date_published: "DESC",
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail_url: true,
+                    is_premium: true,
+                    category: {
+                        id: true,
+                        name: true,
+                    },
+                    tags: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                cache: true,
+            });
+            let skip = page * page_size;
             let ret = [];
-            results = results.slice(page * page_size, (page + 1) * page_size);
+            for (let result of results) {
+                if (is_premium === true || result.is_premium === false) {
+                    if (skip > 0) {
+                        skip--;
+                    }
+                    else {
+                        ret.push(result);
+                    }
+                }
+                if (ret.length === page_size) {
+                    break;
+                }
+            }
+            return ret;
+        } catch (error) {
+            console.error(`Failed to retrieve articles: ${error.message}`);
+            return null;
+        }
+    }
+
+    async countArticlesByCategoryID(is_premium, category_id: number): Promise<number> {
+        try {
+            let results = await this.articleRepository.find({
+                relations: {
+                    category: true,
+                    tags: true,
+                },
+                where: {
+                    category: {
+                        id: category_id,
+                    },
+                },
+                order: {
+                    is_premium: "DESC",
+                    date_published: "DESC",
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail_url: true,
+                    is_premium: true,
+                    category: {
+                        id: true,
+                        name: true,
+                    },
+                    tags: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                cache: true,
+            });
+            let cnt = 0;
+            for (let result of results) {
+                if (is_premium === true || result.is_premium === false) {
+                    cnt++;
+                }
+            }
+            return cnt;
+        } catch (error) {
+            console.error(`Failed to retrieve articles: ${error.message}`);
+            return null;
+        }
+    }
+
+    async getArticlesByTagID(is_premium, tag_id: number, page: number, page_size: number = 6): Promise<Article[]> {
+        try {
+            let results = await this.articleRepository.find({
+                relations: {
+                    category: true,
+                    tags: true,
+                },
+                where: {
+                    tags: {
+                        id: tag_id,
+                    },
+                },
+                order: {
+                    is_premium: "DESC",
+                    date_published: "DESC",
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail_url: true,
+                    is_premium: true,
+                    category: {
+                        id: true,
+                        name: true,
+                    },
+                    tags: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                cache: true,
+            });
+            let skip = page * page_size;
+            let ret = [];
+            for (let result of results) {
+                if (is_premium === true || result.is_premium === false) {
+                    if (skip > 0) {
+                        skip--;
+                    }
+                    else {
+                        ret.push(result);
+                    }
+                }
+                if (ret.length === page_size) {
+                    break;
+                }
+            }
+            return ret;  
+        } catch (error) {
+            console.error(`Failed to retrieve articles: ${error.message}`);
+            return null;
+        }
+    }
+
+    async countArticlesByTagID(is_premium, tag_id: number): Promise<number> {
+        try {
+            let results = await this.articleRepository.find({
+                relations: {
+                    category: true,
+                    tags: true,
+                },
+                where: {
+                    tags: {
+                        id: tag_id,
+                    },
+                },
+                order: {
+                    is_premium: "DESC",
+                    date_published: "DESC",
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    thumbnail_url: true,
+                    is_premium: true,
+                    category: {
+                        id: true,
+                        name: true,
+                    },
+                    tags: {
+                        id: true,
+                        name: true,
+                    },
+                },
+                cache: true,
+            });
+            let cnt = 0;
+            for (let result of results) {
+                if (is_premium === true || result.is_premium === false) {
+                    cnt++;
+                }
+            }
+            return cnt;
+        } catch (error) {
+            console.error(`Failed to retrieve articles: ${error.message}`);
+            return null;
+        }
+    }
+
+    async getSearchResults(is_premium, format:string, search_query: string, limit: number = 10) {
+        try {
+            let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', ${format}), to_tsquery('english', $1)) AS rank
+            FROM articles
+            WHERE (to_tsvector('english', ${format}) @@ to_tsquery('english', $2)) 
+            AND ts_rank(to_tsvector('english', ${format}), to_tsquery('english', $3)) > 0.3
+            ORDER BY rank DESC`, [search_query, search_query, search_query]);
+            let ret = [];
             for (let result of results) {
                 let article = await this.getArticleById(result.id);
-                ret.push(article);
+                if (is_premium === true || result.is_premium === false) {
+                    ret.push(article);
+                }
+                if (ret.length === limit) {
+                    break;
+                }
             }
             return ret;
         } catch (error) {
@@ -220,9 +415,16 @@ export class ArticleController {
 
     async countSearchResults(is_premium, search_query: string) {
         try {
-            return await this.articleRepository.query(`SELECT COUNT(*)
+            let results = await this.articleRepository.query(`SELECT COUNT(*)
             FROM articles 
             WHERE (to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $1))`, [search_query])
+            let cnt = 0;
+            for (let result of results) {
+                if (is_premium === true || result.is_premium === false) {
+                    cnt++;
+                }
+            }
+            return cnt;
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
             return null;
