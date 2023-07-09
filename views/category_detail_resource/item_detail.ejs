@@ -18,7 +18,7 @@
             <div>
                 <% if (article.is_premium) { %>
                     <span class="item-tag" style="background-color: #F6EF50;">PREMIUM</span>
-                    <% } %>
+                <% } %>
                         <% for (let tag of article.tags) { %>
                             <span class="item-tag" onclick="window.location.href='/tag/<%= tag.id %>/0'">#<%= tag.name
                                     %></span>

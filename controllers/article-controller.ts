@@ -43,6 +43,7 @@ export class ArticleController {
             return await this.articleRepository.findOne({
                 relations: {
                     category: true,
+                    tags: true,
                 },
                 where: {
                     id: id,
@@ -52,10 +53,16 @@ export class ArticleController {
                     title: true,
                     thumbnail_url: true,
                     is_premium: true,
+                    short_description: true,
                     date_published: true,
                     category: {
+                        id: true,
                         name: true,
                     },
+                    tags: {
+                        id: true,
+                        name: true,
+                    }
                 },
                 cache: true,
             });
@@ -104,9 +111,14 @@ export class ArticleController {
                     thumbnail_url: true,
                     is_premium: true,
                     category: {
+                        id: true,
                         name: true,
                     },
-                }
+                    tags: {
+                        id: true,
+                        name: true,
+                    },
+                },
             });
             let ret = [];
             for (let result of results) {
@@ -398,8 +410,8 @@ export class ArticleController {
             ORDER BY rank DESC`, [search_query, search_query, search_query]);
             let ret = [];
             for (let result of results) {
-                let article = await this.getArticleById(result.id);
-                if (is_premium === true || result.is_premium === false) {
+                let article = await this.getArticleMetadataById(result.id);
+                if (is_premium === true || article.is_premium === false) {
                     ret.push(article);
                 }
                 if (ret.length === limit) {

@@ -32,6 +32,7 @@
     <link href="/asset/css/bootstrap-isolate.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
 </head>
 
 <body>
@@ -44,15 +45,18 @@
                 <% if (search_page) { %>
                     <div class="d-flex align-items-center justify-content-center">
                         <div id="article-status-group" class="mb-3">
-                            <button type="button" class="btn  btn-warning btn-article-status active" onclick="setStatusFilter(this)">
+                            <button type="button" class="btn  btn-warning btn-article-status active"
+                                onclick="setStatusFilter(this)">
                                 <i class="bi bi-check2 mr-1"></i>
                                 Title
                             </button>
-                            <button type="button" class="btn btn-warning btn-article-status active" onclick="setStatusFilter(this)">
+                            <button type="button" class="btn btn-warning btn-article-status"
+                                onclick="setStatusFilter(this)">
                                 <i class="bi bi-check2 mr-1"></i>
                                 Abstract
                             </button>
-                            <button type="button" class=" btn btn-warning btn-article-status active" onclick="setStatusFilter(this)">
+                            <button type="button" class=" btn btn-warning btn-article-status"
+                                onclick="setStatusFilter(this)">
                                 <i class="bi bi-check2 mr-1"></i>
                                 Content
                             </button>
@@ -63,7 +67,10 @@
                             </button>
                         </div>
                         <% } %>
-                         
+
+                    </div>
+                    <div id="result">
+
                     </div>
         </main>
         <%- include('partials/footer.ejs', {footer}) %>
@@ -75,6 +82,10 @@
             window.location.href = parseInt(document.querySelector("#PageInput").value) - 1;
         })
     }
+
+    $(document).ready(function () {
+        filterArticles();
+    });
 
     function setStatusFilter(button) {
         const isActived = button.classList.contains("active");
@@ -93,7 +104,7 @@
         status.pop()
         status = status.map(item => item.textContent.trim().toLowerCase())
         let query = $("#search-input").text().trim().toLowerCase().substring(8);
-        query = query.replace(/ /g,"&");
+        query = query.replace(/ /g, "&");
         let formatList = [];
         for (let i = 0; i < status.length; i++) {
             if (status[i] == 'title') {
@@ -108,21 +119,57 @@
             }
         }
         let format = formatList.join('||\' \'||');
-        if (format != '') {
-            $.ajax({
-                url: '/api/article/search',
-                type: 'POST',
-                data: JSON.stringify({
-                    query: query,
-                    format: format,
-                    is_premium: <%= is_pre %>
-                }),
-                contentType: 'application/json',
-                success: function (data) {
-                    console.log(data);
+        let rawdata = {
+            query: query,
+            format: format,
+            is_premium: <%= is_pre %>
+                };
+    if (format != '') {
+        $.ajax({
+            url: '/api/article/search',
+            type: 'POST',
+            data: JSON.stringify(rawdata),
+            contentType: 'application/json',
+            success: function (data) {
+                $('#result').empty();
+                if (data.length == 0) {
+                    $('#result').append(`<h1 class="text-center mt-4">No result found</h1>`);
                 }
-            });
-        }
+                else {
+                    data.forEach(function (article) {
+                        content = `<div class="d-flex flex-row justify-content-center">
+                                            <img src="${article.thumbnail_url}" class="item-thumbnail align-self-center"
+                                                onclick="window.location.href='/content/${article.id}'" />
+
+                                            <div class="d-flex flex-column item-content-container justify-content-between align-items-start">
+                                                <div class="item-wrapper" onclick="window.location.href='/content/${article.id}'">
+                                                    <h5 class="item-title">
+                                                        ${article.title}
+                                                    </h5>
+                                                    <p class="item-subtitle">
+                                                        ${article.short_description}
+                                                    </p>
+                                                </div>
+                                                <div class="item-wrapper">
+                                                    <h5 class="mb-3 item-category" onclick="window.location.href='/category/${article.category.id}/0'">
+                                                        ${article.category.name}
+                                                    </h5>`;
+                        if (article.is_premium) {
+                            content += `<span class="item-tag" style="background-color: #F6EF50;">PREMIUM</span>`;
+                        }
+                        for (let tag of article.tags) {
+                            content += `<span class="item-tag" onclick="window.location.href='/tag/${tag.id}/0'">#${tag.name
+                                }</span>`;
+                        }
+                        content += `<span class="item-datetime align-self-end">
+                                    ${moment(article.date_published).format('DD/MM/YYYY')}
+                                </span></div>      </div>    </div></div><hr>`
+                        $('#result').append(content);
+                    });
+                }
+            }
+        });
+    }
     }
 </script>
 
