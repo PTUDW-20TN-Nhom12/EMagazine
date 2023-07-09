@@ -6,6 +6,7 @@ import { CommentController } from "../controllers/comment-controller";
 import { UserMiddleware } from "../controllers/middleware/user-middleware";
 import { ViewLogController } from "../controllers/viewslog-controller";
 import puppeteer from 'puppeteer';
+import { UserController } from "../controllers/user-controller";
 
 const router: Router = Router();
 const ART_PER_PAGE = 6;
@@ -26,10 +27,11 @@ router.get("/", userMiddleware.authenticate, async (req: Request, res: Response)
     // console.log(req.jwtObj)
 
     // @ts-ignore
-    if (req.isAuth && req.jwtObj.role.name != "subscriber") { 
+    if (req.isAuth) { 
         // @ts-ignore
         const role = req.jwtObj.role.name; 
-        res.redirect(REDIRECT_MAPPING[role])
+        if (REDIRECT_MAPPING[role] != '/') 
+            res.redirect(REDIRECT_MAPPING[role])
     } 
     // @ts-ignore
     let isPremium = req.jwtObj.isPremium;
@@ -172,6 +174,213 @@ router.get("/search/:query", userMiddleware.authenticate, async (req: Request, r
         header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name), 
         footer: await footerGenerator(),
     })
+})
+
+router.get("/profile", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    const profile_form = [
+        {
+          "attribute_name": "Lacainews ID:",
+          "id": "LacainewsID",
+          "placeholder": "",
+          "type": "text"
+        },
+        {
+          "attribute_name": "Họ tên: ",
+          "id": "name",
+          "placeholder": "",
+          "type": "text"
+        },
+        {
+          "attribute_name": "Email liên lạc:",
+          "id": "email",
+          "placeholder": "",
+          "type": "email"
+        },
+        {
+          "attribute_name": "Ngày tháng năm sinh:",
+          "id": "dateOfBirth",
+          "placeholder": "",
+          "type": "text"
+        },
+        {
+          "attribute_name": "Thời hạn premium",
+          "id": "premiumDate",
+          "placeholder": "",
+          "type": "text"
+        }
+    ]
+
+    // @ts-ignore
+    if (req.isAuth) {
+        // @ts-ignore
+        console.log(req.jwtObj);
+
+        // @ts-ignore
+        const role = req.jwtObj.role.name;
+        if (role == "reader" || role == "subscriber") { 
+            // @ts-ignore
+            profile_form[0].placeholder = req.jwtObj.id; 
+            // @ts-ignore
+            profile_form[1].placeholder = req.jwtObj.full_name; 
+            // @ts-ignore
+            profile_form[2].placeholder = req.jwtObj.email; 
+            // @ts-ignore
+            profile_form[3].placeholder = new Date(req.jwtObj.birthday).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }); 
+            // @ts-ignore
+            profile_form[4].placeholder = req.jwtObj.expire_date;  
+
+            res.render("profile", {  
+                title: "Thông tin cá nhân | Lacainews",
+                profile_form: profile_form,
+                // @ts-ignore
+                header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name), 
+                footer: await footerGenerator(),
+            })
+            return;
+        }
+    }
+
+    res.render("not_available", {
+        title: "Not Available | Lacainews",
+        // @ts-ignore
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
+        footer: await footerGenerator(),
+    });
+}) 
+
+
+router.post("/edit-profile", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    // @ts-ignore
+    if (!req.isAuth) {
+        res.status(401); 
+        return; 
+    }
+    
+    // @ts-ignore
+    if (req.jwtObj.role.name != 'subscriber' && req.jwtObj.role.name != 'reader') { 
+        res.status(401); 
+        return; 
+    }
+
+    const userController = new UserController(); 
+    // @ts-ignore
+    const user = await userController.getUserById(req.jwtObj.id); 
+    const { fullname, birthday } = req.body;
+
+    user.full_name = fullname; 
+    user.birthday = new Date(birthday); 
+
+    // @ts-ignore
+    console.log(user); 
+    
+    try { 
+        userController.updateUser(user);  
+
+        // @ts-ignore
+        res.status(200).json('OK'); 
+    } catch (error) {
+        console.error(`Failed to update user: ${error.message}`);
+        res.status(403).json(error.message); 
+    }
+})
+
+
+router.get("/update-profile", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    const profile_form = [
+        {
+          "attribute_name": "Họ tên: ",
+          "id": "name",
+          "placeholder": "",
+          "type": "text"
+        },
+        {
+          "attribute_name": "Email liên lạc:",
+          "id": "email",
+          "placeholder": "",
+          "type": "email"
+        },
+        {
+          "attribute_name": "Ngày tháng năm sinh:",
+          "id": "birthday",
+          "placeholder": "",
+          "type": "date"
+        }
+    ]
+
+    // @ts-ignore
+    if (req.isAuth) {
+        // @ts-ignore
+        console.log(req.jwtObj);
+
+        // @ts-ignore
+        const role = req.jwtObj.role.name;
+        if (role == "reader" || role == "subscriber") { 
+            // @ts-ignore
+            profile_form[0].placeholder = req.jwtObj.full_name; 
+            // @ts-ignore
+            profile_form[1].placeholder = req.jwtObj.email;  
+            // @ts-ignore
+            profile_form[2].placeholder = new Date(req.jwtObj.birthday).toISOString().substr(0, 10); 
+
+            res.render("update_profile", {  
+                title: "Thay đổi thông tin | Lacainews",
+                profile_form: profile_form,
+                // @ts-ignore
+                header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name), 
+                footer: await footerGenerator(),
+            })
+            return;
+        }
+    }
+
+    res.render("not_available", {
+        title: "Not Available | Lacainews",
+        // @ts-ignore
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
+        footer: await footerGenerator(),
+    });
+})
+
+
+router.get("/update-password", userMiddleware.authenticate, async (req: Request, res: Response) => {
+    const profile_form = [
+      {
+        "attribute_name": "New password: ",
+        "id": "new-password",
+        "type": "password"
+      },
+      {
+        "attribute_name": "Retype password:",
+        "id": "retype-password",
+        "type": "password"
+      }
+    ]
+
+    // @ts-ignore
+    if (req.isAuth) {
+        // @ts-ignore
+        console.log(req.jwtObj);
+
+        // @ts-ignore
+        const role = req.jwtObj.role.name;
+        if (role == "reader" || role == "subscriber") { 
+            res.render("change_password", {  
+                title: "Thay đổi mật khẩu | Lacainews",
+                profile_form: profile_form,
+                // @ts-ignore
+                header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name), 
+                footer: await footerGenerator(),
+            })
+            return;
+        }
+    }
+
+    res.render("not_available", {
+        title: "Not Available | Lacainews",
+        // @ts-ignore
+        header: await headerGenerator(true, false, req.jwtObj.isPremium, -1, req.jwtObj.full_name),
+        footer: await footerGenerator(),
+    });
 })
 
 export {

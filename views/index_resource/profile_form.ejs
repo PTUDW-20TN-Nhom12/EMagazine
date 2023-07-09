@@ -1,0 +1,9 @@
+<h2 class="profile-title">Thông tin tài khoản</h2>
+<div class="mt-5 mb-5 d-flex flex-column align-items-center justify-content-center">
+    <% for( let i = 0; i < data.length; i++ ) { %>
+        <div class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+            <span class="attribute-form"><%=data[i].attribute_name%></span>
+            <input type="<%=data[i].type%>" class="form-control" id="<%=data[i].id%>" value="<%=data[i].placeholder%>" <%= (!is_updated || data[i].id == 'email') ? "disabled" : ""%>>
+        </div>
+    <% } %>
+</div>

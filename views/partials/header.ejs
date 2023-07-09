@@ -28,16 +28,19 @@
                 </a>
             <% } else { %>
                 <div class="dropdown">
-                    <a class="d-flex align-items-center mr-5" href="/signin" style="color: grey;">
+                    <a class="nav-link d-flex align-items-center color" href="#" id="navbarDropdownMenuLink" 
+                    role="button" aria-expanded="false" data-mdb-toggle="dropdown" style="color: grey;">
                         <p class="mb-0 mr-2"><%= "Chào, " + header["userName"] %></p>
                         <i class="bi bi-person ms-3" style="font-size: 24px;"></i>
                     </a>
-                    <div class="dropdown-content">
-                        <a href="/payment/client" class="dropdown-item">Đăng ký / Gia hạn Premium</a>
-                        <a href="/" class="dropdown-item">Cập nhật thông tin</a>
-                        <a href="/" onclick="signOut()" class="dropdown-item">Đăng xuất</a>
-                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/payment/client">Đăng ký / Gia hạn Premium</a></li>
+                        <li><a class="dropdown-item" href="/profile">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href="/update-password">Thay đổi mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="/" onclick="signOut()">Đăng xuất</a></li>
+                    </ul>
                 </div>
+
             <% } %>
         </div>
             </div>
