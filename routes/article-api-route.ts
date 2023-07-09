@@ -6,6 +6,7 @@ import { WriterController } from "../controllers/writer-controller";
 import { ArticleStatusController } from "../controllers/article-status-controller";
 import { UserController } from "../controllers/user-controller";
 import { StatusList } from "../models/article-status";
+import moment from "moment";
 
 const router: Router = Router();
 
@@ -58,6 +59,11 @@ router.put('/:id', async (req: Request, res: Response) => {
         const user = await userController.getUserById(req.jwtObj.id);
         const key = Object.keys(StatusList).filter(x => StatusList[x] == req.body.status)[0];
         const status = await articlestatusController.createArticleStatus(article, user, StatusList[key], new Date(), req.body.message);
+        if (req.body.published_date) {
+            article.date_published = moment(req.body.published_date).toDate();
+            await articleController.updateArticleO(article);
+        }
+        
         res.json(status);
     }
 });
