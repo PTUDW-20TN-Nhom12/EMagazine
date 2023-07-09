@@ -19,6 +19,7 @@ import { tagApiRouter } from './routes/tag-api-route';
 import { editorRoute } from './routes/editor-route';
 import { userApiRouter } from './routes/user-api-route';
 import { categoryApiRouter } from './routes/category-api-route';
+import { articleApiRouter } from './routes/article-api-route';
 
 const PORT: number = parseInt(process.env.PORT) || 80;
 const app: Express = express();
@@ -50,6 +51,7 @@ app.use("/editor", editorRoute);
 app.use("/api/tag", tagApiRouter);
 app.use("/api/user", userApiRouter);
 app.use("/api/category", categoryApiRouter);
+app.use("/api/article", articleApiRouter);
 
 app.listen(PORT, () => {
     console.log(`Server started at port ${PORT}`);

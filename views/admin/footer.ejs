@@ -4,10 +4,15 @@
         document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         window.location.href = '/';
     }
-    const path = window.location.pathname;
-    const currentPage = path.substring(path.lastIndexOf("/") + 1, path.length);
-    if ($(`#${currentPage}`).length > 0) {
-        $(`#${currentPage}`).addClass('active');
+    let path = window.location.pathname.substring(7);
+    if (path.lastIndexOf('/') !== -1) {
+        path = path.substring(0, path.lastIndexOf('/'));
+    }
+    if (path.indexOf('-') !== -1) {
+        path = path.substring(path.indexOf('-') + 1, path.length);
+    }
+    if ($(`.active-${path}`).length > 0) {
+        $(`.active-${path}`).addClass('active');
     }
     else {
         $(`#dashboard`).addClass('active');

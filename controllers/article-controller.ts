@@ -229,6 +229,16 @@ export class ArticleController {
         }
     }
 
+    async countArticles(): Promise<number> {
+        try {
+            let result = await this.articleRepository.count();
+            return result;
+        } catch (error) {
+            console.error(`Failed to retrieve articles: ${error.message}`);
+            return null;
+        }
+    }
+
     async getArticleById(id: number): Promise<Article> {
         try {
             return await this.articleRepository.findOne({
@@ -243,6 +253,26 @@ export class ArticleController {
             });
         } catch (error) {
             console.error(`Failed to retrieve article: ${error.message}`);
+            return null;
+        }
+    }
+    async getAllArticles(page: number, page_size: number = 10): Promise<Article[]> {
+        try {
+            return await this.articleRepository.find({
+                order: {
+                    id: 'DESC',
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    is_premium: true,
+                    date_published: true,
+                },
+                skip: page * page_size,
+                take: page_size,
+            });
+        } catch (error) {
+            console.error(`Failed to retrieve articles: ${error.message}`);
             return null;
         }
     }
