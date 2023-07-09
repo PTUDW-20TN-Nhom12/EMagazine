@@ -473,6 +473,10 @@ export class ArticleController {
     async getAllArticles(page: number, page_size: number = 10): Promise<Article[]> {
         try {
             return await this.articleRepository.find({
+                relations: {
+                    author: true,
+                    category: true,
+                },
                 order: {
                     id: 'DESC',
                 },
@@ -481,6 +485,12 @@ export class ArticleController {
                     title: true,
                     is_premium: true,
                     date_published: true,
+                    author: {
+                        email: true,
+                    },
+                    category: {
+                        name: true,
+                    }
                 },
                 skip: page * page_size,
                 take: page_size,
@@ -521,6 +531,15 @@ export class ArticleController {
         }
     }
 
+    async updateArticleO(article: Article): Promise<Article> {
+        try {
+            return await this.articleRepository.save(article);
+        } catch (error) {
+            console.error(`Failed to update article: ${error.message}`);
+            return null;
+        }
+    }
+    
     async deleteArticle(id: number): Promise<void> {
         try {
             const article = await this.articleRepository.findOneBy({ id: id });

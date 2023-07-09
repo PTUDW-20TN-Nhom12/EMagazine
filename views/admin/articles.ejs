@@ -7,8 +7,8 @@
                         <h3 class="card-title mt-2 mb-4">Articles</h3>
                         <ul class="navbar-nav d-flex flex-row justify-content-between">
                             <h5 id="article-total">Total: 0</h5>
-                            <!-- <button class="btn btn-primary" onclick="location.href='/admin/add-article'">
-                                Add new article
+                            <!-- <button class="btn btn-primary" onclick="location.href='/writer/dashboard'">
+                                Writer Dashboard
                             </button> -->
                         </ul>
                     </div>
@@ -18,15 +18,16 @@
                                 <thead class="bg-light">
                                     <tr>
                                         <th>ID</th>
+                                        <th>Category</th>
                                         <th>Title</th>
                                         <th>Author</th>
+                                        <th>Premium</th>
                                         <th>Status</th>
-                                        <th>Uploaded Date</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="article-container">
-                                   
+
                                 </tbody>
                             </table>
                         </div>
@@ -35,11 +36,13 @@
                         <nav class="d-flex justify-content-center align-items-center">
                             <ul class="pagination">
                                 <li class="page-item">
-                                    <a class="page-link" href="/admin/articles/<%= Math.max(page - 1,1) %>" aria-label="Previous">
+                                    <a class="page-link" href="/admin/articles/<%= Math.max(page - 1,1) %>"
+                                        aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
-                                <p class="mb-0 pt-1"> <small>Page <%= page %> of </small><small id="numpage"></small></p>
+                                <p class="mb-0 pt-1"> <small>Page <%= page %> of </small><small id="numpage"></small>
+                                </p>
                                 <li class="page-item">
                                     <a id="next-link" class="page-link" href="#" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
@@ -51,12 +54,50 @@
                 </div>
             </section>
             <section>
+                <div class="modal fade" id="type-modal" tabindex="-1" aria-labelledby="type-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 id="typel-title" class="modal-title">Change article type</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div>
+                                        <span class="me-3">Type: </span>
+                                        <div class="btn-group mb-3 mt-2">
+                                            <button type="button" class="btn btn-info"><text
+                                                    id="article_type">Free</text></button>
+                                            <button type="button"
+                                                class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                                                data-mdb-toggle="dropdown" aria-expanded="false">
+                                                <span class="visually-hidden">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a id="atype_1" class="dropdown-item"
+                                                        onclick="$('#article_type').text($('#atype_1').text());">
+                                                        Free</a></li>
+                                                <li><a id="atype_2" class="dropdown-item"
+                                                        onclick="$('#article_type').text($('#atype_2').text());">
+                                                        Premium</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="changeType()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="status-modal" tabindex="-1" aria-labelledby="status-modal"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Change article status</h5>
+                                <h5 id="status-title" class="modal-title">Change article status</h5>
                                 <button type="button" class="btn-close" data-mdb-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -64,21 +105,30 @@
                                 <form>
                                     <div>
                                         <span class="me-3">Status: </span>
-                                        <div class="btn-group mb-3">
-                                            <button type="button" class="btn btn-warning"><text
-                                                    id="user_type">Approved</text></button>
+                                        <div class="btn-group mb-3  mt-2">
+                                            <button type="button" class="btn btn-info"><text
+                                                    id="user_type">Draft</text></button>
                                             <button type="button"
-                                                class="btn btn-warning dropdown-toggle dropdown-toggle-split"
+                                                class="btn btn-info dropdown-toggle dropdown-toggle-split"
                                                 data-mdb-toggle="dropdown" aria-expanded="false">
                                                 <span class="visually-hidden">Toggle Dropdown</span>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li><a id="type_1" class="dropdown-item"
                                                         onclick="$('#user_type').text($('#type_1').text());">
-                                                        Refuse</a></li>
+                                                        Draft</a></li>
                                                 <li><a id="type_2" class="dropdown-item"
                                                         onclick="$('#user_type').text($('#type_2').text());">
-                                                        Approved</a></li>
+                                                        Rejected</a></li>
+                                                <li><a id="type_3" class="dropdown-item"
+                                                        onclick="$('#user_type').text($('#type_3').text());">
+                                                        Accepted</a></li>
+                                                <li><a id="type_4" class="dropdown-item"
+                                                        onclick="$('#user_type').text($('#type_4').text());">
+                                                        Published</a></li>
+                                                <li><a id="type_5" class="dropdown-item"
+                                                        onclick="$('#user_type').text($('#type_5').text());">
+                                                        Archived</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -89,7 +139,7 @@
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-success" onclick="save()">Done</button>
+                                <button type="button" class="btn btn-success" onclick="changeStatus()">Done</button>
                             </div>
                         </div>
                     </div>
@@ -114,49 +164,159 @@
                 }
             });
         }
+        function getStatus(status, id) {
+            if (status === 'published') {
+                return `<td>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <i class="bi bi-circle-fill circle-published me-1"></i>
+                                <p id="statusb-${id}" class="mb-0">Published</p>
+                            </div>
+                        </td>`;
+            }
+            else if (status === 'accepted') {
+                return `<td>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <i class="bi bi-circle-fill circle-approved me-1"></i>
+                                <p id="statusb-${id}" class="mb-0">Accepted</p>
+                            </div>
+                        </td>`;
+            }
+            else if (status === 'rejected') {
+                return `<td>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <i class="bi bi-circle-fill circle-reject me-1"></i>
+                                <p id="statusb-${id}" class="mb-0">Rejected</p>
+                            </div>
+                        </td>`;
+            }
+            else if (status === 'draft') {
+                return `<td>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <i class="bi bi-circle-fill circle-pending me-1"></i>
+                                <p id="statusb-${id}" class="mb-0">Draft</p>
+                            </div>
+                        </td>`;
+            }
+            else {
+                return `<td>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <i class="bi bi-circle-fill circle me-1"></i>
+                                <p id="statusb-${id}" class="mb-0">Archived</p>
+                            </div>
+                        </td>`;
+            }
+        }
+        let targetArticle = '';
+        $('#type-modal').on('show.bs.modal', function (event) {
+            targetArticle = event.relatedTarget;
+            let id = $(targetArticle).attr('id').split('-')[1];
+            $('#typel-title').text('Change type of article ID: ' + id);
+            $('#article_type').text($('#typeb-' + id).text());
+        });
 
+        $('#status-modal').on('show.bs.modal', function (event) {
+            targetArticle = event.relatedTarget;
+            let id = $(targetArticle).attr('id').split('-')[1];
+            $('#status-title').text('Change status of article ID: ' + id);
+            $('#user_type').text($('#statusb-' + id).text());
+        });
+
+        function changeStatus() {
+            let status = $('#user_type').text().trim().toLowerCase();
+            let id = $(targetArticle).attr('id').split('-')[1];
+            let message = $('#message').val();
+            $.ajax({
+                url: '/api/article/' + id,
+                method: 'PUT',
+                data: JSON.stringify({
+                    mode: "status",
+                    status: status,
+                    message: message
+                }),
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#status-modal').modal('hide');
+                    $('#message').val('');
+                    loadArticles();
+                    loadCount();
+                }
+            });
+        }
+
+        function changeType() {
+            let type = $('#article_type').text().trim().toLowerCase();
+            let id = $(targetArticle).attr('id').split('-')[1];
+            $.ajax({
+                url: '/api/article/' + id,
+                method: 'PUT',
+                data: JSON.stringify({
+                    mode: "type",
+                    type: type
+                }),
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#type-modal').modal('hide');
+                    loadArticles();
+                    loadCount();
+                }
+            });
+        }
         function loadArticles() {
             $.ajax({
                 url: '/api/article/<%= page %>',
                 method: 'GET',
                 success: function (data) {
                     $('#article-container').empty();
-                    data.forEach(function (item) {
-                        $('#article-container').append(`
-                                    <tr>
+                    for (let i = 0; i < data.articles.length; ++i) {
+                        let item = data.articles[i];
+                        let status = data.status[i];
+                        content = `<tr>
                                         <td>
                                             <p class="fw-normal mb-1">${item.id}</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info rounded-pill d-inline text-capitalize">${item.category.name}</span>
                                         </td>
                                         <td>
                                             <p class="fw-normal mb-1">${item.title}</p>
                                         </td>
                                         <td>
-                                            <p class="text-muted mb-0">hihi@gmail.com</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <i class="bi bi-circle-fill circle-reject me-1"></i>
-                                                <p class="mb-0">Reject</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-muted mb-0">2023-02-05 08:28:36</p>
-                                        </td>
+                                            <p class="text-muted mb-0">${item.author.email}</p>
+                                        </td>`;
+                        if (item.is_premium) {
+                            content += `<td>
+                                <span id="typeb-${item.id}" class="badge badge-warning rounded-pill d-inline text-capitalize">Premium</span>
+                                        </td>`;
+                        }
+                        else {
+                            content += `<td>
+                                <span id="typeb-${item.id}" class="badge badge-success rounded-pill d-inline text-capitalize">Free</span>
+                                        </td>`;
+                        }
+                        content += getStatus(status.status, item.id);
+
+                        content += `
                                         <td>
                                             <button type="button" class="btn btn-link btn-sm btn-rounded"
                                                 onclick="location.href='/admin/article/${item.id}'">
                                                 Preview
                                             </button>
-                                            <button type="button" class="btn btn-link btn-sm btn-rounded"
+                                            <button id="btntype-${item.id}" type="button" class="btn btn-link btn-sm btn-rounded"
+                                                data-mdb-toggle="modal" data-mdb-target="#type-modal">
+                                                Change type
+                                            </button>
+                                            <button id="btnchange-${item.id}" type="button" class="btn btn-link btn-sm btn-rounded"
                                                 data-mdb-toggle="modal" data-mdb-target="#status-modal">
                                                 Change status
                                             </button>
                                         </td>
                                     </tr>
-                        `);
-                    });
+                        `;
+                        $('#article-container').append(content);
+                    }
                 }
             });
+
         }
     </script>
     <%- include('footer.ejs') %>
