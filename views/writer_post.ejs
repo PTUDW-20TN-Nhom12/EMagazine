@@ -130,8 +130,15 @@
         </div>
 
         <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
         <script>
+            const { createClient } = supabase
+
+            const SUPABASE_URL = 'https://iuprtgkypnvwgkhrpbcz.supabase.co'
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1cHJ0Z2t5cG52d2draHJwYmN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzk0OTYyMTQsImV4cCI6MTk5NTA3MjIxNH0.uM1bPaWeGukhOP5AyNN2LO5wfT1-21uYSNI3f3hZIwg'
+            const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+
             const dashboardElement = document.getElementById('dashboard');
             const newArticleElement = document.getElementById('new-article');
 
@@ -160,6 +167,57 @@
                     toolbar: toolbarOptions
                 },
                 theme: 'snow',
+            });
+
+            function handleImageUpload() {
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = function(event) {
+                    var file = event.target.files[0];
+                    if (file) {
+                        uploadImage(file);
+                    }
+                };
+                input.click();
+            }
+
+            function uploadImage(file) {
+                var filename = generateUniqueFilename(file.name);
+
+                _supabase.storage
+                    .from('img-article')
+                    .upload(filename, file, {
+                        cacheControl: '3600',
+                        upsert: false,
+                    })
+                    .then(response => {
+                        if (response.error) {
+                            console.error(response.error);
+                            return;
+                        }
+
+                        console.log(response); 
+                        insertImage('https://iuprtgkypnvwgkhrpbcz.supabase.co/storage/v1/object/public/img-article/' + response.data.path)
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+
+            function generateUniqueFilename(originalFilename) {
+                var timestamp = new Date().getTime();
+                var extension = originalFilename.split('.').pop();
+                return `${timestamp}.${extension}`;
+            }
+
+            function insertImage(imageUrl) {
+                var range = editor.getSelection();
+                editor.insertEmbed(range.index, 'image', imageUrl);
+            }
+
+            editor.getModule('toolbar').addHandler('image', function() {
+                handleImageUpload();
             });
 
 
