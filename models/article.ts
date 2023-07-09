@@ -29,6 +29,9 @@ export class Article {
     @Column({ default: false })
     is_premium: boolean;
 
+    @Column({ type: 'timestamp', nullable: true, default: () => 'CURRENT_TIMESTAMP' })
+    date_published: Date;
+
     @ManyToMany(() => Tag)
     @JoinTable()
     tags: Tag[]

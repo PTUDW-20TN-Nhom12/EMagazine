@@ -13,9 +13,11 @@ import { CommentRouter as commentRouter } from './routes/comment-route';
 import { AppDataSource, SupabaseDataSource } from './models/data_source';
 // @ts-ignore
 import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 import { PaymentRouter as paymentRouter } from './routes/payment-route';
 import { tagApiRouter } from './routes/tag-api-route';
+import { editorRoute } from './routes/editor-route';
+import { userApiRouter } from './routes/user-api-route';
 
 const PORT: number = parseInt(process.env.PORT) || 80;
 const app: Express = express();
@@ -30,19 +32,22 @@ SupabaseDataSource.initialize().catch(console.error);
 // Handle (GET, ...) request from router in controller
 app.use("/", express.static("public"));
 app.use(cookieParser());
-app.use(bodyParser.json())
+app.use(express.json())
 
 app.use("/", indexRouter);
 app.use("/signin", signinRouter);
 app.use("/signup", signupRouter);
 app.use("/comment", commentRouter);
 app.use("/oauth", oauthRouter);
-app.use("/writer", writerRouter);
 app.use("/payment", paymentRouter);
+
+app.use("/writer", writerRouter);
 app.use("/admin", adminRouter);
+app.use("/editor", editorRoute);
 
 
 app.use("/api/tag", tagApiRouter);
+app.use("/api/user", userApiRouter);
 
 
 app.listen(PORT, () => {

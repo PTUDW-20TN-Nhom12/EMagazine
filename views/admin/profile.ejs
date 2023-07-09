@@ -5,40 +5,36 @@
                 <div class="row">
                     <div class="col mb-4">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
+                            <div class="card-header">
+                                <div class="d-flex mt-2 align-items-center justify-content-between">
                                     <h5 class="card-title">Thông tin tài khoản</h5>
                                     <button class="btn btn-primary btn-rounded ms-auto btn-edit"
-                                        onclick="location.href='edit-profile.html'"><i
+                                        onclick="location.href='/admin/edit-profile'"><i
                                             class="bi bi-pencil"></i></button>
                                 </div>
-                                <div class="mt-5 mb-5 d-flex flex-column align-items-center justify-content-center">
-
+                            </div>
+                            <div class="card-body">
+                                <div class="mt-2 mb-2 d-flex flex-column align-items-center justify-content-center">
                                     <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Lacainews ID:</span>
-                                        <input type="text" class="form-control" id="LacainewsID" placeholder="123456"
-                                            disabled>
+                                        class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Lacainews ID:</b></span>
+                                        <input type="text" class="form-control" id="LacainewsID" disabled>
+                                    </div>
+                                    <div
+                                        class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Họ tên:</b></span>
+                                        <input type="text" class="form-control" id="name" disabled>
                                     </div>
 
                                     <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Họ tên: </span>
-                                        <input type="text" class="form-control" id="name" placeholder="Nguyễn Văn A"
-                                            disabled>
-                                    </div>
-
-                                    <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Email liên lạc:</span>
-                                        <input type="email" class="form-control" id="email"
-                                            placeholder="hello@gmail.com" disabled>
+                                        class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Email liên lạc:</b></span>
+                                        <input type="email" class="form-control" id="email" disabled>
                                     </div>
                                     <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Ngày tháng năm sinh:</span>
-                                        <input type="text" class="form-control" id="dateOfBirth"
-                                            placeholder="01/01/1999" disabled>
+                                        class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Ngày tháng năm sinh:</b></span>
+                                        <input type="text" class="form-control" id="dateOfBirth" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -47,4 +43,19 @@
             </section>
 
     </main>
+    <script defer>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/user/current',
+                type: 'GET',
+                success: function (data) {
+                    $('#LacainewsID').val(data.id);
+                    $('#name').val(data.full_name);
+                    $('#email').val(data.email);
+                    
+                    $('#dateOfBirth').val(moment(new Date(data.birthday)).format('DD/MM/YYYY'));
+                }
+            });
+        });
+    </script>
     <%- include('footer.ejs') %>

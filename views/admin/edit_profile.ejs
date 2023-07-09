@@ -5,37 +5,59 @@
                 <div class="row">
                     <div class="col mb-4">
                         <div class="card">
+                            <div class="card-header mt-2">
+                                <h5 class="card-title">Thay đổi thông tin tài khoản</h5>
+                            </div>
                             <div class="card-body">
-                                <div class="d-flex">
-                                    <h5 class="card-title">Thay đổi thông tin tài khoản</h5>
-                                </div>
-                                <div class="mt-5 mb-5 d-flex flex-column align-items-center justify-content-center">
-
-                                    <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Họ tên: </span>
+                                <div class="mt-2 mb-2 d-flex flex-column align-items-center justify-content-center">
+                                    <div id="message"></div>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Họ tên:</b> </span>
                                         <input type="text" class="form-control" id="name" placeholder="Họ và tên">
                                     </div>
 
-                                    <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Email liên lạc:</span>
-                                        <input type="email" class="form-control" id="email" placeholder="Email">
-                                    </div>
-
-                                    <div
-                                        class="form-outline d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
-                                        <span class="attribute-form">Ngày tháng năm sinh:</span>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Ngày tháng năm sinh:</b></span>
                                         <input type="date" class="form-control" id="dateOfBirth"
                                             placeholder="Ngày sinh">
                                     </div>
-                                    <button type="button" class="btn btn-primary">Save</button>
-
+                                    <button type="button" class="btn btn-primary mt-4"
+                                        onclick="updateProfile()">Save</button>
                                 </div>
                             </div>
                         </div>
                     </div>
             </section>
-
     </main>
+    <script defer>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/user/current',
+                type: 'GET',
+                success: function (data) {
+                    $('#name').val(data.full_name);
+                    $('#dateOfBirth').val(moment(new Date(data.birthday)).format('YYYY-MM-DD'));
+                }
+            });
+        });
+
+        function updateProfile() {
+            $.ajax({
+                url: '/api/user/current',
+                type: 'PUT',
+                data: JSON.stringify({
+                    full_name: $('#name').val(),
+                    birthday: $('#dateOfBirth').val()
+                }),
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#message').html('<div class="alert alert-success py-2" role="alert">Cập nhật thông tin thành công</div>');
+                    location.href = '/admin/profile';
+                },
+                error: function (err) {
+                    $('#message').html('<div class="alert alert-danger py-2" role="alert">Cập nhật thông tin thất bại</div>');
+                }
+            });
+        }
+    </script>
     <%- include('footer.ejs') %>

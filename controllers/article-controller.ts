@@ -16,6 +16,7 @@ export class ArticleController {
         short_description: string,
         content: string,
         thumbnail_url: string,
+        date_published: Date,
         is_premium: boolean
     ): Promise<Article> {
         const article = new Article();
@@ -26,6 +27,7 @@ export class ArticleController {
         article.content = content;
         article.thumbnail_url = thumbnail_url;
         article.is_premium = is_premium;
+        article.date_published = date_published;
         article.tags = [];
 
         try {

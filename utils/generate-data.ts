@@ -94,7 +94,7 @@ async function initArticles() {
         if (k == 2) {
             is_pre = true;
         }
-        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], is_pre);
+        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], new Date(), is_pre);
     }
 
     // for (let article of articles) {
@@ -176,10 +176,10 @@ async function init() {
             // await initTags();
             // await initCategories();
             // await initRoles();
-            await initArticles();
-            await initViewLog();
+            // await initArticles();
+            // await initViewLog();
             // await initUsers();
-            await initArticleStatus();
+            // await initArticleStatus();
         })
         .catch((err) => {
             console.error("Error during Data Source initialization", err)

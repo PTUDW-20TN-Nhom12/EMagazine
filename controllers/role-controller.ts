@@ -14,15 +14,25 @@ export class RoleController {
         try {
             return await this.roleRepository.save(role);
         } catch (error) {
-            throw new Error(`Failed to create role: ${error.message}`);
+            console.error(`Failed to create role: ${error.message}`);
+            return null; 
         }
     }
 
     async getAllRoles(): Promise<Role[]> {
         try {
-            return await this.roleRepository.find();
+            let result = await this.roleRepository.find();
+            result = result.filter(item => (item.name !== UserRole.ADMIN && item.name !== UserRole.EDITOR));
+
+            result = result.filter((item, index, self) =>
+                index === self.findIndex((t) => (
+                    t.name === item.name
+                ))
+            );
+            return result;
         } catch (error) {
-            throw new Error(`Failed to retrieve roles: ${error.message}`);
+            console.error(`Failed to retrieve roles: ${error.message}`);
+            return null; 
         }
     }
 
@@ -30,7 +40,8 @@ export class RoleController {
         try {
             return await this.roleRepository.findOneBy({ id: id });
         } catch (error) {
-            throw new Error(`Failed to retrieve role: ${error.message}`);
+            console.error(`Failed to retrieve role: ${error.message}`);
+            return null; 
         }
     }
 
@@ -38,13 +49,15 @@ export class RoleController {
         try {
             const role = await this.roleRepository.findOneBy({ id: id });
             if (!role) {
-                throw new Error(`Role with ID ${id} not found.`);
+                console.error(`Role with ID ${id} not found.`);
+                return null; 
             }
             role.name = name;
             role.description = description;
             return await this.roleRepository.save(role);
         } catch (error) {
-            throw new Error(`Failed to update role: ${error.message}`);
+            console.error(`Failed to update role: ${error.message}`);
+            return null; 
         }
     }
 
@@ -59,7 +72,7 @@ export class RoleController {
         }
     }
 
-    async getRoleIdByName(name: string) {
+    async getRoleByName(name: string) {
         try {
             const role = await this.roleRepository.createQueryBuilder().where("name = :name", { name: name }).getOne();
             return role;
@@ -73,11 +86,13 @@ export class RoleController {
         try {
             const role = await this.roleRepository.findOneBy({ id: id });
             if (!role) {
-                throw new Error(`Role with ID ${id} not found.`);
+                console.error(`Role with ID ${id} not found.`);
+                return null; 
             }
             await this.roleRepository.remove(role);
         } catch (error) {
-            throw new Error(`Failed to delete role: ${error.message}`);
+            console.error(`Failed to delete role: ${error.message}`);
+            return null; 
         }
     }
 
@@ -85,7 +100,8 @@ export class RoleController {
         try {
             await this.roleRepository.delete({});
         } catch (error) {
-            throw new Error(`Failed to clear roles: ${error.message}`);
+            console.error(`Failed to clear roles: ${error.message}`);
+            return null; 
         }
     }
 }

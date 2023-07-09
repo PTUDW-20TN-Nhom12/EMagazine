@@ -17,7 +17,8 @@ export class ArticleStatusController {
         try {
             return await this.articleStatusRepository.save(articleStatus);
         } catch (error) {
-            throw new Error(`Failed to create article status: ${error.message}`);
+            console.error(`Failed to create article status: ${error.message}`);
+            return null; 
         }
     }
 
@@ -25,7 +26,8 @@ export class ArticleStatusController {
         try {
             return await this.articleStatusRepository.find();
         } catch (error) {
-            throw new Error(`Failed to retrieve article statuses: ${error.message}`);
+            console.error(`Failed to retrieve article statuses: ${error.message}`);
+            return null; 
         }
     }
 
@@ -33,7 +35,8 @@ export class ArticleStatusController {
         try {
             return await this.articleStatusRepository.findOneBy({ id: id });
         } catch (error) {
-            throw new Error(`Failed to retrieve article status: ${error.message}`);
+            console.error(`Failed to retrieve article status: ${error.message}`);
+            return null; 
         }
     }
 
@@ -41,13 +44,15 @@ export class ArticleStatusController {
         try {
             const articleStatus = await this.articleStatusRepository.findOneBy({ id: id });
             if (!articleStatus) {
-                throw new Error(`Article status with ID ${id} not found.`);
+                console.error(`Article status with ID ${id} not found.`);
+                return null; 
             }
             articleStatus.status = status;
             articleStatus.note = note;
             return await this.articleStatusRepository.save(articleStatus);
         } catch (error) {
-            throw new Error(`Failed to update article status: ${error.message}`);
+            console.error(`Failed to update article status: ${error.message}`);
+            return null; 
         }
     }
 
@@ -55,11 +60,13 @@ export class ArticleStatusController {
         try {
             const articleStatus = await this.articleStatusRepository.findOneBy({ id: id });
             if (!articleStatus) {
-                throw new Error(`Article status with ID ${id} not found.`);
+                console.error(`Article status with ID ${id} not found.`);
+                return null; 
             }
             await this.articleStatusRepository.remove(articleStatus);
         } catch (error) {
-            throw new Error(`Failed to delete article status: ${error.message}`);
+            console.error(`Failed to delete article status: ${error.message}`);
+            return null; 
         }
     }
 
@@ -67,7 +74,8 @@ export class ArticleStatusController {
         try {
             await this.articleStatusRepository.delete({});
         } catch (error) {
-            throw new Error(`Failed to clear article statuses: ${error.message}`);
+            console.error(`Failed to clear article statuses: ${error.message}`);
+            return null; 
         }
     }
 }

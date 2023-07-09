@@ -13,19 +13,21 @@ router.get('/', async (req: Request, res: Response) => {
     res.json(tags);
 });
 
-router.post('/', userMiddleware.authenticate, userMiddleware.checkRole([UserRole.ADMIN]), async (req: Request, res: Response) => {
+router.use(userMiddleware.authenticate, userMiddleware.checkRole([UserRole.ADMIN]));
+
+router.post('/', async (req: Request, res: Response) => {
     const tagController = new TagController();
     const tag = await tagController.createTag(req.body.name, req.body.description);
     res.json(tag);
 });
 
-router.put('/:id', userMiddleware.authenticate, userMiddleware.checkRole([UserRole.ADMIN]), async (req: Request, res: Response) => {
+router.put('/:id', async (req: Request, res: Response) => {
     const tagController = new TagController();
     const tag = await tagController.updateTag(parseInt(req.params.id), req.body.name, req.body.description);
     res.json(tag);
 });
 
-router.delete('/:id', userMiddleware.authenticate, userMiddleware.checkRole([UserRole.ADMIN]), async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
     const tagController = new TagController();
     await tagController.deleteTag(parseInt(req.params.id));
     res.sendStatus(200);

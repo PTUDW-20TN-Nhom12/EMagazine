@@ -33,7 +33,7 @@ router.post("/", async (req: Request, res: Response) => {
     let user = new User(); 
     user.full_name = name; 
     if (role) 
-        user.role = await roleController.getRoleIdByName(role); 
+        user.role = await roleController.getRoleByName(role); 
     else 
         user.role = null; 
     user.email = email; 
