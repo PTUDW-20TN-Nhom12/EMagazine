@@ -94,7 +94,7 @@ export class WriterController {
 
     // Based on Specification
     async uploadArticle(authorID: number, title: string, summary: string, content: string,
-        categoryName: string, tagList: string[], premium = false): Promise<object> {
+        thumbnail_url: string, categoryName: string, tagList: string[], premium = false): Promise<object> {
 
         try { 
             const newArticle = new Article();
@@ -123,7 +123,7 @@ export class WriterController {
             newArticle.short_description = summary;
             newArticle.title = title;
             newArticle.tags = tags;
-            newArticle.thumbnail_url = "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w="; // Hardcoded image
+            newArticle.thumbnail_url = thumbnail_url; 
             
             const saveArticleResult = await this.articleRepository.save(newArticle);
 
@@ -142,7 +142,7 @@ export class WriterController {
     }
 
     async editArticle(articleId: number, title: string, summary: string, content: string,
-        categoryName: string, tagList: string[], premium = false) {
+        thumbnail_url: string, categoryName: string, tagList: string[], premium = false) {
         
         try { 
             let article = await this.articleRepository
@@ -174,6 +174,7 @@ export class WriterController {
             article.short_description = summary;
             article.title = title;
             article.tags = tags;
+            article.thumbnail_url = thumbnail_url; 
             
             await this.articleRepository.save(article); 
 

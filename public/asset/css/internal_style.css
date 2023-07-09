@@ -138,3 +138,21 @@ body {
     border-color: #5499F1; 
     color: #1258B4;
 }
+
+.ql-editor .td-video {
+    display: block;
+    max-width: 100%;
+    width: 100%; /* Set the width to 100% */
+    height: 0; /* Set the initial height to 0 */
+    padding-bottom: 56.25%; /* Maintain aspect ratio for 16:9 videos */
+    position: relative;
+}
+
+.ql-editor .td-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Make the iframe fill the container */
+}
+  

@@ -10,12 +10,31 @@
                                 <input type="text" class="form-control mb-3" id="title"
                                     value="<%= article ? article.title : '' %>">
 
-
                                 <h5 class="text-muted font-weight-bold">Short description</h5>
                                 <input type="text" class="form-control mb-3" id="short-description"
                                     value="<%=article ? article.short_description : ''%>">
-
+                                
+                                <h5 class="text-muted font-weight-bold">Thumbnail</h5>
+                                <form id="thumbnail-form">
+                                    <label for="img">Select image:</label>
+                                    <input type="file" id="img" name="img" accept="image/*">
+                                    <input type="submit" value="Upload">
+                                </form> 
+                                <% if (article) { %>
+                                    <div id="thumbnail-container" class="d-flex justify-content-center mt-3 mb-3">
+                                        <img id="thumbnail" src="<%=article.thumbnail_url %>" class="w-75"/>
+                                    </div>
+                                <% } else { %>
+                                    <div id="thumbnail-container" class="d-none justify-content-center mt-3 mb-3">
+                                        <img id="thumbnail" src="https://iuprtgkypnvwgkhrpbcz.supabase.co/storage/v1/object/public/img-article/1688878614567.jpg" class="w-75"/>
+                                    </div>
+                                <% } %>    
                                 <h5 class="text-muted font-weight-bold">Content</h5>
+
+                                <div class="mb-3" id='video-prompt' style="display: none;">
+                                    <div><input class="w-100" type="text" id='video-url' value='https://www.youtube.com/embed/k3zimSRKqNw'></div>
+                                    <button id="submit-video" class="btn btn-primary mt-2" type="button" onclick="addVideo()">Add video</button>
+                                </div>
                                 <div id="toolbar"></div>
                                 <div id="editor" style="min-height: 300px;">
                                     <%-(article ? article.content : "" )%>
@@ -123,13 +142,14 @@
                         </div>
                     </div>
             </section>
+            <div id="error-text" class="d-flex mb-2 flex-row text-danger">
+            </div>
             <div class="d-flex mb-5">
                 <button type="button" class="ms-auto me-auto btn btn-primary mt-3"
                     onclick="uploadArticle()">Submit</button>
             </div>
         </div>
 
-        <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
         <script>
@@ -142,8 +162,29 @@
             const dashboardElement = document.getElementById('dashboard');
             const newArticleElement = document.getElementById('new-article');
 
+            var thumbnailUrl = '<%= article ? article.thumbnail_url : ""%>'; 
+
             dashboardElement.classList.remove('active');
             newArticleElement.classList.add('active');
+
+            document.getElementById('thumbnail-form').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                var fileInput = document.getElementById('img');
+                var file = fileInput.files[0];
+
+                if (file) {
+                    thumbnailUrl = await uploadImage(file);
+                    if (thumbnailUrl != '') { 
+                        thumbnailImgContainer = document.getElementById('thumbnail-container'); 
+                        if (thumbnailImgContainer.classList.contains('d-none')) { 
+                            thumbnailImgContainer.classList.remove('d-none');
+                            thumbnailImgContainer.classList.add('d-flex');
+                        }
+                        document.getElementById('thumbnail').src = thumbnailUrl; 
+                    }
+                }
+            });
 
             var toolbarOptions = [
                 ['bold', 'italic', 'underline', 'strike'],
@@ -163,29 +204,54 @@
             ];
 
             var editor = new Quill('#editor', {
-                modules: {
-                    toolbar: toolbarOptions
-                },
                 theme: 'snow',
+                modules: {
+                    imageResize: {
+                        displaySize: true
+                    },
+                    toolbar: toolbarOptions,
+                },
             });
 
-            function handleImageUpload() {
+            function addVideo() { 
+                document.getElementById('video-prompt').style.display = 'none';
+                
+                const videoUrl = document.getElementById('video-url').value.trim();  
+                if (videoUrl == '') { 
+                    return;
+                }
+
+                let range = this.editor.getSelection();
+                this.editor.insertEmbed(range.index, 'video', videoUrl);
+
+                let insertedElement = this.editor.getLeaf(range.index)[0].domNode;
+                insertedElement.style.width = '75%';
+                insertedElement.style.aspectRatio = '3/2';
+                insertedElement.style.margin = '0 auto';
+            }
+
+            editor.getModule('toolbar').addHandler('video', function() {
+                document.getElementById('video-prompt').style.display = 'block'; 
+            });
+
+            async function handleImageUpload() {
                 var input = document.createElement('input');
                 input.type = 'file';
                 input.accept = 'image/*';
-                input.onchange = function(event) {
+                input.onchange = async function(event) {
                     var file = event.target.files[0];
                     if (file) {
-                        uploadImage(file);
+                        const imageUrl = await uploadImage(file);
+                        insertImage(imageUrl); 
                     }
                 };
                 input.click();
             }
 
-            function uploadImage(file) {
+            async function uploadImage(file) {
                 var filename = generateUniqueFilename(file.name);
 
-                _supabase.storage
+                return await _supabase.storage
                     .from('img-article')
                     .upload(filename, file, {
                         cacheControl: '3600',
@@ -194,14 +260,13 @@
                     .then(response => {
                         if (response.error) {
                             console.error(response.error);
-                            return;
+                            return "";
                         }
-
-                        console.log(response); 
-                        insertImage('https://iuprtgkypnvwgkhrpbcz.supabase.co/storage/v1/object/public/img-article/' + response.data.path)
+                        return 'https://iuprtgkypnvwgkhrpbcz.supabase.co/storage/v1/object/public/img-article/' + response.data.path;
                     })
                     .catch(error => {
                         console.error(error);
+                        return "";
                     });
             }
 
@@ -216,10 +281,9 @@
                 editor.insertEmbed(range.index, 'image', imageUrl);
             }
 
-            editor.getModule('toolbar').addHandler('image', function() {
+            editor.getModule('toolbar').addHandler('image', async function() {
                 handleImageUpload();
             });
-
 
             async function uploadArticle() {
                 const title = $('#title').val().trim();
@@ -236,6 +300,11 @@
                     tags.push(tagText);
                 }
 
+                if (title === '' || shortDescription === '' || content === '' || category === '' || tags.length === 0) {
+                    document.getElementById('error-text').textContent = 'All fields should be filled';
+                    return;
+                }
+
                 <% if (article) { %> 
                     const data = {
                         id: <%=article.id %>,
@@ -244,7 +313,8 @@
                         content: content,
                         isPremium: isPremium,
                         category: category,
-                        tags: tags
+                        tags: tags,
+                        thumbnailUrl: thumbnailUrl
                     };
                 <% } else { %>
                     const data = {
@@ -253,7 +323,8 @@
                         content: content,
                         isPremium: isPremium,
                         category: category,
-                        tags: tags
+                        tags: tags,
+                        thumbnailUrl: thumbnailUrl
                     };
                 <% } %>
 

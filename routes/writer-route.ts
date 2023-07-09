@@ -176,12 +176,12 @@ router.post("/upload", userMiddleware.authenticate, async (req: Request, res: Re
         return; 
     }
 
-    const { title, shortDescription, content, isPremium, category, tags } = req.body;
+    const { title, shortDescription, content, isPremium, category, tags, thumbnailUrl } = req.body;
     const writerController = new WriterController(); 
     
     // @ts-ignore
     const result = await writerController.uploadArticle(req.jwtObj.id, title, 
-            shortDescription, content, category, tags, isPremium); 
+            shortDescription, content, thumbnailUrl, category, tags, isPremium); 
 
     console.log(result);
 
@@ -204,7 +204,7 @@ router.post("/edit", userMiddleware.authenticate, async (req: Request, res: Resp
         return; 
     }
 
-    const { id, title, shortDescription, content, isPremium, category, tags } = req.body;
+    const { id, title, shortDescription, content, isPremium, category, tags, thumbnailUrl } = req.body;
     const writerController = new WriterController(); 
 
     const articleStatus = await writerController.getLatestStatusOfArticle(id); 
@@ -213,7 +213,7 @@ router.post("/edit", userMiddleware.authenticate, async (req: Request, res: Resp
     }
     
     const result = await writerController.editArticle(id, title, 
-            shortDescription, content, category, tags, isPremium); 
+            shortDescription, content, thumbnailUrl, category, tags, isPremium); 
 
     console.log(result);
 
