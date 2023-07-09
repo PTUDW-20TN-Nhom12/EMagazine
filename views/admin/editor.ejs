@@ -1,0 +1,71 @@
+<%- include('header.ejs') %>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section>
+                <div class="row">
+                    <div class="col mb-4">
+                        <div class="card">
+                            <div class="card-header mt-2">
+                                <h5 class="card-title">Cập nhật người kiểm duyệt <b style="color:#1890ff"><%= user.email %></b></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mt-2 mb-2 d-flex flex-column align-items-center justify-content-center">
+                                    <div id="message"></div>
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Họ tên:</b> </span>
+                                        <input type="text" class="form-control" id="name" value="<%= user.full_name %>">
+                                    </div>
+
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Ngày tháng năm sinh:</b></span>
+                                        <input type="date" id="birthday" class="form-control" value="<%= moment(new Date(user.birthday)).format('YYYY-MM-DD') %>">
+                                    </div>
+                                    <% if(user.premium_expired !== null){ %>
+                                        <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                            <span class="attribute-form"><b>Hạn subscriber:</b></span>
+                                            <input type="date" id="premium" class="form-control" value="<%= moment(new Date(user.premium_expired)).format('YYYY-MM-DD') %>">
+                                        </div>
+                                    <% } %>
+                   
+                                    <div class="d-flex w-50 align-items-center justify-content-center mb-2 mt-2">
+                                        <span class="attribute-form"><b>Category:</b> </span>
+                                        <select id='category' class="form-select text-capitalize">
+                                            <% for (let i=0; i < categories.length; ++i) { %>
+                                                <option class="text-capitalize" value="<%=categories[i].name %>"><%= categories[i].name %>
+                                                </option>
+                                                <% } %>
+                                        </select>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary mt-4" onclick="updateEditor()">Update
+                                        User</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+    </main>
+    <script defer>
+        $('#category').val('<%= user.role.category.name %>');
+        function updateEditor() {
+            $.ajax({
+                url: '/api/user/<%= user.id %>',
+                type: 'PUT',
+                data: JSON.stringify({
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    birthday: $('#birthday').val(),
+                    category: $('#category').val(),
+                }),
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#message').html('<div class="alert alert-success py-2">Update user successfully</div>');
+                    setTimeout(function(){location.href='/admin/editors'}, 1000); 
+                },
+                error: function (err) {
+                    $('#message').html('<div class="alert alert-danger py-2">Update user failed</div>');
+                }
+            })
+        }
+    </script>
+    <%- include('footer.ejs') %>

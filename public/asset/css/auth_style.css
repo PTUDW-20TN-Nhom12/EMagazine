@@ -52,21 +52,25 @@ a {
     height: 74px;
 }
 
-.task_type_left, .task_type_left:hover {
+.task_type_left, .task_type_left:hover, .task_type_left:focus {
     color: #4f4f4f;
     text-align: right;
     border: 1px solid #bdbdbd;
     background-color: transparent !important;
-    border-left-style: none;
+    border-left-style: none !important;
+    border-top-right-radius: 0.25rem!important;
+    border-bottom-right-radius: 0.25rem!important;
 }
 
-.task_type_right, .task_type_right:hover {
+.task_type_right, .task_type_right:hover, .task_type_right:focus {
     color: #4f4f4f;
     text-align: left;
     padding-left: 12px;
     border: 1px solid #bdbdbd;
     background-color: transparent !important;
-    border-right-style: none;
+    border-right-style: none !important;
+    border-top-left-radius: 0.25rem!important;
+    border-bottom-left-radius: 0.25rem!important;
 }
 
 .btn-group {

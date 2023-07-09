@@ -3,6 +3,7 @@ import { UserMiddleware } from "../controllers/middleware/user-middleware";
 import { UserRole } from "../models/role";
 import { RoleController } from "../controllers/role-controller";
 import { UserController } from "../controllers/user-controller";
+import { CategoryController } from "../controllers/category-controller";
 
 const router: Router = Router();
 
@@ -20,6 +21,13 @@ router.get("/dashboard", async (req: Request, res: Response) => {
 
 router.get("/categories", async (req: Request, res: Response) => {
     res.render('admin/categories');
+})
+
+router.get("/category/:id", async (req: Request, res: Response) => {
+    let id = parseInt(req.params.id);
+    const categoryController = new CategoryController();
+    const category = await categoryController.getCategoryById(id);
+    res.render('admin/category', {category: category});
 })
 
 router.get("/articles", async (req: Request, res: Response) => {
@@ -51,6 +59,21 @@ router.get("/add-user", async (req: Request, res: Response) => {
 
 router.get("/editors", async (req: Request, res: Response) => {
     res.render('admin/editors');
+})
+
+router.get("/add-editor", async (req: Request, res: Response) => {
+    const categoryController = new CategoryController();
+    const categories = await categoryController.getAllMainCategories();
+    res.render('admin/add_editor', {categories: categories});
+})
+
+router.get("/editor/:id", async (req: Request, res: Response) => {
+    let id = parseInt(req.params.id);
+    const userController = new UserController();
+    const categoryController = new CategoryController();
+    const user = await userController.getUserById(id);
+    const categories = await categoryController.getAllMainCategories();
+    res.render('admin/editor', {user: user, categories: categories});
 })
 
 router.get("/profile", async (req: Request, res: Response) => {

@@ -3,151 +3,172 @@
         <div class="container pt-4">
             <section>
                 <div class="row mb-4">
-                    <ul class="navbar-nav ms-auto d-flex flex-row">
-                        <form
-                            class="d-none d-md-flex input-group w-auto ms-auto align-items-center justify-content-center">
-                            <input autocomplete="off" type="search" class="form-control rounded"
-                                placeholder='Search category' style="min-width:500px" />
-                            <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
-                        </form>
-                        <button class="btn btn-primary ms-auto d-flex flex-row">
-                            Add new category
-                        </button>
+                    <ul class="navbar-nav">
+                        <h3 class="card-title ms-4 mb-4">Categories</h3>
+                        <ul class="navbar-nav d-flex flex-row justify-content-between">
+                            <h5 id="category-total" class="ms-4">Total: 0</h5>
+                            <button class="btn btn-primary" data-mdb-toggle="modal"
+                            data-mdb-target="#new-modal">
+                                Add new category
+                            </button>
+                        </ul>
                     </ul>
                 </div>
             </section>
             <section>
-                <div class="row">
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="mb-2 text-muted">Chuyên mục</p>
-                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"><i
-                                            class="bi bi-pencil"></i></button>
-                                </div>
-                                <h5 class="card-title">Nông sản</h5>
-                                <div class="pt-3 d-flex">
-                                    <p>Chuyên mục con </p>
-                                    <p class="ms-auto"> Total: 5</p>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Ca</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Thit</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Ngo</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Lua</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Ca phe</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="mb-2 text-muted">Chuyên mục</p>
-                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"><i
-                                            class="bi bi-pencil"></i></button>
-                                </div>
-                                <h5 class="card-title">Kinh doanh</h5>
-                                <div class="pt-3 d-flex">
-                                    <p>Chuyên mục con </p>
-                                    <p class="ms-auto"> Total: 5</p>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bat dong
-                                    san</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bitcoin</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hehe</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Haha</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hahaah</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="mb-2 text-muted">Chuyên mục</p>
-                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"><i
-                                            class="bi bi-pencil"></i></button>
-                                </div>
-                                <h5 class="card-title">Kinh doanh</h5>
-                                <div class="pt-3 d-flex">
-                                    <p>Chuyên mục con </p>
-                                    <p class="ms-auto"> Total: 5</p>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bat dong
-                                    san</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bitcoin</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hehe</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Haha</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hahaah</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="mb-2 text-muted">Chuyên mục</p>
-                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"><i
-                                            class="bi bi-pencil"></i></button>
-                                </div>
-                                <h5 class="card-title">Kinh doanh</h5>
-                                <div class="pt-3 d-flex">
-                                    <p>Chuyên mục con </p>
-                                    <p class="ms-auto"> Total: 5</p>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bat dong
-                                    san</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bitcoin</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hehe</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Haha</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hahaah</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="mb-2 text-muted">Chuyên mục</p>
-                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"><i
-                                            class="bi bi-pencil"></i></button>
-                                </div>
-                                <h5 class="card-title">Kinh doanh</h5>
-                                <div class="pt-3 d-flex">
-                                    <p>Chuyên mục con </p>
-                                    <p class="ms-auto"> Total: 5</p>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bat dong
-                                    san</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bitcoin</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hehe</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Haha</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hahaah</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-8 col-12 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <p class="mb-2 text-muted">Chuyên mục</p>
-                                    <button class="btn btn-primary btn-rounded ms-auto btn-edit"><i
-                                            class="bi bi-pencil"></i></button>
-                                </div>
-                                <h5 class="card-title">Kinh doanh</h5>
-                                <div class="pt-3 d-flex">
-                                    <p>Chuyên mục con </p>
-                                    <p class="ms-auto"> Total: 5</p>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bat dong
-                                    san</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Bitcoin</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hehe</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">Haha</button>
-                                <button type="button" class="btn btn-secondary btn-rounded me-2 my-2">hahaah</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="row" id="category-container">
+
+                </div>
             </section>
+            <section>
+                <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="edit-modal-label">Edit Category</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="category-name" class="col-form-label">Category Name</label>
+                                        <input type="text" class="form-control" id="category-name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="category-description" class="col-form-label">Category Description</label>
+                                        <input type="text" class="form-control" id="category-description" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="updateCategory()">Save</button>
+                                <button type="button" class="btn btn-danger" onclick="removeCategory()">Remove Category</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="new-modal" tabindex="-1" aria-labelledby="new-modal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="new-modal-label">New Category</h5>
+                                <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="new-category-name" class="col-form-label">Category Name</label>
+                                        <input type="text" class="form-control" id="new-category-name" />
+                                        <label for="new-category-description" class="col-form-label">Category Description</label>
+                                        <input type="text" class="form-control" id="new-category-description" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="addCategory()">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <script defer>
+                $(document).ready(function () {
+                    getCategories();
+                    $('#category-total').text('Total: ' + $('#category-container').children().length);
+                })
+
+                let targetCategory = '';
+                $('#edit-modal').on('show.bs.modal', function (event) {
+                    targetCategory = $(event.relatedTarget).parent().parent().find('h5');
+                    $('#category-name').val(targetCategory.text());
+                    $('#category-description').val($(event.relatedTarget).parent().parent().find('h5').attr('title'));
+                })
+
+                function getCategories() {
+                    $.ajax({
+                        url: '/api/category',
+                        type: 'GET',
+                        success: function (data) {
+                            data.forEach(category => {
+                                let content = `<div class="col-xl-4 col-sm-8 col-12 mb-4">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="d-flex">
+                                                                <p class="mb-2 text-muted">Chuyên mục</p>
+                                                                <button class="btn btn-primary btn-rounded ms-auto btn-edit" data-mdb-toggle="modal"
+                                                                    data-mdb-target="#edit-modal"><i
+                                                                        class="bi bi-pencil"></i></button>
+                                                            </div>
+                                                            <h5 id="category-${category.id}"class="card-title" title="${category.description}"><a href='/admin/category/${category.id}'>${category.name}</a></h5>
+                                                            <div class="pt-3 d-flex">
+                                                                <p>Chuyên mục con </p>
+                                                                <p class="ms-auto"> Total: ${category.children.length}</p>
+                                                            </div>`;
+                                for (let i = 0; i < category.children.length; i++) {
+                                    content = content + `<button type="button" class="btn btn-secondary btn-rounded me-2 my-2" onclick="location.href='/admin/category/${category.id}'" title="${category.children[i].description}">${category.children[i].name}</button>`
+                                }
+                                content + `</div></div></div>`
+                                $('#category-container').append(content);
+                            });
+                            $('#category-total').text('Total: ' + $('#category-container').children().length);
+                        }
+                    });
+                }
+
+                function addCategory() {
+                    let name = $('#new-category-name').val();
+                    let description = $('#new-category-description').val();
+                    $.ajax({
+                        url: '/api/category',
+                        type: 'POST',
+                        data: JSON.stringify({
+                            name: name,
+                            description: description
+                        }),
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $('#new-modal').modal('hide');
+                            $('#new-category-name').val('');
+                            $('#new-category-description').val('');
+                            $('#category-container').empty();
+                            getCategories();
+                        }
+                    });
+                }
+
+                function removeCategory() {
+                    let categoryId = targetCategory.attr('id').split('-')[1];
+                    $.ajax({
+                        url: '/api/category/' + categoryId,
+                        type: 'DELETE', 
+                        success: function (data) {
+                            $('#edit-modal').modal('hide');
+                            $('#category-container').empty();
+                            getCategories();
+                        }
+                    });
+                }
+
+                function updateCategory() {
+                    let categoryId = targetCategory.attr('id').split('-')[1];
+                    let name = $('#category-name').val();
+                    let description = $('#category-description').val();
+                    $.ajax({
+                        url: '/api/category/' + categoryId,
+                        type: 'PUT',
+                        data: JSON.stringify({
+                            name: name,
+                            description: description
+                        }),
+                        contentType: 'application/json',
+                        success: function (data) {
+                            $('#edit-modal').modal('hide');
+                            $('#category-container').empty();
+                            getCategories();
+                        }
+                    });
+                }
+            </script>
             <%- include('footer.ejs') %>

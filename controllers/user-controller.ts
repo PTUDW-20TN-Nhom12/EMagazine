@@ -127,7 +127,9 @@ export class UserController {
                     id: id 
                 },
                 relations: {
-                    role: true,
+                    role: {
+                        category: true,
+                    }
                 },
             });
             return result;
@@ -141,7 +143,9 @@ export class UserController {
         try {
             let result = await this.userRepository.find({
                 relations: {
-                    role: true,
+                    role: {
+                        category: true,
+                    },
                 },
             });
 
