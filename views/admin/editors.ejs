@@ -1,179 +1,116 @@
 <%- include('header.ejs') %>
-<main style="margin-top: calc(0.5625rem + 67.6px)">
-    <div class="container pt-4">
-        <section>
-            <div class="row mb-4">
-                <ul class="navbar-nav ms-auto d-flex flex-row">
-                    <form
-                        class="d-none d-md-flex input-group w-auto ms-auto align-items-center justify-content-center">
-                        <input autocomplete="off" type="search" class="form-control rounded"
-                            placeholder='Search user' style="min-width:500px" />
-                        <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
-                    </form>
-                    <button class="btn btn-primary ms-auto d-flex flex-row">
-                        Add new user
-                    </button>
-                </ul>
-            </div>
-        </section>
-        <section class="mb-4">
-            <div class="card">
-                <div class="card-header py-3">
-                    <h5 class="mb-0">
-                        <strong>Editors</strong>
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table align-middle mb-0 bg-white">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Category</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <p class="fw-normal mb-1">123456</p>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/1.jpg" alt=""
-                                                style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Editor 1</p>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted mb-0">editor1@lacainews.com</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">Kinh doanh</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded" data-mdb-toggle="modal" data-mdb-target=" #category-modal">
-                                            Edit Category
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            Remove
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="fw-normal mb-1">456232</p>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/3.jpg" alt=""
-                                                style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Editor 2</p>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted mb-0">editor2@lacainews.com</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">Nông Sản</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded" data-mdb-toggle="modal" data-mdb-target=" #category-modal">
-                                            Edit Category
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            Remove
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="fw-normal mb-1">123712</p>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://mdbootstrap.com/img/new/avatars/4.jpg" alt=""
-                                                style="width: 45px; height: 45px" class="rounded-circle" />
-                                            <div class="ms-3">
-                                                <p class="fw-bold mb-1">Editor 3</p>
-
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted mb-0">editor3@lacainews.com</p>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-primary rounded-pill d-inline">Thể thao</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded" data-mdb-toggle="modal" data-mdb-target=" #category-modal">
-                                            Edit Category
-                                        </button>
-                                        <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                            Remove
-                                        </button>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+    <main style="margin-top: calc(0.5625rem + 67.6px)">
+        <div class="container pt-4">
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title mt-2 mb-4">Editors</h3>
+                        <ul class="navbar-nav d-flex flex-row justify-content-between">
+                            <h5 id="user-total">Total: 0</h5>
+                            <a href="/admin/add-editor" class="btn btn-primary">
+                                Add new editor
+                            </a>
+                        </ul>
                     </div>
-                </div>
-            </div>
-        </section>
-        <section>
-            <div class="modal fade" id="category-modal" tabindex="-1" aria-labelledby="category-modal"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Edit Category</h5>
-                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div>
-                                    <span class="me-3">Category: </span>
-                                    <div class="btn-group mb-3">
-                                        <button type="button" class="btn btn-primary"><text
-                                                id="user_type">Kinh Doanh</text></button>
-                                        <button type="button"
-                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                                            data-mdb-toggle="dropdown" aria-expanded="false">
-                                            <span class="visually-hidden">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a id="type_1" class="dropdown-item"
-                                                    onclick="$('#user_type').text($('#type_1').text());">
-                                                    Kinh Doanh</a></li>
-                                            <li><a id="type_2" class="dropdown-item"
-                                                    onclick="$('#user_type').text($('#type_2').text());">
-                                                    Thể thao</a></li>
-                                            <li><a id="type_3" class="dropdown-item"
-                                                    onclick="$('#user_type').text($('#type_3').text());">
-                                                    Nông sản</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success" onclick="save()">Done</button>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0 bg-white  text-center">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Category</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user-list">
+                                    
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+            </section>
+        </div>
+        <div class="modal fade" id="remove-modal" tabindex="-1" aria-labelledby="remove-modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="new-modal-label">Remove editor</h5>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="text-remove" class="text-center mb-0"></p>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-danger" data-mdb-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-outline-danger" onclick="removeEditor()">Yes</button>
+                    </div>
+                </div>
             </div>
-        </section>
-    </div>
-</main>
+        </div>
+    </main>
+    <script defer>
+        let targetUser = '';
+        $('#remove-modal').on('show.bs.modal', function (event) {
+            targetUser = event.relatedTarget;
+            let username = $(targetUser).parents('tr').find('#row-username').text();
+            $('#text-remove').html(`Are you sure to remove editor <b>${username}</b> ?`);
+        })
+        $(document).ready(function () {
+            getUsers();
+            changeUI();
+        });
+
+        function changeUI() {
+            $('#user-total').text('Total: ' + $('#user-list tr').length);   
+        }
+        function getUsers() {
+            $.ajax({
+                url: '/api/user/editor',
+                type: 'GET',
+                success: function (data) {
+                    data.forEach(user => {
+                        $('#user-list').append(`<tr>
+                                        <td>
+                                            <p id="row-id" class="fw-normal mb-1">${user.id}</p>
+                                        </td>
+                                        <td>
+                                            <p id="row-username" class="fw-bold mb-1">${user.full_name}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0">${user.email}</p>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-info rounded-pill d-inline text-capitalize">${user.role.category.name}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded" onclick="location.href='/admin/editor/${user.id}'">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-link btn-sm btn-rounded" data-mdb-toggle="modal" data-mdb-target="#remove-modal"> 
+                                                Remove
+                                            </button>
+                                        </td>
+                                    </tr>`);
+                    });
+                    changeUI();
+                }
+            });
+        }
+
+        function removeEditor() {
+            $.ajax({
+                url: '/api/user/' + $(targetUser).parents('tr').find('#row-id').text(),
+                type: 'DELETE',
+                success: function (data) {
+                    $(targetUser).parents('tr').remove();
+                    $('#remove-modal').modal('hide');
+                    changeUI();
+                }
+            });
+        }
+    </script>
     <%- include('footer.ejs') %>

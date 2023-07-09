@@ -65,23 +65,23 @@
                                 <input type="date" class="form-control form-control-lg" id="birthday" />
                                 <label for="birthday" class="form-label">Your Birthday</label>
                             </div>
-                            <div class="btn-group mb-3 w-100">
-                                <button type="button" class="btn btn-light task_type_right"><text
-                                        id="user_type">Role</text></button>
+                            <div class="mb-3 w-100 d-flex justify-content-between">
+                                <button type="button" class="rounded-0 btn btn-light task_type_right"><text
+                                        id="user_type" class="text-capitalize">Role</text></button>
                                 <button type="button"
-                                    class="btn btn-light dropdown-toggle dropdown-toggle-split task_type_left"
+                                    class="rounded-0 flex-grow-1 btn btn-light dropdown-toggle dropdown-toggle-split task_type_left"
                                     data-mdb-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end task_type_dropdown">
                                     <% for (let i = 0; i < roles.length; ++i) { %>
-                                        <li><a id=<%= "type_" + i %> class="dropdown-item" onclick=<%= '$("#user_type").text($("#type_' + i + '").text());' %>>
+                                        <li><a id=<%= "type_" + i %> class="dropdown-item text-capitalize" onclick=<%= '$("#user_type").text($("#type_' + i + '").text());' %>>
                                             <%= roles[i] %>
                                         </a></li>
                                     <% } %>
                                 </ul>
                             </div>
-
+                            
                             <div class="form-outline mb-3">
                                 <input type="password" id="password" class="form-control form-control-lg" />
                                 <label class="form-label" for="password">Password</label>
@@ -93,7 +93,7 @@
                                 
                             </div>
                         <% } %>
-                        <div class="mb-3 g-recaptcha" data-sitekey="6LdxdfomAAAAABLXjSrBnrwjKYcdB7yIazHLOOCl"></div>
+                        <div class="mb-3 g-recaptcha d-flex justify-content-center" data-sitekey="6LdxdfomAAAAABLXjSrBnrwjKYcdB7yIazHLOOCl"></div>
 
 
                         <div id="error-text" class="d-flex mb-2 flex-row text-danger">

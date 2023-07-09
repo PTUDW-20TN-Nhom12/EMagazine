@@ -18,6 +18,12 @@ router.get('/', async (req: Request, res: Response) => {
     res.json(users);
 });
 
+router.get('/editor', async (req: Request, res: Response) => {
+    const userController = new UserController();
+    const users = await userController.getAllUsers([UserRole.EDITOR]);
+    res.json(users);
+});
+
 router.get('/current', async (req: Request, res: Response) => {
     const userController = new UserController();
     // @ts-ignore
@@ -38,12 +44,16 @@ router.put('/current', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
     const userController = new UserController();
     const roleController = new RoleController();
+
     let data = new User();
     data.email = req.body.email;
     data.full_name = req.body.name;
     data.role = await roleController.getRoleByName(req.body.role);
     data.birthday = moment(req.body.dateOfBirth, 'YYYY-MM-DD').toDate();
-    if (req.body.role === UserRole.SUBSCRIBER) {
+    if (!req.body.role) {
+        data.role = await roleController.getRoleByCategory(req.body.category);
+    }
+    else if (req.body.role === UserRole.SUBSCRIBER) {
         data.premium_expired = moment().add(1,'w').toDate();
     }
     const user = await userController.createUser(data);
@@ -57,7 +67,10 @@ router.put('/:id', async (req: Request, res: Response) => {
     user.full_name = req.body.full_name;
     user.birthday = moment(req.body.birthday, 'YYYY-MM-DD').toDate();
     user.role = await roleController.getRoleByName(req.body.role);
-    if (req.body.role === UserRole.SUBSCRIBER) {
+    if (!req.body.role) {
+        user.role = await roleController.getRoleByCategory(req.body.category);
+    }
+    else if (req.body.role === UserRole.SUBSCRIBER) {
         if (user.premium_expired === null) {
             user.premium_expired = moment().add(1,'w').toDate();
         }

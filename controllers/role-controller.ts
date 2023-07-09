@@ -82,6 +82,21 @@ export class RoleController {
         }
     }
 
+    async getRoleByCategory(name: string) {
+        try {
+            let result = await this.roleRepository.find({
+                relations: {
+                    category: true
+                },
+            });
+            result = result.filter(item => (item.category !== null && item.category.name === name));
+            return result[0];
+        } catch (error) {
+            console.error(`Failed to get role by category ${name}: ${error.message}`);
+            return null;
+        }
+    }
+
     async deleteRole(id: number): Promise<void> {
         try {
             const role = await this.roleRepository.findOneBy({ id: id });
