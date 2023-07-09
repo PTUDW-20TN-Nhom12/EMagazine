@@ -20,7 +20,7 @@ router.get("/signup",  async (req: Request, res: Response) => {
     const checkExistEmailResult = await userController.checkExistEmail(user.email); 
     if (checkExistEmailResult) {  
       const result = await userController.signIn(user.email); 
-      res.cookie("access_token", result.access_token, {"maxAge": 360000}).redirect('/');
+      res.cookie("access_token", result.access_token, {"maxAge": 3600000}).redirect('/');
       return;
     }
 
@@ -53,7 +53,7 @@ router.post("/",  async (req: Request, res: Response) => {
 
     const userData = JSON.stringify(user);
 
-    res.cookie("user", userData, {"maxAge": 360000}).status(200).json(userData);
+    res.cookie("user", userData, {"maxAge": 3600000}).status(200).json(userData);
   } catch (error) { 
     res.status(400);
   }
