@@ -4,7 +4,7 @@ List of Editor functionality
     - Edit status of article (pass / need further change)
 */
 
-import { In } from "typeorm";
+import { Any, Equal, In } from "typeorm";
 import { Article } from "../models/article";
 import { ArticleStatus, StatusList } from "../models/article-status";
 import { Category } from "../models/category";
@@ -24,17 +24,30 @@ export class EditorController {
     private articleRepository = SupabaseDataSource.getRepository(Article);
     private statusRepository = SupabaseDataSource.getRepository(ArticleStatus);
     private categoryController = new CategoryController();
+    private categoryRepository = SupabaseDataSource.getRepository(Category);
     private tagController = new TagController();
 
     private userController = new UserController();
 
     async getEditorList(editorCat: Category) {
         let catList: Article[];
+        
+        const t = editorCat;
+
+        editorCat = await this.categoryRepository.findOne({
+            where: {id: t.id},
+            relations: {
+                children: true,
+            }
+        })
+
+        // console.log(editorCat);
+
         if (editorCat.children != null) {
             catList = await this.articleRepository.find({
                 where: [
                     { category: editorCat },
-                    { category: In(editorCat.children) },
+                    { category: {id: In(editorCat.children.map(e => e.id))} },
                 ],
                 select: {
                     id: true,
