@@ -19,7 +19,7 @@
                   <p>
                       <%=articles[i].time.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) %>
                   </p>
-                  <p class="ms-auto">
+                  <p class="ms-auto text-capitalize">
                       <i class="bi bi-circle-fill me-1 <%=(articles[i].status=="draft"
                           ? "circle-pending" :
                           (articles[i].status=="published"
