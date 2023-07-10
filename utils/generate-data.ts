@@ -41,11 +41,13 @@ function getRandomTimestamp(startDate: Date, endDate: Date): string {
 }
 
 const startDate = new Date("2022-01-01");
-const endDate = new Date("2023-5-31");
+const endDate = new Date("2022-5-31");
 const startBirth = new Date("1999-01-01");
 const endBirth = new Date("2002-5-31");
 const startJoin = new Date("2021-01-01");
 const endJoin = new Date("2021-5-31");
+const startx = new Date("2023-01-01");
+const endx = new Date("2023-5-31");
 
 async function reset() {
     const articleController = new ArticleController();
@@ -94,20 +96,10 @@ async function initArticles() {
         if (k == 2) {
             is_pre = true;
         }
-        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], new Date(), is_pre);
+        let day = moment(getRandomTimestamp(startx, endx)).toDate();
+        await articleController.createArticle(user, category, article['Titl'], article['Desc'], article['Cont'], article['Thum'], day, is_pre);
     }
 
-    // for (let article of articles) {
-    //     let n = article['Cate'].length;
-    //     let category = await categoryController.getCategoryByName(article['Cate'][n - 1])
-    //     let k = randomIntFromInterval(0, 2);
-    //     let is_pre = false;
-    //     if (k == 2) {
-    //         is_pre = true;
-    //     }
-    //     const timestamp = getRandomTimestamp(startDate, endDate);
-    //     await articleController.createArticle(category, article['Titl'], article['Desc'], article['Cont'], article['Thum'],timestamp, is_pre);
-    // }
     for (let articletag of articlestags['ArticlesTags']) {
         let tag = await tagController.getTagById(articletag['tag_id']);
         articleController.addTag(articletag['articles_id'], tag);
@@ -133,8 +125,8 @@ async function initArticleStatus() {
     const articleStatusController = new ArticleStatusController();
     const articleController = new ArticleController();
     const userController = new UserController();
-    const user = await userController.getUserById(1);
-    for (let i = 1; i <= 333; i++) {
+    for (let i = 1; i <= 320; i++) {
+        const user = await userController.getUserById(1);
         let article = await articleController.getArticleById(i);
         let day = moment(getRandomTimestamp(startDate, endDate)).toDate();
         let nextDay = new Date(day);
@@ -144,6 +136,22 @@ async function initArticleStatus() {
     
     }
 
+    for (let i = 321; i <= 327; i++) {
+        const user = await userController.getUserById(2);
+        let article = await articleController.getArticleById(i);
+        let day = moment(getRandomTimestamp(startDate, endDate)).toDate();
+        await articleStatusController.createArticleStatus(article, user, StatusList.DRAFT, day, "Draft article");    
+    }
+    for (let i = 328; i <= 333; i++) {
+        const user = await userController.getUserById(2);
+        const editor = await userController.getUserById(7);
+        let article = await articleController.getArticleById(i);
+        let day = moment(getRandomTimestamp(startDate, endDate)).toDate();
+        let nextDay = new Date(day);
+        nextDay.setDate(day.getDate() + 1);
+        await articleStatusController.createArticleStatus(article, user, StatusList.DRAFT, day, "Draft article");    
+        await articleStatusController.createArticleStatus(article, editor, StatusList.REJECTED, nextDay, "Rejected");    
+    }
 }
 
 async function initUsers() {
@@ -176,10 +184,10 @@ async function init() {
             // await initTags();
             // await initCategories();
             // await initRoles();
-            // await initArticles();
-            // await initViewLog();
+            await initArticles();
+            await initViewLog();
             // await initUsers();
-            // await initArticleStatus();
+            await initArticleStatus();
         })
         .catch((err) => {
             console.error("Error during Data Source initialization", err)

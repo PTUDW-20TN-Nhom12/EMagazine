@@ -3,7 +3,7 @@ import {Article} from "../models/article";
 import {User} from "../models/user";
 import {Tag} from "../models/tag";
 import {Category} from "../models/category";
-import {Like} from "typeorm";
+import {LessThan, Like} from "typeorm";
 import moment from "moment";
 
 export class ArticleController {
@@ -82,6 +82,11 @@ export class ArticleController {
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleMetadataById(result.articleId);
+
+                if (article.date_published > moment().toDate()) {
+                    continue;
+                }
+
                 if (is_premium === true || article.is_premium === false) {
                     ret.push(article);
                 }
@@ -122,6 +127,9 @@ export class ArticleController {
             });
             let ret = [];
             for (let result of results) {
+                if (result.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || result.is_premium === false) {
                     ret.push(result);
                 }
@@ -145,6 +153,9 @@ export class ArticleController {
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleMetadataById(result.articleId);
+                if (article.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || article.is_premium === false) {
                     ret.push(article);
                 }
@@ -178,6 +189,9 @@ export class ArticleController {
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleMetadataById(result.id);
+                if (article.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || article.is_premium === false) {
                     ret.push(article);
                 }
@@ -238,6 +252,9 @@ export class ArticleController {
             let skip = page * page_size;
             let ret = [];
             for (let result of results) {
+                if (result.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || result.is_premium === false) {
                     if (skip > 0) {
                         skip--;
@@ -291,6 +308,9 @@ export class ArticleController {
             });
             let cnt = 0;
             for (let result of results) {
+                if (result.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || result.is_premium === false) {
                     cnt++;
                 }
@@ -337,6 +357,9 @@ export class ArticleController {
             let skip = page * page_size;
             let ret = [];
             for (let result of results) {
+                if (result.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || result.is_premium === false) {
                     if (skip > 0) {
                         skip--;
@@ -390,6 +413,9 @@ export class ArticleController {
             });
             let cnt = 0;
             for (let result of results) {
+                if (result.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || result.is_premium === false) {
                     cnt++;
                 }
@@ -410,6 +436,9 @@ export class ArticleController {
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleMetadataById(result.id);
+                if (article.date_published > moment().toDate()) {
+                    continue;
+                }
                 if (is_premium === true || article.is_premium === false) {
                     ret.push(article);
                 }
