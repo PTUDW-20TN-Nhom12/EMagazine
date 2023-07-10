@@ -12,6 +12,10 @@
                 </button>
                 <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
                     <i class="bi bi-check2 mr-1"></i>
+                    Under_review
+                </button>
+                <button type="button" class="btn-article-status active" onclick="setStatusFilter(this)">
+                    <i class="bi bi-check2 mr-1"></i>
                     Published
                 </button>
                 <button type="button" class="btn-article-status active btn-secondary ml-2" onclick="filterArticles()">
@@ -27,7 +31,7 @@
             </section>
 
             <script>
-                var previousStatus = ['draft', 'rejected', 'published']
+                var previousStatus = ['draft', 'rejected', 'under_review', 'published']
 
                 function setStatusFilter(button) { 
                     const isActived = button.classList.contains("active");

@@ -105,6 +105,11 @@ body {
     color: #1890ff;
 }
 
+.circle-review {
+    font-size: 8px;
+    color: #FFC107;
+}
+
 .profile-title { 
     font-weight: bold !important; 
     margin-top: 15px !important; 
