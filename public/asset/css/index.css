@@ -24,7 +24,7 @@
     flex-direction: column;
     justify-content: flex-start;
     position: relative;
-    top: calc(-35px - 100px);
+    top: calc(-33px - 100px);
     padding-left: 30px;
     padding-right: 30px;
     background-color: #535353c0;
@@ -115,7 +115,7 @@
 
 #MoiNhat img,
 #MoiNhat #Container_article {
-    width: 450px;
+    width: 400px;
     height: 300px;
 }
 
