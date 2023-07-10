@@ -502,7 +502,7 @@ export class ArticleController {
                         name: true,
                     }
                 },
-                skip: page * page_size,
+                skip: (page - 1) * page_size,
                 take: page_size,
             });
         } catch (error) {
