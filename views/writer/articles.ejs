@@ -23,8 +23,10 @@
                       <i class="bi bi-circle-fill me-1 <%=(articles[i].status=="draft"
                           ? "circle-pending" :
                           (articles[i].status=="published"
-                          ? "circle-approved"
-                          : "circle-reject" )) %>"></i>
+                          ? "circle-approved" : 
+                          (articles[i].status=="under_review" 
+                          ? "circle-review" : 
+                          "circle-reject" ))) %>"></i>
                       <%=articles[i].status %>
                   </p>
               </div>

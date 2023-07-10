@@ -7,6 +7,11 @@
                         aria-pressed="true">Edit</a>
                 <% } %>
             </div>
+            <% if (article_status.status == 'under_review') { %>
+                <div class="alert alert-warning" role="alert">
+                    <%=article_status.note %>
+                </div>
+            <% } %>
             <section>
                 <div class="row">
                     <div class="col mb-4">

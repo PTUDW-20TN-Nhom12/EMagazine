@@ -20,16 +20,16 @@ function getItem(articleId, imgSrc, title, short) {
         <div class="card">
             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                 <img src="${imgSrc}"
-                    class="img-fluid" />
+                class="img-fluid" style="width: 100%; aspect-ratio: 3/2;"/>
                 <div>
                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                 </div>
             </div>
             <div class="card-body">
-                <h5 class="card-title">
+                <h5 class="card-title" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                     ${title}
                 </h5>
-                <p class="card-text">
+                <p class="card-text" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                     ${short}
                 </p>
                 <!-- Button trigger modal -->
