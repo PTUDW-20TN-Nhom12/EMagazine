@@ -406,8 +406,7 @@ export class ArticleController {
             let results = await this.articleRepository.query(`SELECT id, ts_rank(to_tsvector('english', ${format}), to_tsquery('english', $1)) AS rank
             FROM articles
             WHERE (to_tsvector('english', ${format}) @@ to_tsquery('english', $2)) 
-            AND ts_rank(to_tsvector('english', ${format}), to_tsquery('english', $3)) > 0.3
-            ORDER BY rank DESC`, [search_query, search_query, search_query]);
+            ORDER BY rank DESC`, [search_query, search_query]);
             let ret = [];
             for (let result of results) {
                 let article = await this.getArticleMetadataById(result.id);
@@ -419,24 +418,6 @@ export class ArticleController {
                 }
             }
             return ret;
-        } catch (error) {
-            console.error(`Failed to retrieve articles: ${error.message}`);
-            return null;
-        }
-    }
-
-    async countSearchResults(is_premium, search_query: string) {
-        try {
-            let results = await this.articleRepository.query(`SELECT COUNT(*)
-            FROM articles 
-            WHERE (to_tsvector('english', title || ' ' || title || ' ' || title || ' ' || short_description || ' ' || short_description || ' ' || content) @@ to_tsquery('english', $1))`, [search_query])
-            let cnt = 0;
-            for (let result of results) {
-                if (is_premium === true || result.is_premium === false) {
-                    cnt++;
-                }
-            }
-            return cnt;
         } catch (error) {
             console.error(`Failed to retrieve articles: ${error.message}`);
             return null;
