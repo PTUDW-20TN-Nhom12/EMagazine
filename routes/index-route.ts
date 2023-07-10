@@ -52,7 +52,7 @@ router.get("/content/:id", userMiddleware.authenticate, async (req: Request, res
     const articleControler = new ArticleController();
     const article = await articleControler.getArticleById(article_id);
     // @ts-ignore
-    const relatedArticles = await articleControler.getArticlesByCategoryID(req.jwtObj.isPremium, article.category.id, 0, 4);
+    const relatedArticles = await articleControler.getArticlesByCategoryID(req.jwtObj.isPremium, article.category.id, 0, 5);
     const commentController = new CommentController();
     const viewlogController = new ViewLogController();
     await viewlogController.createViewLog(article);
